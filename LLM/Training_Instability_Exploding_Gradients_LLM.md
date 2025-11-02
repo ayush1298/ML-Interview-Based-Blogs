@@ -96,7 +96,7 @@ In Pre-Norm, you simply move the LayerNorm before the sublayer:
 
 Now, notice what’s different:
 
-The residual connection x~l~ -> x~(l+1)~ is untouched (just a clean add).
+The residual connection x_l -> x_(l+1) is untouched (just a clean add).
 
 LayerNorm only affects the sub-path (sublayer) — the “exit ramp” — not the main highway.
 
