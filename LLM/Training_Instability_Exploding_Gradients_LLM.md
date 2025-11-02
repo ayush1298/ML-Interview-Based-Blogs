@@ -24,3 +24,5 @@ Think of the residual stream as a clean gradient "superhighway" running from the
 
 𝐓𝐡𝐞 𝐀𝐧𝐬𝐰𝐞𝐫 𝐓𝐡𝐚𝐭 𝐆𝐞𝐭𝐬 𝐘𝐨𝐮 𝐇𝐢𝐫𝐞𝐝:
 "Post-norm breaks the clean identity path of the residual stream, leading to severe gradient attenuation or explosion in very deep models. Pre-norm solves this by normalizing the inputs to the sub-layers, not the residual connection itself. This preserves the 'gradient highway,' which is non-negotiable for stable training at scale."
+
+Written By: Sourav Verma
