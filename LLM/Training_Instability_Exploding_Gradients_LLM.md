@@ -25,4 +25,104 @@ Think of the residual stream as a clean gradient "superhighway" running from the
 𝐓𝐡𝐞 𝐀𝐧𝐬𝐰𝐞𝐫 𝐓𝐡𝐚𝐭 𝐆𝐞𝐭𝐬 𝐘𝐨𝐮 𝐇𝐢𝐫𝐞𝐝:
 "Post-norm breaks the clean identity path of the residual stream, leading to severe gradient attenuation or explosion in very deep models. Pre-norm solves this by normalizing the inputs to the sub-layers, not the residual connection itself. This preserves the 'gradient highway,' which is non-negotiable for stable training at scale."
 
-Written By: Hao Hoang
+**Written By: Hao Hoang**
+
+Further Details Explanation: 
+🧱 Background: What’s the role of LayerNorm and residuals?
+
+In a Transformer block, the structure looks roughly like this (original “Attention is All You Need” paper):
+
+🔹 Post-Norm Transformer (original version)
+	<img width="322" height="47" alt="image" src="https://github.com/user-attachments/assets/e24fdda7-84f7-45f9-82df-bb0aa64feffd" />
+​
+
+ back after sublayer
+
+This is post-norm because the LayerNorm comes after the residual addition.
+
+🧩 What does this mean intuitively?
+
+Imagine the residual stream — that’s the “main data highway” carrying information forward (and gradients backward).
+
+At each layer, you compute a small “update” using attention or feed-forward, then add it to the running total (the residual).
+
+This residual addition keeps information flowing even if deeper layers are noisy.
+
+It’s like:
+​<img width="246" height="54" alt="image" src="https://github.com/user-attachments/assets/27e8f08d-0adf-4be9-a95f-68e503567168" />
+
+
++small change
+
+So far, good — this is what makes deep residual networks trainable.
+
+💣 The Post-Norm Problem: “LayerNorm toll booths on the highway”
+
+When you put LayerNorm after the addition, like:
+
+<img width="324" height="52" alt="image" src="https://github.com/user-attachments/assets/0e6d541b-d59d-4928-9265-11608f5dd98f" />
+
+you are normalizing the entire residual sum after every block.
+
+That means:
+
+Every time a signal passes through one layer,
+
+You rescale and re-center it (change its mean and variance),
+
+The backward gradients are also rescaled and distorted.
+
+🚦Why this hurts deep models
+
+In shallow models (6 layers), this distortion is small, and warm-up tricks can stabilize it.
+
+But in 100+ layer Transformers, the problem compounds:
+
+Gradients flowing backward must cross 100+ LayerNorms,
+
+Each one slightly rescales and distorts them,
+
+The gradient magnitude either shrinks (vanishing) or blows up (exploding) exponentially.
+
+The “residual highway” that should be a clean identity path becomes full of multiplicative noise and scale distortions.
+
+So even if you have skip connections, the “shortcut” is no longer a true identity — it’s being renormalized again and again.
+
+💡 The Pre-Norm Solution: "Move LayerNorm off the highway"
+
+In Pre-Norm, you simply move the LayerNorm before the sublayer:
+<img width="318" height="47" alt="image" src="https://github.com/user-attachments/assets/20944893-72ef-40d0-ae2f-3e087e8cca61" />
+
+
+Now, notice what’s different:
+
+The residual connection x~l -> x~(l+1) is untouched (just a clean add).
+
+LayerNorm only affects the sub-path (sublayer) — the “exit ramp” — not the main highway.
+
+So in backpropagation:
+
+Gradients can flow through the identity path directly (bypassing the LayerNorms).
+
+This preserves a stable gradient “highway,” so deep networks don’t explode or vanish.
+
+⚙️ Gradient flow visualization
+
+Post-norm:
+
+x_l --> Sublayer --> + --> LayerNorm --> x_{l+1}
+         ↑ Gradient has to pass through LayerNorm (bad)
+
+
+Pre-norm:
+
+x_l --> LayerNorm --> Sublayer --> + --> x_{l+1}
+↑ Identity path bypasses LayerNorm (good)
+
+📈 The Result
+Metric	Post-Norm	Pre-Norm
+Gradient stability	Poor (explodes/vanishes)	Stable
+Needs LR warm-up	Yes	Often no
+Scales to 100B+ models	❌	✅
+Gradient path	Through LayerNorm	Clean identity
+Residual stream	Distorted	Preserved
