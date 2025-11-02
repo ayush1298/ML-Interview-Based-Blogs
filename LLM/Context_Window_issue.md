@@ -30,10 +30,11 @@ Interviewer: "And how do you know if the memory strategy works?"
 You: "When the system recalls context correctly without bloating cost or latency.
  If a user says, 'Remind me what I told you last week,' and it answers from stored embeddings - that’s memory done right."
 
-Written By: Hao Hoang
-
 Interviewer: "So context management isn’t a model issue - it’s an architecture issue?"
 
 You: "Exactly.
  Most think 'context length' equals intelligence.
  But true intelligence is recall with relevance - not recall with redundancy."
+
+ 
+Written By: Sourav Verma
