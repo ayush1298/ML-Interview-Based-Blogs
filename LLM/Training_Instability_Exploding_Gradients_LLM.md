@@ -125,5 +125,5 @@ x_l --> LayerNorm --> Sublayer --> + --> x_{l+1}
 | Gradient stability	|   Poor (explodes/vanishes)  |	Stable |
 | Needs LR warm-up	|  Yes  |	Often no |
 | Scales to 100B+ models  | 	❌  |	✅  |
-| Gradient path	Through LayerNorm   |	Clean identity  |
+| Gradient path  |	Through LayerNorm   |	Clean identity  |
 | Residual stream   |	Distorted   |	Preserved  |
