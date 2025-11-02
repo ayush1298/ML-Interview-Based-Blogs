@@ -120,9 +120,10 @@ x_l --> LayerNorm --> Sublayer --> + --> x_{l+1}
 ↑ Identity path bypasses LayerNorm (good)
 
 📈 The Result
-Metric	Post-Norm	Pre-Norm
-Gradient stability	Poor (explodes/vanishes)	Stable
-Needs LR warm-up	Yes	Often no
-Scales to 100B+ models	❌	✅
-Gradient path	Through LayerNorm	Clean identity
-Residual stream	Distorted	Preserved
+| Metric	| Post-Norm	| Pre-Norm |
+| ----------- | ----------- | ----------- |
+| Gradient stability	|   Poor (explodes/vanishes)  |	Stable |
+| Needs LR warm-up	|  Yes  |	Often no |
+| Scales to 100B+ models  | 	❌  |	✅  |
+| Gradient path	Through LayerNorm   |	Clean identity  |
+| Residual stream   |	Distorted   |	Preserved  |
