@@ -112,7 +112,3 @@ Think of each model as a fragile surface:
 In one line:
 
 > **Bigger models need smaller effective learning rates and longer warmups to maintain stability and prevent gradient explosions.**
-
----
-
-Would you like me to show how **warm-up + cosine decay** LR schedule looks in a graph and why it stabilizes large model training?
