@@ -46,3 +46,59 @@ Non-convex losses arise in **nonlinear models** (like neural networks).
 | K-Means Objective                   | ❌ Non-convex | Clustering                     |
 
 ---
+
+
+To **guarantee** finding a **global minimum** using gradient-based optimization,
+the **cost function should be convex** — **differentiability helps**, but is **not strictly required**.
+
+---
+
+## 🔹 Breakdown
+
+### 1. **Convexity is the key requirement**
+
+* If a function is **convex**, any **local minimum = global minimum**.
+* So convexity ensures **global optimality**, even if you only reach a local minimum via gradient descent.
+
+👉 **Example:**
+[
+f(x) = |x|
+]
+
+* Convex ✅
+* **Not differentiable** at (x = 0) ❌
+* Still, (x = 0) is a **global minimum**.
+
+So convexity alone is enough for global minimum **existence and uniqueness** (if strictly convex).
+
+---
+
+### 2. **Differentiability helps optimization**
+
+* If the function is **differentiable**, we can use gradient-based algorithms (like gradient descent).
+* Non-differentiable points (like ( |x| )) require **subgradient methods** — they can still converge.
+
+So differentiability is not **necessary**, but it’s **convenient**.
+
+---
+
+### 3. **If not convex**
+
+* For **non-convex** functions (like deep networks), you can’t guarantee finding a global minimum — only a local one.
+* That’s why convex losses (MSE, logistic loss) are preferred in linear models.
+
+---
+
+### ✅ Summary
+
+| Property              | Needed for global minimum? | Why                                                         |
+| --------------------- | -------------------------- | ----------------------------------------------------------- |
+| **Convexity**         | ✅ Yes                      | Ensures any local min is global                             |
+| **Differentiability** | ❌ Not strictly             | Helps optimization, but not required (can use subgradients) |
+
+---
+
+**Final Answer:**
+
+> To find the **global minimum**, the cost function **must be convex**.
+> It **need not be differentiable**, though differentiability makes optimization easier.
