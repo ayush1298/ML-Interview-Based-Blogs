@@ -21,13 +21,9 @@ So different initialization schemes are meant to handle different activation fun
   🔹 **Sigmoid** or **tanh** activations (symmetric activations centered around 0).
 
 * Formula:
-  [
-  W \sim \mathcal{U}\left(-\sqrt{\frac{6}{n_{in}+n_{out}}}, \sqrt{\frac{6}{n_{in}+n_{out}}}\right)
-  ]
-  or
-  [
-  W \sim \mathcal{N}\left(0, \frac{2}{n_{in}+n_{out}}\right)
-  ]
+
+<img width="535" height="158" alt="image" src="https://github.com/user-attachments/assets/e1e18a97-535a-4f08-ab5d-b9f1ff2a154d" />
+
 
 * Idea: Keeps variance of activations roughly constant across layers.
 
@@ -43,9 +39,9 @@ You’re using **tanh**, **sigmoid**, or similar activations.
   🔹 **ReLU** or its variants (Leaky ReLU, ELU).
 
 * Formula:
-  [
-  W \sim \mathcal{N}\left(0, \frac{2}{n_{in}}\right)
-  ]
+
+<img width="183" height="78" alt="image" src="https://github.com/user-attachments/assets/35ff38f3-9964-46c0-961a-3a714610d79a" />
+
 
 * Reason:
   ReLU “kills” half the inputs (sets negatives to 0), so it needs slightly higher variance to keep signal flow stable.
