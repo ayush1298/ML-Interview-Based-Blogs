@@ -1,5 +1,4 @@
-Fantastic question — and it’s one that even trips up many practitioners.
-Let’s unpack it carefully 👇
+How does LR change as with increase in size of LLMs?
 
 ---
 
