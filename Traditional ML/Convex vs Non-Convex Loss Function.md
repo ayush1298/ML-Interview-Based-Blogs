@@ -8,20 +8,8 @@
 
 ---
 
-## 🔹 Common **Convex** Loss Functions
+<img width="976" height="419" alt="image" src="https://github.com/user-attachments/assets/137a474d-8d69-4a30-b589-d12de138cf27" />
 
-Convex losses typically arise in **linear models** (no hidden layers).
-
-| Model Type              | Loss Function                                                               | Convexity | Notes                                       |   |   |   |      |          |                                    |
-| ----------------------- | --------------------------------------------------------------------------- | --------- | ------------------------------------------- | - | - | - | ---- | -------- | ---------------------------------- |
-| **Linear Regression**   | **Mean Squared Error (MSE)** ( = \frac{1}{n}\sum (y_i - \hat{y}_i)^2 )      | ✅ Convex  | Paraboloid shape, global min                |   |   |   |      |          |                                    |
-| **Lasso Regression**    | **L1 loss + penalty** (                                                     | y - Xw    | + \lambda                                   |   | w |   | _1 ) | ✅ Convex | Not differentiable at 0 but convex |
-| **Ridge Regression**    | **L2 regularized loss**                                                     | ✅ Convex  | Smooth and strictly convex                  |   |   |   |      |          |                                    |
-| **Logistic Regression** | **Log Loss / Cross Entropy** ( = -[y\log(\hat{y}) + (1-y)\log(1-\hat{y})] ) | ✅ Convex  | Only for *linear* models (no hidden layers) |   |   |   |      |          |                                    |
-| **SVM (Hinge Loss)**    | ( \max(0, 1 - y w^T x) )                                                    | ✅ Convex  | Piecewise linear but convex                 |   |   |   |      |          |                                    |
-| **Huber Loss**          | Quadratic near 0, linear otherwise                                          | ✅ Convex  | Robust to outliers                          |   |   |   |      |          |                                    |
-
----
 
 ## 🔹 Common **Non-Convex** Loss Functions
 
