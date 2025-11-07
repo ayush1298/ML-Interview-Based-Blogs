@@ -83,3 +83,10 @@ Master weights in FP32 (training only)
 ✅ A100/H100 hardware available
 ✅ Training stability > precision
 ✅ Drop-in FP32 replacement needed
+
+Difference table:
+<img width="676" height="340" alt="image" src="https://github.com/user-attachments/assets/67ec5a0c-97fa-4d87-9bcf-64cb9f832459" />
+
+
+Extra reading:
+https://medium.com/@furkangozukara/what-is-the-difference-between-fp16-and-bf16-here-a-good-explanation-for-you-d75ac7ec30fa
