@@ -37,10 +37,10 @@ Thus, **we need smaller effective LR** to keep updates proportional to scale.
 
 There are two famous scaling laws for LR:
 
-### **(A) μ-Parameterization (μP)**
+### **(A) μ-Parameterization (μP)(also known as Maximal update parameterization - MUP)**
 
 * Suggests keeping the **learning rate inversely proportional to model width**.
-* i.e. ( LR \propto \frac{1}{\text{width}} )
+* i.e. ( LR proportional to 1/ width )
 
 So as model width (hidden dimension) increases, LR per parameter decreases.
 
@@ -51,9 +51,8 @@ So as model width (hidden dimension) increases, LR per parameter decreases.
 They found:
 
 * For models like GPT-3, PaLM, Chinchilla, the **optimal LR scales roughly as:**
-  [
-  LR \propto d^{-0.5}
-  ]
+
+  LR proportional to d^{-0.5}
   where ( d ) is model dimension.
 
 Example:
