@@ -85,6 +85,7 @@ Master weights in FP32 (training only)
 ✅ Drop-in FP32 replacement needed
 
 Difference table:
+
 <img width="676" height="340" alt="image" src="https://github.com/user-attachments/assets/67ec5a0c-97fa-4d87-9bcf-64cb9f832459" />
 
 
