@@ -5,6 +5,11 @@ Here's how you can answer:
 A. Most candidates say "BF16 is better for training, FP16 for inference." Superficial answer.
 B. There are 4 critical factors every GenAI engineer should understand cold.
 
+General Floating point Formula : 
+
+<img width="612" height="260" alt="image" src="https://github.com/user-attachments/assets/6c1f589b-b790-492f-9a25-13e701ab3847" />
+
+
 𝟭. 𝗧𝗵𝗲 𝗡𝘂𝗺𝗲𝗿𝗶𝗰𝗮𝗹 𝗥𝗲𝗽𝗿𝗲𝘀𝗲𝗻𝘁𝗮𝘁𝗶𝗼𝗻 - 𝗧𝗵𝗲 𝗳𝘂𝗻𝗱𝗮𝗺𝗲𝗻𝘁𝗮𝗹 𝗮𝗿𝗰𝗵𝗶𝘁𝗲𝗰𝘁𝘂𝗿𝗲
 FP16 (Half Precision):
 
@@ -87,6 +92,10 @@ Master weights in FP32 (training only)
 Difference table:
 
 <img width="676" height="340" alt="image" src="https://github.com/user-attachments/assets/67ec5a0c-97fa-4d87-9bcf-64cb9f832459" />
+
+FP32 vs FP16 vs BF16:
+
+<img width="731" height="182" alt="image" src="https://github.com/user-attachments/assets/d0d2ac18-59d7-437c-a24f-878f1e439a14" />
 
 
 Extra reading:
