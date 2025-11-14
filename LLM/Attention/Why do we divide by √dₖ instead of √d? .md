@@ -12,43 +12,8 @@ This scaling is needed for **numerical stability**.
 
 # 🔥 **Intuition: Dot products grow with dimension**
 
-Let:
+<img width="426" height="537" alt="image" src="https://github.com/user-attachments/assets/56ec43fb-9012-43c0-a88f-98249fc8c4f2" />
 
-[
-Q, K \in \mathbb{R}^{d_k}
-]
-
-Assume each component is drawn from a normal distribution:
-
-[
-Q_i, K_i \sim \mathcal{N}(0,1)
-]
-
-Then the dot product:
-
-[
-Q \cdot K = \sum_{i=1}^{d_k} Q_i K_i
-]
-
-Each product (Q_i K_i) has:
-
-* mean = 0
-* variance = 1
-
-When you sum **dₖ** such terms, the variance becomes:
-
-[
-\mathrm{Var}(Q\cdot K) = d_k
-]
-
-Meaning:
-
-👉 **The dot product grows in magnitude proportional to dₖ**
-
-So if:
-
-* (dₖ = 64), scores are moderate
-* (dₖ = 512), scores explode (8× larger variance)
 
 ---
 
@@ -56,9 +21,7 @@ So if:
 
 The softmax will see very large positive and negative logits:
 
-[
-\exp(\text{big number}) \rightarrow \text{overflow}
-]
+exp(big number)→overflow
 
 This results in:
 
@@ -72,19 +35,13 @@ This results in:
 # ⭐ Solution: Normalize the dot product
 
 We divide the dot product by:
-
-[
-\sqrt{d_k}
-]
+ √dₖ
 
 Why?
 
 Because:
 
-[
-\mathrm{StdDev}(Q\cdot K) = \sqrt{d_k}
-]
-
+StdDev(Q⋅K)=  √dₖ
 So dividing by √dₖ **normalizes the variance back to 1**.
 
 Then the softmax receives logits with controlled scale.
