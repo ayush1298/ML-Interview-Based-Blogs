@@ -2,9 +2,7 @@
 
 The attention score is:
 
-[
-\text{Attention}(Q,K,V) = \mathrm{softmax}\left(\frac{QK^{T}}{\sqrt{d_k}}\right)V
-]
+<img width="352" height="73" alt="image" src="https://github.com/user-attachments/assets/276d5d87-9b15-4259-82fd-fc8b1c711b76" />
 
 This scaling is needed for **numerical stability**.
 
