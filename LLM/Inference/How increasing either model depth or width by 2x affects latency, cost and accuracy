@@ -1,0 +1,208 @@
+what happens when you scale **depth vs width** in a large language model (LLM).
+
+---
+
+# 🚀 **If you double WIDTH vs double DEPTH of an LLM, how does it affect:**
+
+* **Latency**
+* **Accuracy / Quality**
+* **Training Stability**
+* **Inference Cost**
+* **Which is better?**
+
+Let’s break down both scaling directions.
+
+---
+
+# 🧩 **1. What is WIDTH vs DEPTH in a Transformer?**
+
+### **WIDTH = hidden dimension (d_model), number of heads, FFN size**
+
+Doubling width →
+
+* d_model ×2
+* FFN size ×2
+* attention head dimension increases
+
+### **DEPTH = number of transformer layers**
+
+Doubling depth →
+
+* blocks ×2
+* residual stream becomes longer
+
+---
+
+# ⚡ 2. **Latency Impact**
+
+## **Doubling WIDTH (O(d²) cost)**
+
+Latency increases *dramatically*.
+
+Compute cost per layer:
+[
+O(d^2)
+]
+If you double d:
+[
+(2d)^2 = 4d^2
+]
+→ **4× slower per layer**
+→ latency roughly **4× higher**
+
+This is why large-width models (GPT-J, GPT-Neo) were expensive.
+
+---
+
+## **Doubling DEPTH**
+
+Latency increases **linearly**.
+
+More layers → more sequential compute:
+[
+\text{latency} \propto L
+]
+
+Doubling depth →
+**~2× slower**, NOT 4×
+
+---
+
+## **Latency Summary**
+
+| Scaling      | Latency Increase |
+| ------------ | ---------------- |
+| **Width ×2** | ❌ ~4× slower     |
+| **Depth ×2** | ✅ ~2× slower     |
+
+👉 **Depth scaling is far cheaper for latency.**
+
+---
+
+# 🎯 3. **Accuracy Impact**
+
+Deep vs wide has been extensively studied (Kaplan scaling laws, Chinchilla, PaLM).
+
+## **Increasing Depth → improves reasoning, compositionality**
+
+Deep networks:
+
+* build hierarchical features
+* better abstraction
+* handle long-range dependencies
+* benefit more from residual streams
+
+High depth = better scaling of cross-entropy loss.
+
+---
+
+## **Increasing Width → diminishing returns**
+
+Large widths:
+
+* saturate quickly
+* mostly increase memorization
+* do NOT significantly improve reasoning
+* can harm stability
+
+Empirically (PaLM, Llama, Chinchilla):
+
+> **Past a certain point, more depth > more width for quality.**
+
+---
+
+## **Accuracy Summary**
+
+| Scaling      | Accuracy Gain        |
+| ------------ | -------------------- |
+| **Width ×2** | ⚠️ Small to moderate |
+| **Depth ×2** | ⭐ Strong improvement |
+
+---
+
+# 💸 4. **Inference Cost (Memory + Compute)**
+
+### **Width scaling is very expensive**
+
+Weights scale:
+[
+O(d^2)
+]
+So doubling width → nearly **4× VRAM** needed.
+
+### **Depth scaling is affordable**
+
+Weights scale:
+[
+O(L d^2)
+]
+Increasing layers → linear memory increase.
+
+So doubling depth:
+→ **~2× VRAM**
+
+---
+
+## **Inference Cost Summary**
+
+| Scaling      | VRAM Cost | FLOPs Cost |
+| ------------ | --------- | ---------- |
+| **Width ×2** | ❌ ~4×     | ❌ ~4×      |
+| **Depth ×2** | ⚠️ ~2×    | ⚠️ ~2×     |
+
+---
+
+# 🔥 5. **Training Stability**
+
+### **Depth doubling**
+
+* Historically unstable (exploding gradients)
+* But **Pre-Norm + RMSNorm + warmup** solved it
+* Modern LLMs scale depth to hundreds of layers safely
+
+### **Width doubling**
+
+* Generally stable (wide networks train easily)
+* But require huge batch sizes and learning rate tuning
+
+---
+
+# 🧠 6. **Which is better overall?**
+
+Modern LLM design converged to a rule:
+
+> **To scale a model, increase depth, not width — until you hit optimal ratio.**
+
+This is why:
+
+* GPT-3: depth-heavy
+* PaLM: depth-heavy
+* LLaMA: depth-heavy
+* Chinchilla: depth-heavy
+
+Width hits diminishing returns quickly.
+Depth continues to improve reasoning and quality.
+
+---
+
+# 🔚 Final Answer (Interview-Ready Summary)
+
+**Doubling WIDTH (hidden size):**
+
+* Latency → 4× slower
+* VRAM → 4× more
+* Accuracy → small improvement
+* Cost → huge increase
+* Stability → fine
+
+**Doubling DEPTH (layers):**
+
+* Latency → 2× slower
+* VRAM → 2× more
+* Accuracy → strong improvement
+* Cost → moderate increase
+* Stability → good with pre-norm
+
+👉 **Conclusion:**
+**Depth scaling is almost always better than width scaling for large language models.**
+It gives better accuracy, better scaling behavior, and lower latency/cost increase.
