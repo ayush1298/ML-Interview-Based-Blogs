@@ -36,3 +36,7 @@ You've now doubled the work, made 64 users wait longer, and your total throughpu
 𝐓𝐡𝐞 𝐚𝐧𝐬𝐰𝐞𝐫 𝐭𝐡𝐚𝐭 𝐠𝐞𝐭𝐬 𝐲𝐨𝐮 𝐡𝐢𝐫𝐞𝐝:
 
 "Throughput is a cost metric, but per-token latency is a product metric. We can increase the batch size, but only up to the peak of the throughput-latency curve. After that 'hump', we're just adding latency for zero gain, burning GPU cycles, and killing the user experience."
+
+
+A good blog on best practises to increase throughput: 
+https://www.databricks.com/blog/llm-inference-performance-engineering-best-practices
