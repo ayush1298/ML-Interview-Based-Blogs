@@ -91,8 +91,150 @@ but keep critical values (like master weights) in FP32 to avoid instability.
 
 ---
 
-If you want, I can also explain:
+More details on Mixed-Precision Training(MPT): 
 
-* **Post-Training Quantization (PTQ)** vs QAT
-* **Why BF16 is better than FP16 for LLMs**
-* **What FP8 training does in GPT-4 family**
+Without loss scaling: 
+
+<img width="878" height="280" alt="image" src="https://github.com/user-attachments/assets/abbb6ab2-eef1-4e02-b9ef-290ca4208bd8" />
+
+
+With loss scaling: 
+
+<img width="1102" height="242" alt="image" src="https://github.com/user-attachments/assets/544a8dfa-ee3f-40f3-912c-dac5d41a5440" />
+
+
+---
+
+# 🔥 **Mixed-Precision Training: Step-by-Step Explanation**
+
+The idea:
+👉 **Use FP16 for speed**, but
+👉 **Keep a FP32 “master copy” of weights** to avoid accuracy loss.
+
+Let’s go through the diagram piece-by-piece.
+
+---
+
+# ✅ **Step 1 — Start with Master Weights (FP32)**
+
+The optimizer maintains **full precision (FP32) weights**.
+
+These are the “real” weights used for updating.
+
+```
+Weights_master = FP32
+```
+
+---
+
+# ✅ **Step 2 — Cast the FP32 Weights → FP16 (for Forward Pass)**
+
+To speed up compute, we create a temporary **FP16 version** of the weights.
+
+```
+Weights_fp16 = cast(Weights_master → FP16)
+```
+
+These FP16 weights are what go into the forward pass.
+
+---
+
+# ✅ **Step 3 — Forward Pass (FP16 activations, FP16 weights)**
+
+The forward pass runs **in FP16**:
+
+```
+Loss_fp32 = model_forward(inputs, Weights_fp16)
+```
+
+Even though activations + weights are FP16, the loss output is stored in **FP32** to avoid precision issues.
+
+---
+
+# ✅ **Step 4 — Loss Scaling (Critical Step)**
+
+FP16 gradients can underflow (too small → become zero).
+So before backprop, we **multiply the loss by a large number**, e.g. 1024.
+
+```
+Scaled_Loss = Loss_fp32 × scale_factor
+```
+
+This helps gradients stay numerically stable.
+
+---
+
+# ✅ **Step 5 — Backward Pass in FP16: Compute Scaled Gradients**
+
+Backprop now computes **scaled gradients in FP16**.
+
+```
+Scaled_Gradients_fp16 = backward(Scaled_Loss)
+```
+
+---
+
+# ✅ **Step 6 — Convert Scaled Gradients FP16 → FP32**
+
+Before using them for weight updates, we cast gradients to FP32:
+
+```
+Scaled_Gradients_fp32 = cast(Scaled_Gradients_fp16 → FP32)
+```
+
+---
+
+# ✅ **Step 7 — Unscale the Gradients (Remove Loss Scaling)**
+
+Divide by the scaling factor:
+
+```
+Gradients_fp32 = Scaled_Gradients_fp32 / scale_factor
+```
+
+These are the **true FP32 gradients**.
+
+---
+
+# ✅ **Step 8 — Optimizer Step (FP32)**
+
+Optimizer updates the **FP32 master weights**:
+
+```
+Weights_master = Weights_master - learning_rate × Gradients_fp32
+```
+
+This is why training stays stable:
+✔ updates happen to FP32 weights
+✔ gradients used are FP32
+✔ computation was fast because forward/backward was FP16
+
+---
+
+# 🔁 **Cycle Repeats**
+
+Next iteration:
+
+* cast updated FP32 master weights → FP16
+* do forward/backward in FP16
+* update master FP32 weights
+
+---
+
+# 🎯 **Final Summary (Very Important)**
+
+**FP32**
+
+* master weights
+* optimizer
+* true gradients
+
+**FP16/BF16**
+
+* forward activations
+* backward gradients (before unscaling)
+* speed-critical operations
+
+**Loss scaling** prevents FP16 gradient underflow.
+
+Refer to article: https://medium.com/data-science/understanding-mixed-precision-training-4b246679c7c4
