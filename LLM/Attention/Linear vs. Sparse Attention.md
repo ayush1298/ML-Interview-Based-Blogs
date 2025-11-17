@@ -6,9 +6,7 @@
 
 In normal Transformers:
 
-[
-\text{Attention}(Q,K,V) = \text{softmax}\left(\frac{QK^\top}{\sqrt{d_k}}\right)V
-]
+<img width="362" height="78" alt="image" src="https://github.com/user-attachments/assets/18a1d39e-cd32-436b-bbf2-4f7a129838b0" />
 
 * Q is L×d
 * K is L×d
@@ -69,41 +67,8 @@ Sparse attention = **skip most connections**.
 
 Linear attention makes the whole attention computation **mathematically linear** in L.
 
-The trick:
+<img width="530" height="532" alt="image" src="https://github.com/user-attachments/assets/98a585e5-1776-4186-bbac-a9492423ff7c" />
 
-Standard attention:
-[
-\text{softmax}(QK^\top)V
-]
-
-Key idea:
-Use a **kernel function** φ such that:
-
-[
-\text{softmax}(QK^\top) \approx \phi(Q)\left(\phi(K)^\top V\right)
-]
-
-This lets you reorder the computation:
-
-### **Compute KV aggregation first:**
-
-[
-S = \sum_{j=1}^{L} \phi(K_j) V_j \quad\ (\text{cost } = O(L))
-]
-
-### **Then compute output:**
-
-[
-\text{output}_i = \phi(Q_i) S  \quad(\text{cost } = O(L))
-]
-
-Total complexity:
-
-[
-O(Ld)
-]
-
-This is **fully linear** in sequence length.
 
 ### Intuition:
 
