@@ -108,10 +108,12 @@ It avoids computing the big L×L matrix entirely.
 
 ---
 
-# 🔥 Final Summary (Interview-Ready)**
+# 🔥 Final Summary **
 
 * **Standard attention = O(L²)** because every token attends to every other.
 * **Sparse attention** reduces this by restricting which tokens attend to which → sub-quadratic, often nearly O(L).
 * **Linear attention** rewrites attention using kernel tricks so it becomes mathematically O(L) without forming the full attention matrix.
 
 ---
+
+A good blog on Sparse attention in detail: https://medium.com/@vishal09vns/sparse-attention-dad17691478c
