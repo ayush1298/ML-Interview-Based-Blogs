@@ -121,13 +121,8 @@ For N-dimensional data (x, y, z, t...):
 
 ### Example: 3D volume data
 
-Apply 3 rotations:
+<img width="457" height="133" alt="image" src="https://github.com/user-attachments/assets/2750bc76-1dcc-44c5-9f0d-bf368ada77bb" />
 
-[
-\text{Rot}_x(Q),\ \text{Rot}_y(Q),\ \text{Rot}_z(Q)
-]
-
-Then sum or mix them.
 
 ---
 
@@ -195,37 +190,7 @@ Exactly what self-attention needs: **relative distance**.
 
 ---
 
-# ✅ **5. How ROPE Easily Generalizes to 2D and Higher Dimensions**
-
-ROPE rotates each **(2-dimensional pair)** in the vector.
-
-If embedding dim = D, you have D/2 such pairs:
-
-* For 1D sequence (text), rotate along **time axis**
-* For 2D (images), apply **two rotations**:
-
-  * one for x-coordinate (horizontal)
-  * one for y-coordinate (vertical)
-
-For a token at (row=r, col=c):
-
-[
-Q(r,c) = R(\theta_r^x)R(\theta_c^y)Q
-]
-
-For 3D (video):
-Apply rotations for (time, height, width)
-
-For ND:
-Apply N separate rotations.
-
-This keeps the property:
-
-[
-Q(p)\cdot K(q)=f(p-q)
-]
-
-for each dimension.
+<img width="609" height="488" alt="image" src="https://github.com/user-attachments/assets/5435c13b-1612-4b40-997f-80b77577d831" />
 
 ---
 
