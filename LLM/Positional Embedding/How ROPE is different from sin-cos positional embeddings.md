@@ -163,6 +163,7 @@ Let's explain **where the ROPE equation comes from** and *why* it makes attentio
 ROPE = **Rotary Positional Embedding**
 
 Instead of **adding** sinusoidal vectors to Q/K (as in the original Transformer), ROPE **rotates** Q and K in a 2D plane *based on their position index*.
+
 <img width="527" height="359" alt="image" src="https://github.com/user-attachments/assets/4f33ea95-1d2d-44a2-b85b-ee2e1adb665e" />
 
 ---
