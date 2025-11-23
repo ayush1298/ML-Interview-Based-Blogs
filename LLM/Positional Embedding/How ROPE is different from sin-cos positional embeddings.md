@@ -6,17 +6,8 @@ Here is a **clear, intuitive, and deep explanation** of **ROPE** (Rotary Positio
 
 In the original *Attention Is All You Need* paper:
 
-* Positional embeddings are **added** to the input token embeddings:
-  [
-  x_{\text{final}} = x_{\text{token}} + PE(p)
-  ]
-* PE(p) is a vector of sinusoids:
-  [
-  PE_{2i}(p) = \sin(p / 10000^{2i/d})
-  ]
-  [
-  PE_{2i+1}(p) = \cos(p / 10000^{2i/d})
-  ]
+<img width="499" height="172" alt="image" src="https://github.com/user-attachments/assets/6701acac-d97d-4f28-8cf5-65bc3fc3a3a9" />
+
 
 These are **absolute positional embeddings**.
 
@@ -39,37 +30,7 @@ This rotation makes attention scores naturally incorporate **relative positions*
 ---
 
 # 🚀 **Core ROPE idea**
-
-A 2-dimensional vector ((x_1, x_2)) can be treated as a complex number:
-
-[
-x = x_1 + ix_2
-]
-
-ROPE rotates this vector by an angle proportional to position (p):
-
-[
-x^{(p)} = x \cdot e^{i\theta(p)}
-]
-
-In real form:
-
-[
-\begin{bmatrix}
-x_1' \ x_2'
-\end{bmatrix}
-=============
-
-\begin{bmatrix}
-\cos \theta(p) & -\sin \theta(p) \
-\sin \theta(p) & \cos \theta(p)
-\end{bmatrix}
-\begin{bmatrix}
-x_1 \ x_2
-\end{bmatrix}
-]
-
-Each **pair of dimensions** (2 dims) gets its own rotation frequency.
+<img width="505" height="280" alt="image" src="https://github.com/user-attachments/assets/f9c55ead-735f-4ff9-b6ef-7e7e43bb8c3e" />
 
 ---
 
@@ -84,9 +45,7 @@ Each **pair of dimensions** (2 dims) gets its own rotation frequency.
 
 ROPE makes attention depend on:
 
-[
-Q^{(p)} \cdot K^{(q)} = f(p - q)
-]
+<img width="194" height="41" alt="image" src="https://github.com/user-attachments/assets/199246fc-156d-44c3-9cc0-06eb142a91a8" />
 
 This means attention knows **relative distance** naturally.
 
@@ -197,3 +156,113 @@ This is elegant, efficient, and gives enormous benefits:
 * less memory
 * more stable training
 * better reasoning patterns
+
+**Maths behind, how exactly its is relative?**
+
+Let's explain **where the ROPE equation comes from** and *why* it makes attention depend only on **relative positions (p − q)**.
+
+---
+
+# ✅ **1. What ROPE Actually Does**
+
+ROPE = **Rotary Positional Embedding**
+
+Instead of **adding** sinusoidal vectors to Q/K (as in the original Transformer), ROPE **rotates** Q and K in a 2D plane *based on their position index*.
+<img width="527" height="359" alt="image" src="https://github.com/user-attachments/assets/4f33ea95-1d2d-44a2-b85b-ee2e1adb665e" />
+
+---
+
+<img width="509" height="599" alt="image" src="https://github.com/user-attachments/assets/b114ce62-f309-42be-b842-ca8d835b3762" />
+
+---
+
+# ✅ **4. Why This Is Better Than Absolute Sin/Cos Embeddings**
+
+<img width="494" height="165" alt="image" src="https://github.com/user-attachments/assets/895ee293-209c-49cc-8479-e3f7e70f25da" />
+
+
+---
+
+### ROPE method:
+
+Rotates Q and K by position ⇒ dot product depends only on:
+
+[
+p - q
+]
+
+Exactly what self-attention needs: **relative distance**.
+
+---
+
+# ✅ **5. How ROPE Easily Generalizes to 2D and Higher Dimensions**
+
+ROPE rotates each **(2-dimensional pair)** in the vector.
+
+If embedding dim = D, you have D/2 such pairs:
+
+* For 1D sequence (text), rotate along **time axis**
+* For 2D (images), apply **two rotations**:
+
+  * one for x-coordinate (horizontal)
+  * one for y-coordinate (vertical)
+
+For a token at (row=r, col=c):
+
+[
+Q(r,c) = R(\theta_r^x)R(\theta_c^y)Q
+]
+
+For 3D (video):
+Apply rotations for (time, height, width)
+
+For ND:
+Apply N separate rotations.
+
+This keeps the property:
+
+[
+Q(p)\cdot K(q)=f(p-q)
+]
+
+for each dimension.
+
+---
+
+# ✅ **6. Intuition Behind Why This Works**
+
+ROPE treats positions as **angles on a circle**.
+
+Shifting position → **rotating** the vector.
+
+Differences in position → **difference of angles**.
+
+Dot product after rotation gives:
+
+* how much one vector has rotated relative to another
+* which *is* the relative distance
+
+This produces an **equivariant** attention mechanism:
+
+* Shift all tokens right by 3 → attention patterns stay the same.
+
+---
+
+# 🎯 **Summary**
+
+| Concept              | Sin/Cos (old)       | ROPE             |
+| -------------------- | ------------------- | ---------------- |
+| Added or multiplied? | Added to embeddings | Rotation applied |
+| Depends on           | p AND q             | p − q            |
+| Relative positions?  | Implicit, weak      | **Built in**     |
+| Extends to 2D & 3D?  | Hard                | **Natural**      |
+
+---
+
+# 🚀 If You Want, I Can Also Explain:
+
+* Why ROPE enables long-context extrapolation
+* Differences between ROPE, ALiBi, and Sinusoidal embeddings
+* How ROPE appears inside QK^T in actual Transformer code
+
+Just ask!
