@@ -15,20 +15,8 @@ Your intuition is almost correct:
 * Let a batch contain **B sentences**, each with **T tokens** (or padded to same length).
 * BatchNorm normalizes **each embedding dimension separately**, but **across the entire batch**:
 
-For each embedding dimension ( i \in {1, \dots, d} ):
+<img width="603" height="207" alt="image" src="https://github.com/user-attachments/assets/b34f4ca4-9cce-463c-a104-e1ff8de863c8" />
 
-[
-\mu_i = \text{mean over all tokens in all sentences for dimension } i
-]
-[
-\sigma_i^2 = \text{variance over all tokens in all sentences for dimension } i
-]
-
-Then every token’s (i^\text{th}) dimension is normalized:
-
-[
-\hat{x}*{b,t,i} = \frac{x*{b,t,i} - \mu_i}{\sqrt{\sigma_i^2 + \epsilon}}
-]
 
 ### **Key idea**
 
@@ -46,20 +34,8 @@ This part of your understanding is correct:
 
 For each token **individually**, compute mean/var across its embedding dimensions:
 
-For token at position ( (b, t) ):
+<img width="542" height="214" alt="image" src="https://github.com/user-attachments/assets/b5a32c43-a264-4d41-95da-d75625dc731d" />
 
-[
-\mu_{b,t} = \text{mean of the } d \text{ embedding values }
-]
-[
-\sigma_{b,t}^2 = \text{variance of the } d \text{ embedding values }
-]
-
-Normalize:
-
-[
-\hat{x}*{b,t,i} = \frac{x*{b,t,i} - \mu_{b,t}}{\sqrt{\sigma_{b,t}^2 + \epsilon}}
-]
 
 ### **Key idea**
 
