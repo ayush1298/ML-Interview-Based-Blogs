@@ -92,20 +92,7 @@ Below I explain why that formula holds, what exactly is stored/updated, and how 
 
 ## 1) Why the formula is correct
 
-LoRA parameterizes the *update* to a weight matrix (W \in \mathbb{R}^{\text{out}\times\text{in}}) as a **low-rank factorization**:
-[
-\Delta W = A,B^\top
-]
-where
-
-* (A \in \mathbb{R}^{\text{out}\times r}) (the “up” projection) and
-* (B \in \mathbb{R}^{\text{in}\times r}) (the “down” projection).
-
-So the trainable parameters for ΔW are the entries of A and B:
-[
-#\text{params} = \text{out} \times r + \text{in} \times r = r(\text{out} + \text{in}).
-]
-That’s exactly your expression `1024×8 + 512×8`.
+<img width="633" height="269" alt="image" src="https://github.com/user-attachments/assets/90c31896-0f0d-483d-8cc8-2c7aec73fc5c" />
 
 ---
 
