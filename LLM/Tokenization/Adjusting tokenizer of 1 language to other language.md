@@ -28,6 +28,7 @@ In Arabic, almost every word behaves like "Goose/Geese." A standard BPE tokenize
 𝐓𝐡𝐞 𝐒𝐨𝐥𝐮𝐭𝐢𝐨𝐧: You don't optimize for subword statistics; you optimize for 𝐒𝐞𝐦𝐚𝐧𝐭𝐢𝐜 𝐌𝐨𝐫𝐩𝐡𝐨𝐥𝐨𝐠𝐲..
 
 To fix this, you propose 𝐃𝐞𝐜𝐨𝐦𝐩𝐨𝐬𝐢𝐭𝐢𝐨𝐧𝐚𝐥 𝐓𝐨𝐤𝐞𝐧𝐢𝐳𝐚𝐭𝐢𝐨𝐧:
+
 1️⃣ 𝘔𝘰𝘳𝘱𝘩𝘰𝘭𝘰𝘨𝘪𝘤𝘢𝘭 𝘈𝘯𝘢𝘭𝘺𝘻𝘦𝘳𝘴: Use a pre-processing layer (like a morphological disambiguator) that separates the "Root" (usually 3 consonants) from the "Template."
 - Input: "kitab" (book) → [k-t-b, Pattern_A]
 - Input: "kutub" (books) → [k-t-b, Pattern_B]
