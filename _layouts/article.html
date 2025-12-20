@@ -1,0 +1,21 @@
+---
+layout: default
+---
+
+<article class="article">
+    <header class="article-header">
+        <h1>{{ page.title }}</h1>
+        <div class="article-meta">
+            <span class="category">{{ page.category }}</span>
+            <span class="date">{{ page.date | date: "%B %d, %Y" }}</span>
+        </div>
+    </header>
+    
+    <div class="article-content">
+        {{ content }}
+    </div>
+    
+    <footer class="article-footer">
+        <a href="{{ site.baseurl }}/" class="btn-back">← Back to Home</a>
+    </footer>
+</article>

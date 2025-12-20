@@ -1,0 +1,17 @@
+title: ML Interview Blogs
+description: Expert ML, LLM, and AI Engineering Interview Guides
+theme: jekyll-theme-minimal
+baseurl: ""
+url: "https://yourusername.github.io"
+
+# Collections for organizing content
+collections:
+  articles:
+    output: true
+    permalink: /:collection/:path/
+
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+
+markdown: kramdown
