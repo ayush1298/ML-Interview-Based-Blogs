@@ -1,10 +1,10 @@
 title: ML Interview Blogs
 description: Expert ML, LLM, and AI Engineering Interview Guides
 baseurl: ""
-url: "https://yourusername.github.io"
+url: "https://ayush1298.github.io"
 
 # GitHub metadata
-github_username: yourusername
+github_username: ayush1298
 
 # Build settings
 markdown: kramdown
@@ -14,12 +14,20 @@ theme: jekyll-theme-minimal
 plugins:
   - jekyll-feed
   - jekyll-seo-tag
+  - jekyll-sitemap
 
 # Collections
 collections:
   articles:
     output: true
     permalink: /:collection/:path/
+
+defaults:
+  - scope:
+      path: ""
+      type: "pages"
+    values:
+      layout: "default"
 
 # Exclude from processing
 exclude:
