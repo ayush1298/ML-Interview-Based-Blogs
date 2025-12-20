@@ -1,0 +1,85 @@
+---
+layout: default
+title: Home
+---
+
+<div class="hero">
+    <h1>🚀 ML Interview Blogs</h1>
+    <p class="subtitle">Expert-curated guides for AI/ML engineering interviews</p>
+    
+    <div class="search-bar">
+        <input type="text" id="searchInput" placeholder="Search articles..." />
+        <button onclick="performSearch()">Search</button>
+    </div>
+</div>
+
+<section class="categories">
+    <h2>📚 Categories</h2>
+    <div class="category-grid">
+        <div class="category-card">
+            <h3><a href="{{ site.baseurl }}/LLM/">LLM</a></h3>
+            <p>Large Language Models - Training, Inference, Finetuning, Quantization</p>
+        </div>
+        
+        <div class="category-card">
+            <h3><a href="{{ site.baseurl }}/Neural%20Network/">Neural Networks</a></h3>
+            <p>Deep Learning fundamentals, optimization, architectures</p>
+        </div>
+        
+        <div class="category-card">
+            <h3><a href="{{ site.baseurl }}/Agents/">Agents</a></h3>
+            <p>Agentic AI, memory systems, reasoning loops</p>
+        </div>
+        
+        <div class="category-card">
+            <h3><a href="{{ site.baseurl }}/RAG/">RAG</a></h3>
+            <p>Retrieval-Augmented Generation, vector databases</p>
+        </div>
+        
+        <div class="category-card">
+            <h3><a href="{{ site.baseurl }}/Computer%20Vision/">Computer Vision</a></h3>
+            <p>Image processing, diffusion, transformations</p>
+        </div>
+        
+        <div class="category-card">
+            <h3><a href="{{ site.baseurl }}/Traditional%20ML/">Traditional ML</a></h3>
+            <p>Classical ML, boosting, bagging, metrics</p>
+        </div>
+        
+        <div class="category-card">
+            <h3><a href="{{ site.baseurl }}/Statistics/">Statistics</a></h3>
+            <p>Hypothesis testing, distributions, analysis</p>
+        </div>
+        
+        <div class="category-card">
+            <h3><a href="{{ site.baseurl }}/System%20Design/">System Design</a></h3>
+            <p>ML systems, recommenders, architectures</p>
+        </div>
+    </div>
+</section>
+
+<section class="featured">
+    <h2>🔥 Featured Articles</h2>
+    <ul class="article-list">
+        <li><a href="{{ site.baseurl }}/LLM/Finetuning/LORA.html">LoRA for Fine-tuning</a></li>
+        <li><a href="{{ site.baseurl }}/LLM/Training/Training_Instability_Exploding_Gradients_Deeper_LLM.html">Training Instability in Deep LLMs</a></li>
+        <li><a href="{{ site.baseurl }}/LLM/Inference/Speculative%20Decoding/Speculative%20Decoding1.html">Speculative Decoding</a></li>
+        <li><a href="{{ site.baseurl }}/Neural%20Network/How%20to%20use%20Droput%20layer%20during%20inference%3F.html">Inverted Dropout</a></li>
+        <li><a href="{{ site.baseurl }}/Agents/How%20Agnets%20are%20different%20from%20chatbot%3F.html">Agents vs Chatbots</a></li>
+    </ul>
+</section>
+
+<script>
+function performSearch() {
+    const query = document.getElementById('searchInput').value.toLowerCase();
+    if (query) {
+        window.location.href = `{{ site.baseurl }}/search.html?q=${encodeURIComponent(query)}`;
+    }
+}
+
+document.getElementById('searchInput').addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') {
+        performSearch();
+    }
+});
+</script>
