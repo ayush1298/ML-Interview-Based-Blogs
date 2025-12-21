@@ -11,18 +11,73 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   // Use the injected baseurl
   const baseurl = window.SITE_BASEURL || '';
-  const catalogUrl = `${baseurl}/catalog.json`;
+  
+  // Try multiple possible paths
+  const possiblePaths = [
+    `${baseurl}/catalog.json`,
+    '/ML-Interview-Based-Blogs/catalog.json',
+    'catalog.json'
+  ];
+
+  let catalog = null;
+  let lastError = null;
+
+  for (const catalogUrl of possiblePaths) {
+    try {
+      console.log('Trying to fetch catalog from:', catalogUrl);
+      const res = await fetch(catalogUrl, { 
+        cache: 'no-cache',
+        headers: {
+          'Accept': 'application/json'
+        }
+      });
+      
+      if (res.ok) {
+        catalog = await res.json();
+        console.log('Successfully loaded catalog from:', catalogUrl);
+        break;
+      } else {
+        console.warn(`Failed to load from ${catalogUrl}: ${res.status}`);
+        lastError = new Error(`HTTP ${res.status}: ${res.statusText}`);
+      }
+    } catch (err) {
+      console.warn(`Error loading from ${catalogUrl}:`, err);
+      lastError = err;
+    }
+  }
+
+  if (!catalog) {
+    console.error('Failed to load catalog from all paths. Last error:', lastError);
+    grid.innerHTML = `
+      <div class="empty-state">
+        <h3>Could not load catalog</h3>
+        <p>The catalog.json file hasn't been generated yet.</p>
+        <p style="color: var(--muted); font-size: 0.9rem; margin-top: 1rem;">
+          Error: ${lastError?.message || 'Unknown error'}<br><br>
+          This happens when:<br>
+          • The GitHub Actions workflow hasn't run yet<br>
+          • You're viewing the site locally without running the catalog generation script<br><br>
+          <strong>To fix:</strong> Run <code>python scripts/generate_catalog.py</code> locally,<br>
+          or push to GitHub to trigger the workflow.
+        </p>
+      </div>
+    `;
+    return;
+  }
 
   try {
-    const res = await fetch(catalogUrl, { cache: 'no-cache' });
-    
-    if (!res.ok) {
-      throw new Error(`HTTP ${res.status}: ${res.statusText}`);
-    }
-    
-    const catalog = await res.json();
-
     const categories = Object.values(catalog.categories || {});
+    
+    if (categories.length === 0) {
+      grid.innerHTML = `
+        <div class="empty-state">
+          <h3>No categories found</h3>
+          <p>The catalog is empty. Please check your content structure.</p>
+        </div>
+      `;
+      return;
+    }
+
     statCategories.textContent = categories.length || '0';
 
     // Flatten all articles with category info
@@ -62,17 +117,18 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
   } catch (err) {
-    console.error('Catalog load failed:', err);
+    console.error('Error processing catalog:', err);
     grid.innerHTML = `
       <div class="empty-state">
-        <h3>Could not load catalog</h3>
-        <p>Please try refreshing the page.</p>
+        <h3>Error processing catalog</h3>
+        <p>There was an error parsing the catalog data.</p>
         <p style="color: var(--muted); font-size: 0.9rem; margin-top: 1rem;">Error: ${err.message}</p>
       </div>
     `;
   }
 });
 
+// Rest of the functions remain the same...
 function filterByCategory(category) {
   currentFilter = category;
   
