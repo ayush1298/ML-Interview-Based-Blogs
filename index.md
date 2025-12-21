@@ -3,46 +3,50 @@ layout: default
 title: AI / ML Interview Questions
 ---
 
-<div id="list"></div>
+<div class="hero">
+  <div class="hero__content">
+    <span class="eyebrow">Knowledge Base</span>
+    <h1>AI / ML Interview Questions</h1>
+    <p class="subtitle">Comprehensive collection of real-world interview questions covering LLMs, Neural Networks, Agents, RAG, Computer Vision, and more.</p>
+    
+    <div class="search-bar">
+      <input type="text" id="searchInput" placeholder="Search articles...">
+      <button onclick="handleSearch()">Search</button>
+    </div>
+  </div>
+  
+  <div class="hero__stats">
+    <div class="stat">
+      <span id="statArticles">—</span>
+      <small>Articles</small>
+    </div>
+    <div class="stat">
+      <span id="statCategories">—</span>
+      <small>Categories</small>
+    </div>
+  </div>
+</div>
 
-<script>
-fetch("{{ '/catalog.json' | relative_url }}")
-  .then(r => {
-    if (!r.ok) throw new Error("Failed to load catalog.json");
-    return r.json();
-  })
-  .then(catalog => {
-    const ul = document.getElementById("list");
+<div class="section">
+  <div class="section__head">
+    <h2>Filter by Category</h2>
+    <p>Browse articles by topic</p>
+  </div>
+  
+  <div class="filter-chips" id="filterChips">
+    <button class="chip active" data-category="all">All</button>
+  </div>
+</div>
 
-    if (!catalog.categories) {
-      ul.innerHTML = "<li>No articles found</li>";
-      return;
-    }
+<div class="section">
+  <div class="section__head">
+    <h2>Browse Articles</h2>
+    <p id="resultCount">Loading articles...</p>
+  </div>
+  
+  <div class="category-grid" id="categoryGrid">
+    <div class="loading">Loading...</div>
+  </div>
+</div>
 
-    // Iterate categories → articles
-    Object.values(catalog.categories).forEach(category => {
-      // Category heading
-      const h2 = document.createElement("h2");
-      h2.textContent = category.name;
-      ul.appendChild(h2);
-
-      const subUl = document.createElement("ul");
-
-      category.articles.forEach(article => {
-        const li = document.createElement("li");
-        li.innerHTML = `
-          <a href="view.html?file=${encodeURIComponent(article.path)}">
-            ${article.title}
-          </a>
-        `;
-        subUl.appendChild(li);
-      });
-
-      ul.appendChild(subUl);
-    });
-  })
-  .catch(err => {
-    document.getElementById("list").innerHTML =
-      `<li style="color:red">Error loading catalog: ${err}</li>`;
-  });
-</script>
+<script src="{{ '/assets/js/main.js' | relative_url }}"></script>
