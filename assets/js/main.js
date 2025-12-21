@@ -9,8 +9,17 @@ document.addEventListener('DOMContentLoaded', async () => {
   const resultCount = document.getElementById('resultCount');
   const searchInput = document.getElementById('searchInput');
 
+  // Use the injected baseurl
+  const baseurl = window.SITE_BASEURL || '';
+  const catalogUrl = `${baseurl}/catalog.json`;
+
   try {
-    const res = await fetch('{{ "/catalog.json" | relative_url }}', { cache: 'no-cache' });
+    const res = await fetch(catalogUrl, { cache: 'no-cache' });
+    
+    if (!res.ok) {
+      throw new Error(`HTTP ${res.status}: ${res.statusText}`);
+    }
+    
     const catalog = await res.json();
 
     const categories = Object.values(catalog.categories || {});
@@ -53,13 +62,21 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
   } catch (err) {
-    console.error('Catalog load failed', err);
-    grid.innerHTML = '<div class="empty-state"><h3>Could not load catalog</h3><p>Please try refreshing the page.</p></div>';
+    console.error('Catalog load failed:', err);
+    grid.innerHTML = `
+      <div class="empty-state">
+        <h3>Could not load catalog</h3>
+        <p>Please try refreshing the page.</p>
+        <p style="color: var(--muted); font-size: 0.9rem; margin-top: 1rem;">Error: ${err.message}</p>
+      </div>
+    `;
   }
 });
 
 function filterByCategory(category) {
   currentFilter = category;
+  
+  const baseurl = window.SITE_BASEURL || '';
   
   // Update active chip
   document.querySelectorAll('.chip').forEach(chip => {
@@ -70,7 +87,7 @@ function filterByCategory(category) {
   });
 
   // Re-render based on filter
-  fetch('{{ "/catalog.json" | relative_url }}')
+  fetch(`${baseurl}/catalog.json`)
     .then(r => r.json())
     .then(catalog => {
       const categories = Object.values(catalog.categories || {});
@@ -87,6 +104,7 @@ function filterByCategory(category) {
 function renderCategories(categories) {
   const grid = document.getElementById('categoryGrid');
   const resultCount = document.getElementById('resultCount');
+  const baseurl = window.SITE_BASEURL || '';
   
   if (!categories || categories.length === 0) {
     grid.innerHTML = '<div class="empty-state"><h3>No articles found</h3><p>Try adjusting your filter.</p></div>';
@@ -103,7 +121,7 @@ function renderCategories(categories) {
 
     const articlesList = articles.slice(0, 5).map(article => `
       <div class="article-item">
-        <a href="{{ site.baseurl }}/view.html?file=${encodeURIComponent(article.path)}">
+        <a href="${baseurl}/view.html?file=${encodeURIComponent(article.path)}">
           ${article.title}
         </a>
         <div class="article-item__meta">
@@ -159,8 +177,6 @@ function searchArticles(query, categories) {
 }
 
 function expandCategory(categoryName) {
-  // This could open a modal or navigate to a dedicated category page
-  // For now, just show all articles
   alert(`Feature coming soon: View all articles in ${categoryName}`);
 }
 
