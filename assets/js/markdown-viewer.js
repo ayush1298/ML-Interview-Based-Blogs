@@ -8,7 +8,6 @@
     return;
   }
 
-  // ✅ Correct base URL for GitHub Pages project sites
   const baseUrl =
     window.location.origin +
     window.location.pathname.replace(/\/view\.html$/, "");
@@ -23,7 +22,6 @@
     .then(md => {
       const mdDir = mdUrl.substring(0, mdUrl.lastIndexOf("/"));
 
-      // Fix relative image paths
       const fixed = md.replace(
         /!\[(.*?)\]\((?!https?:\/\/|\/\/)(.*?)\)/g,
         (_, alt, src) => `![${alt}](${mdDir}/${src})`
