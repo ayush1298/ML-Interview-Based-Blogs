@@ -1,0 +1,27 @@
+---
+layout: default
+title: Article
+---
+
+<article class="article">
+  <header class="article-header">
+    <h1 id="articleTitle">Loading…</h1>
+    <div class="article-meta">
+      <span class="category" id="articlePath"></span>
+    </div>
+  </header>
+
+  <div class="article-content" id="articleContent"></div>
+
+  <footer class="article-footer">
+    <a href="{{ '/' | relative_url }}" class="btn-back">← Back to Home</a>
+  </footer>
+</article>
+
+<script>
+  window.SITE_BASEURL = "{{ site.baseurl }}";
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/dompurify@3.1.6/dist/purify.min.js"></script>
+<script src="{{ '/assets/js/markdown-viewer.js' | relative_url }}"></script>
