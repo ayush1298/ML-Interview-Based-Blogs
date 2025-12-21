@@ -1,49 +1,28 @@
 ---
 layout: default
-title: Home
+title: Article
 ---
 
-<section class="hero">
-  <div class="hero__content">
-    <p class="eyebrow">ML / AI Interview Playbook</p>
-    <h1>Fast answers. Zero fluff.</h1>
-    <p class="subtitle">Browse production-grade interview notes across LLMs, Agents, CV, and more.</p>
-    <div class="search-bar">
-      <input id="searchInput" type="text" placeholder="Search articles…" aria-label="Search articles" />
-      <button type="button" onclick="performSearch()">Search</button>
-    </div>
-  </div>
-  <div class="hero__stats">
-    <div class="stat">
-      <span id="statArticles">—</span>
-      <small>Articles</small>
-    </div>
-    <div class="stat">
-      <span id="statCategories">—</span>
-      <small>Categories</small>
-    </div>
-  </div>
-</section>
+<article class="article">
+  <header class="article-header">
+    <p class="breadcrumb"><a href="{{ '/' | relative_url }}">Home</a> / <span id="articlePath"></span></p>
+    <h1 id="articleTitle">Loading…</h1>
+  </header>
 
-<section class="section">
-  <div class="section__head">
-    <h2>Categories</h2>
-    <p>Pick a track to drill down into interview-ready notes.</p>
+  <div class="article-meta">
+    <span class="pill" id="articleCategory">Article</span>
   </div>
-  <div id="categoryGrid" class="category-grid"></div>
-</section>
 
-<section class="section">
-  <div class="section__head">
-    <h2>Latest Articles</h2>
-    <p>Most recently updated Markdown files from GitHub.</p>
-  </div>
-  <ul id="latestList" class="article-list"></ul>
-</section>
+  <div class="article-content" id="articleContent"></div>
+
+  <footer class="article-footer">
+    <a href="{{ '/' | relative_url }}" class="btn-back">← Back to Home</a>
+  </footer>
+</article>
 
 <script>
-  function performSearch() {
-    const q = document.getElementById('searchInput').value.trim();
-    if (q) window.location.href = `{{ site.baseurl }}/search.html?q=${encodeURIComponent(q)}`;
-  }
+  window.SITE_BASEURL = "{{ site.baseurl }}";
 </script>
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/dompurify@3.1.6/dist/purify.min.js"></script>
+<script src="{{ '/assets/js/markdown-viewer.js' | relative_url }}"></script>
