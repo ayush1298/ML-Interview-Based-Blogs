@@ -11,6 +11,3 @@ exclude:
   - node_modules
   - Gemfile
   - Gemfile.lock
-
-permissions:
-  contents: write
