@@ -1,69 +1,32 @@
-(function () {
-  const titleEl = document.getElementById("articleTitle");
-  const pathEl = document.getElementById("articlePath");
-  const contentEl = document.getElementById("articleContent");
-
+(() => {
   const params = new URLSearchParams(window.location.search);
-  const mdPath = params.get("path");
+  const file = params.get("file");
 
-  function fail(msg) {
-    titleEl.textContent = "Not found";
-    contentEl.innerHTML = `<p>${msg}</p>`;
+  const contentEl = document.getElementById("content");
+  if (!file) {
+    contentEl.innerHTML = "<h2>No file specified</h2>";
+    return;
   }
 
-  if (!mdPath || mdPath.includes("..") || !mdPath.toLowerCase().endsWith(".md")) {
-    return fail("Invalid article path.");
-  }
+  // Base path = site root + repo path (works on GitHub Pages project sites)
+  const viewerPath = window.location.pathname.replace(/\/view\.html.*/, "");
+  const basePath = `${window.location.origin}${viewerPath}`;
+  const mdUrl = `${basePath}/${decodeURIComponent(file)}`;
 
-  const baseurl = (window.SITE_BASEURL || "").replace(/\/$/, "");
-  const mdUrl = `${baseurl}/${mdPath}`.replace(/\/\/+/g, "/");
-
-  const dir = mdPath.split("/").slice(0, -1).join("/");
-  const dirBase = `${window.location.origin}${baseurl}/${dir}/`.replace(/\/\/+/g, "/");
-
-  pathEl.textContent = mdPath;
-
-  marked.setOptions({
-    gfm: true,
-    breaks: false,
-    headerIds: true,
-    mangle: false,
-  });
-
-  fetch(mdUrl, { cache: "no-cache" })
-    .then((r) => {
-      if (!r.ok) throw new Error(`HTTP ${r.status}`);
-      return r.text();
+  fetch(mdUrl)
+    .then(res => {
+      if (!res.ok) throw new Error(`Markdown fetch failed: ${res.status}`);
+      return res.text();
     })
-    .then((md) => {
-      const html = marked.parse(md);
-
-      const clean = DOMPurify.sanitize(html, {
-        ADD_TAGS: ["iframe"],
-        ADD_ATTR: ["src", "height", "width", "frameborder", "allowfullscreen", "title"],
-      });
-
-      contentEl.innerHTML = clean;
-
-      const h1 = contentEl.querySelector("h1");
-      titleEl.textContent = h1
-        ? h1.textContent.trim()
-        : (mdPath.split("/").pop() || "Article").replace(/\.md$/i, "");
-
-      // Fix relative links/images inside markdown so they work from /view.html
-      for (const a of contentEl.querySelectorAll("a[href]")) {
-        const href = a.getAttribute("href");
-        if (!href) continue;
-        if (/^(https?:|mailto:|tel:|#|\/)/i.test(href)) continue;
-        a.setAttribute("href", new URL(href, dirBase).toString());
-      }
-
-      for (const img of contentEl.querySelectorAll("img[src]")) {
-        const src = img.getAttribute("src");
-        if (!src) continue;
-        if (/^(https?:|data:|\/)/i.test(src)) continue;
-        img.setAttribute("src", new URL(src, dirBase).toString());
-      }
+    .then(md => {
+      const mdDir = mdUrl.substring(0, mdUrl.lastIndexOf("/"));
+      const fixedMd = md.replace(
+        /!\[(.*?)\]\((?!https?:\/\/|\/\/)(.*?)\)/g,
+        (_, alt, src) => `![${alt}](${mdDir}/${src})`
+      );
+      contentEl.innerHTML = marked.parse(fixedMd);
     })
-    .catch(() => fail("Could not load this Markdown file."));
+    .catch(err => {
+      contentEl.innerHTML = `<h2>Error loading document</h2><pre>${err}</pre>`;
+    });
 })();
