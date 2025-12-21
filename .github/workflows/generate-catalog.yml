@@ -30,8 +30,8 @@ jobs:
       
       - name: Commit catalog changes
         run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
+          git config --local user.email "catalog-generator-bot@github.com"
+          git config --local user.name "Catalog Generator Bot"
           git add catalog.json
           git diff --quiet && git diff --staged --quiet || git commit -m "📚 Auto-update article catalog [skip ci]"
           git push
