@@ -1,15 +1,20 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
   <meta charset="utf-8">
   <title>Article</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
   <link rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.2.0/github-markdown.min.css">
 </head>
+
 <body>
-  <article id="content" class="markdown-body" style="max-width: 900px; margin: 32px auto; padding: 0 16px;"></article>
+  <article id="content" class="markdown-body"
+    style="max-width:900px;margin:32px auto;padding:0 16px;">
+  </article>
+
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-  <script src="/ML-Interview-Based-Blogs/assets/js/markdown-viewer.js"></script>
+  <script src="{{ '/assets/js/markdown-viewer.js' | relative_url }}"></script>
 </body>
 </html>

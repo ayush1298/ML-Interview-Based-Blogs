@@ -1,51 +1,16 @@
 title: ML Interview Blogs
-description: Expert ML, LLM, and AI Engineering Interview Guides
+description: AI / ML / LLM Interview Questions
 url: "https://ayush1298.github.io"
 baseurl: "/ML-Interview-Based-Blogs"
 
-# GitHub metadata
-github_username: ayush1298
-
-# Build settings
 markdown: kramdown
 theme: jekyll-theme-minimal
 
-# Plugins
-plugins:
-  - jekyll-feed
-  - jekyll-seo-tag
-  - jekyll-sitemap
-
-# Collections
-collections:
-  articles:
-    output: true
-    permalink: /:collection/:path/
-
-defaults:
-  - scope:
-      path: ""
-      type: "pages"
-    values:
-      layout: "default"
-
-include:
-  - catalog.json
-# Exclude from processing
 exclude:
+  - scripts
+  - node_modules
   - Gemfile
   - Gemfile.lock
-  - node_modules
-  - vendor
-  - .github
-  - scripts
-  - README.md
-  - repo_structure.md
-
-# Kramdown settings
-kramdown:
-  input: GFM
-  syntax_highlighter: rouge
 
 permissions:
   contents: write

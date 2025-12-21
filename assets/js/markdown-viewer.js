@@ -1,32 +1,36 @@
 (() => {
   const params = new URLSearchParams(window.location.search);
   const file = params.get("file");
+  const content = document.getElementById("content");
 
-  const contentEl = document.getElementById("content");
   if (!file) {
-    contentEl.innerHTML = "<h2>No file specified</h2>";
+    content.innerHTML = "<h2>No file specified</h2>";
     return;
   }
 
-  // Base path = site root + repo path (works on GitHub Pages project sites)
-  const viewerPath = window.location.pathname.replace(/\/view\.html.*/, "");
-  const basePath = `${window.location.origin}${viewerPath}`;
-  const mdUrl = `${basePath}/${decodeURIComponent(file)}`;
+  const baseUrl =
+    window.location.origin +
+    document.querySelector("script[src*='markdown-viewer']").src
+      .split("/assets/")[0];
+
+  const mdUrl = `${baseUrl}/${decodeURIComponent(file)}`;
 
   fetch(mdUrl)
-    .then(res => {
-      if (!res.ok) throw new Error(`Markdown fetch failed: ${res.status}`);
-      return res.text();
+    .then(r => {
+      if (!r.ok) throw new Error(`Failed to load markdown`);
+      return r.text();
     })
     .then(md => {
       const mdDir = mdUrl.substring(0, mdUrl.lastIndexOf("/"));
-      const fixedMd = md.replace(
+
+      const fixed = md.replace(
         /!\[(.*?)\]\((?!https?:\/\/|\/\/)(.*?)\)/g,
         (_, alt, src) => `![${alt}](${mdDir}/${src})`
       );
-      contentEl.innerHTML = marked.parse(fixedMd);
+
+      content.innerHTML = marked.parse(fixed);
     })
     .catch(err => {
-      contentEl.innerHTML = `<h2>Error loading document</h2><pre>${err}</pre>`;
+      content.innerHTML = `<h2>Error</h2><pre>${err}</pre>`;
     });
 })();
