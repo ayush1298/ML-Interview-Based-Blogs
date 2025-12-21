@@ -1,7 +1,7 @@
 title: ML Interview Blogs
 description: Expert ML, LLM, and AI Engineering Interview Guides
-baseurl: ""
 url: "https://ayush1298.github.io"
+baseurl: "/ML-Interview-Based-Blogs"
 
 # GitHub metadata
 github_username: ayush1298
@@ -29,6 +29,8 @@ defaults:
     values:
       layout: "default"
 
+include:
+  - catalog.json
 # Exclude from processing
 exclude:
   - Gemfile
@@ -37,6 +39,8 @@ exclude:
   - vendor
   - .github
   - scripts
+  - README.md
+  - repo_structure.md
 
 # Kramdown settings
 kramdown:
