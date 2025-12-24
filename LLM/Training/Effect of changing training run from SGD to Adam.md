@@ -27,3 +27,7 @@ If you are VRAM-constrained, you don't abandon Adam. You use PagedAdam from bits
 
 💡 𝐓𝐡𝐞 𝐚𝐧𝐬𝐰𝐞𝐫 𝐭𝐡𝐚𝐭 𝐠𝐞𝐭𝐬 𝐲𝐨𝐮 𝐡𝐢𝐫𝐞𝐝:
 "Adam imposes a 3x memory penalty compared to pure model weights due to stored momentum and variance states. To fix the OOM without losing convergence speed, I would implement PagedAdam to offload the optimizer states to CPU memory, or re-architect the cluster capacity to account for the 3x state overhead."
+
+Quick follow-up: Ever wonder why Adam's states are FP32 by default in mixed-precision? It's for stability, FP16 can cause underflow in variance estimates. But if you're bold, try fused Adam variants in Apex for potential savings
+
+If PagedAdam's too slow (paging overhead ~10-20% perf hit), go for ZeroRedundancyOptimizer in DeepSpeed. Shards states across GPUs, no CPU offload needed. Perfect for cluster-scale
