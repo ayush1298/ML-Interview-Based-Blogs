@@ -1,5 +1,5 @@
 {
-  "generated_at": "2025-12-24T18:46:28.656865",
+  "generated_at": "2025-12-24T18:47:40.205598",
   "categories": {
     "LLM": {
       "name": "LLM",
@@ -9,399 +9,399 @@
           "path": "LLM/Tokenization/Adjusting tokenizer of 1 language to other language.md",
           "filename": "Adjusting tokenizer of 1 language to other language.md",
           "subcategory": "Tokenization",
-          "modified": "2025-12-24T18:46:28.377490"
+          "modified": "2025-12-24T18:47:39.563776"
         },
         {
           "title": "Tokenizer for training domain specialized LLMs",
           "path": "LLM/Tokenization/Tokenizer_for_training_domain_specialized_LLMs.md",
           "filename": "Tokenizer_for_training_domain_specialized_LLMs.md",
           "subcategory": "Tokenization",
-          "modified": "2025-12-24T18:46:28.377490"
+          "modified": "2025-12-24T18:47:39.563776"
         },
         {
           "title": "Why BPE tokenizer over traditional byte based tokenizer?",
           "path": "LLM/Tokenization/Why BPE tokenizer over traditional byte-based tokenizer?.md",
           "filename": "Why BPE tokenizer over traditional byte-based tokenizer?.md",
           "subcategory": "Tokenization",
-          "modified": "2025-12-24T18:46:28.377490"
+          "modified": "2025-12-24T18:47:39.563776"
         },
         {
           "title": "Predicting transformer training steps using Adam",
           "path": "LLM/Training/Predicting transformer training steps using Adam.md",
           "filename": "Predicting transformer training steps using Adam.md",
           "subcategory": "Training",
-          "modified": "2025-12-24T18:46:28.377490"
+          "modified": "2025-12-24T18:47:39.563776"
         },
         {
           "title": "Finding optimal LR while scaling 1B model to 70B model",
           "path": "LLM/Training/Finding optimal LR while scaling 1B model to 70B model.md",
           "filename": "Finding optimal LR while scaling 1B model to 70B model.md",
           "subcategory": "Training",
-          "modified": "2025-12-24T18:46:28.377490"
+          "modified": "2025-12-24T18:47:39.563776"
         },
         {
           "title": "Effect of changing training run from SGD to Adam",
           "path": "LLM/Training/Effect of changing training run from SGD to Adam.md",
           "filename": "Effect of changing training run from SGD to Adam.md",
           "subcategory": "Training",
-          "modified": "2025-12-24T18:46:28.377490"
+          "modified": "2025-12-24T18:47:39.563776"
         },
         {
           "title": "Training Instability Exploding Gradients Deeper LLM",
           "path": "LLM/Training/Training_Instability_Exploding_Gradients_Deeper_LLM.md",
           "filename": "Training_Instability_Exploding_Gradients_Deeper_LLM.md",
           "subcategory": "Training",
-          "modified": "2025-12-24T18:46:28.377490"
+          "modified": "2025-12-24T18:47:39.563776"
         },
         {
           "title": "Fixing gradient oscillation and loss spikes during LLM training",
           "path": "LLM/Training/Fixing gradient oscillation and loss spikes during LLM training.md",
           "filename": "Fixing gradient oscillation and loss spikes during LLM training.md",
           "subcategory": "Training",
-          "modified": "2025-12-24T18:46:28.377490"
+          "modified": "2025-12-24T18:47:39.563776"
         },
         {
           "title": "Change in LR as LLM model size changes",
           "path": "LLM/Training/Change in LR as LLM model size changes.md",
           "filename": "Change in LR as LLM model size changes.md",
           "subcategory": "Training",
-          "modified": "2025-12-24T18:46:28.377490"
+          "modified": "2025-12-24T18:47:39.563776"
         },
         {
           "title": "Fixed Compute Budget  Best Model Training",
           "path": "LLM/Training/Fixed Compute Budget- Best Model Training.md",
           "filename": "Fixed Compute Budget- Best Model Training.md",
           "subcategory": "Training",
-          "modified": "2025-12-24T18:46:28.377490"
+          "modified": "2025-12-24T18:47:39.563776"
         },
         {
           "title": "Training stability in Shallow LLMs",
           "path": "LLM/Training/Training_stability_in_Shallow_LLMs.md",
           "filename": "Training_stability_in_Shallow_LLMs.md",
           "subcategory": "Training",
-          "modified": "2025-12-24T18:46:28.377490"
+          "modified": "2025-12-24T18:47:39.563776"
         },
         {
           "title": "How performance affects after adding more languages in training",
           "path": "LLM/Training/How performance affects after adding more languages in training.md",
           "filename": "How performance affects after adding more languages in training.md",
           "subcategory": "Training",
-          "modified": "2025-12-24T18:46:28.377490"
+          "modified": "2025-12-24T18:47:39.563776"
         },
         {
           "title": "Warmup+Decay phase in LLM training",
           "path": "LLM/Training/Warmup+Decay phase in LLM training.md",
           "filename": "Warmup+Decay phase in LLM training.md",
           "subcategory": "Training",
-          "modified": "2025-12-24T18:46:28.377490"
+          "modified": "2025-12-24T18:47:39.563776"
         },
         {
           "title": "Which one is to use? 4 bit vs 8 bit for production trading signals",
           "path": "LLM/Quantization/Which one is to use? 4-bit vs 8-bit for production trading signals.md",
           "filename": "Which one is to use? 4-bit vs 8-bit for production trading signals.md",
           "subcategory": "Quantization",
-          "modified": "2025-12-24T18:46:28.377490"
-        },
-        {
-          "title": "Quantization from FP16 to INT8",
-          "path": "LLM/Quantization/Quantization from FP16 to INT8.md",
-          "filename": "Quantization from FP16 to INT8.md",
-          "subcategory": "Quantization",
-          "modified": "2025-12-24T18:46:28.377490"
+          "modified": "2025-12-24T18:47:39.563776"
         },
         {
           "title": "temp",
           "path": "LLM/Quantization/temp.md",
           "filename": "temp.md",
           "subcategory": "Quantization",
-          "modified": "2025-12-24T18:46:28.377490"
+          "modified": "2025-12-24T18:47:39.563776"
         },
         {
           "title": "Training a student model through distillation",
           "path": "LLM/Post-training/Training a student model through distillation.md",
           "filename": "Training a student model through distillation.md",
           "subcategory": "Post-training",
-          "modified": "2025-12-24T18:46:28.376490"
+          "modified": "2025-12-24T18:47:39.562777"
         },
         {
           "title": "ROPE Positional Embedding",
           "path": "LLM/Positional Embedding/ROPE Positional Embedding.md",
           "filename": "ROPE Positional Embedding.md",
           "subcategory": "Positional Embedding",
-          "modified": "2025-12-24T18:46:28.376490"
+          "modified": "2025-12-24T18:47:39.562777"
         },
         {
           "title": "✅ 1. **What the original sinusoidal embeddings do**",
           "path": "LLM/Positional Embedding/How ROPE is different from sin-cos positional embeddings.md",
           "filename": "How ROPE is different from sin-cos positional embeddings.md",
           "subcategory": "Positional Embedding",
-          "modified": "2025-12-24T18:46:28.376490"
+          "modified": "2025-12-24T18:47:39.562777"
         },
         {
           "title": "Advantage of ROPE for inference on longer sequence",
           "path": "LLM/Positional Embedding/Advantage of ROPE for inference on longer sequence.md",
           "filename": "Advantage of ROPE for inference on longer sequence.md",
           "subcategory": "Positional Embedding",
-          "modified": "2025-12-24T18:46:28.376490"
+          "modified": "2025-12-24T18:47:39.562777"
         },
         {
           "title": "Routing in MOE",
           "path": "LLM/Mixture of Experts(MOE)/Routing in MOE.md",
           "filename": "Routing in MOE.md",
           "subcategory": "Mixture of Experts(MOE)",
-          "modified": "2025-12-24T18:46:28.376490"
-        },
-        {
-          "title": "Implementing GRPO and reward hacking trap",
-          "path": "LLM/Inference/Implementing GRPO and reward hacking trap.md",
-          "filename": "Implementing GRPO and reward hacking trap.md",
-          "subcategory": "Inference",
-          "modified": "2025-12-24T18:46:28.376490"
-        },
-        {
-          "title": "How increasing batch size affects costs, latency and throughput?",
-          "path": "LLM/Inference/How increasing batch size affects costs, latency and throughput?.md",
-          "filename": "How increasing batch size affects costs, latency and throughput?.md",
-          "subcategory": "Inference",
-          "modified": "2025-12-24T18:46:28.376490"
-        },
-        {
-          "title": "Inference speed of MHA vs. GQA",
-          "path": "LLM/Inference/Inference speed of MHA vs. GQA.md",
-          "filename": "Inference speed of MHA vs. GQA.md",
-          "subcategory": "Inference",
-          "modified": "2025-12-24T18:46:28.376490"
-        },
-        {
-          "title": "Fusion of Thinking and Non thinking Model",
-          "path": "LLM/Inference/Fusion of Thinking and Non-thinking Model.md",
-          "filename": "Fusion of Thinking and Non-thinking Model.md",
-          "subcategory": "Inference",
-          "modified": "2025-12-24T18:46:28.376490"
-        },
-        {
-          "title": "LLM Serving Frameworks",
-          "path": "LLM/Inference/LLM Serving Frameworks.md",
-          "filename": "LLM Serving Frameworks.md",
-          "subcategory": "Inference",
-          "modified": "2025-12-24T18:46:28.376490"
-        },
-        {
-          "title": "Paged Attention1",
-          "path": "LLM/Inference/Paged Attention/Paged Attention1.md",
-          "filename": "Paged Attention1.md",
-          "subcategory": "Paged Attention",
-          "modified": "2025-12-24T18:46:28.376490"
+          "modified": "2025-12-24T18:47:39.562777"
         },
         {
           "title": "Speculative Decoding1",
           "path": "LLM/Inference/Speculative Decoding/Speculative Decoding1.md",
           "filename": "Speculative Decoding1.md",
           "subcategory": "Speculative Decoding",
-          "modified": "2025-12-24T18:46:28.376490"
-        },
-        {
-          "title": "Should we use Speculative Decoding to optimize inference for 128 batch size?",
-          "path": "LLM/Inference/Speculative Decoding/Should we use Speculative Decoding to optimize inference for 128 batch size?.md",
-          "filename": "Should we use Speculative Decoding to optimize inference for 128 batch size?.md",
-          "subcategory": "Speculative Decoding",
-          "modified": "2025-12-24T18:46:28.376490"
+          "modified": "2025-12-24T18:47:39.562777"
         },
         {
           "title": "Distribution shift caused by tokenization artifacts",
           "path": "LLM/Prompt Engineering/Distribution shift caused by tokenization artifacts.md",
           "filename": "Distribution shift caused by tokenization artifacts.md",
           "subcategory": "Prompt Engineering",
-          "modified": "2025-12-24T18:46:28.376490"
+          "modified": "2025-12-24T18:47:39.562777"
         },
         {
           "title": "Prompt Drift Problem",
           "path": "LLM/Prompt Engineering/Prompt Drift Problem.md",
           "filename": "Prompt Drift Problem.md",
           "subcategory": "Prompt Engineering",
-          "modified": "2025-12-24T18:46:28.376490"
-        },
-        {
-          "title": "Optimization of cuda kernel",
-          "path": "LLM/GPU Utilization/Optimization of cuda kernel.md",
-          "filename": "Optimization of cuda kernel.md",
-          "subcategory": "GPU Utilization",
-          "modified": "2025-12-24T18:46:28.376490"
-        },
-        {
-          "title": "Tradeoff between TTFT and batch summarization in Chatbot",
-          "path": "LLM/GPU Utilization/Tradeoff between TTFT and batch summarization in Chatbot.md",
-          "filename": "Tradeoff between TTFT and batch summarization in Chatbot.md",
-          "subcategory": "GPU Utilization",
-          "modified": "2025-12-24T18:46:28.376490"
-        },
-        {
-          "title": "Choice between 4x A100 40GB or 1x H100 80GB to deploy 70B LLM",
-          "path": "LLM/GPU Utilization/Choice between 4x A100 40GB or 1x H100 80GB to deploy 70B LLM.md",
-          "filename": "Choice between 4x A100 40GB or 1x H100 80GB to deploy 70B LLM.md",
-          "subcategory": "GPU Utilization",
-          "modified": "2025-12-24T18:46:28.376490"
+          "modified": "2025-12-24T18:47:39.562777"
         },
         {
           "title": "Transformer based regression model for home sales predictions",
           "path": "LLM/Other General Questions/Transformer-based regression model for home sales predictions.md",
           "filename": "Transformer-based regression model for home sales predictions.md",
           "subcategory": "Other General Questions",
-          "modified": "2025-12-24T18:46:28.376490"
+          "modified": "2025-12-24T18:47:39.562777"
         },
         {
           "title": "✅ **1. Is it correct that during training we need parameters + gradients + activations + optimizer states, while during inference we need parameters + activations only?**",
           "path": "LLM/Other General Questions/LLM Parameters and Memory Estimation.md",
           "filename": "LLM Parameters and Memory Estimation.md",
           "subcategory": "Other General Questions",
-          "modified": "2025-12-24T18:46:28.376490"
+          "modified": "2025-12-24T18:47:39.562777"
         },
         {
           "title": "Should we use Greedy Search for factual questions?",
           "path": "LLM/Other General Questions/Should we use Greedy Search for factual questions?.md",
           "filename": "Should we use Greedy Search for factual questions?.md",
           "subcategory": "Other General Questions",
-          "modified": "2025-12-24T18:46:28.376490"
+          "modified": "2025-12-24T18:47:39.562777"
         },
         {
           "title": "Catstophic forgetting and how to solve it?",
           "path": "LLM/Other General Questions/Catstophic forgetting and how to solve it?.md",
           "filename": "Catstophic forgetting and how to solve it?.md",
           "subcategory": "Other General Questions",
-          "modified": "2025-12-24T18:46:28.376490"
+          "modified": "2025-12-24T18:47:39.562777"
         },
         {
           "title": "Hallucination in LLMs",
           "path": "LLM/Other General Questions/Hallucination in LLMs.md",
           "filename": "Hallucination in LLMs.md",
           "subcategory": "Other General Questions",
-          "modified": "2025-12-24T18:46:28.376490"
+          "modified": "2025-12-24T18:47:39.562777"
         },
         {
           "title": "✅ **BatchNorm vs LayerNorm (in NLP / transformers)**",
           "path": "LLM/Other General Questions/Difference between Layer normalization and batch normalization & why transformer uses layer and not batchnorm?.md",
           "filename": "Difference between Layer normalization and batch normalization & why transformer uses layer and not batchnorm?.md",
           "subcategory": "Other General Questions",
-          "modified": "2025-12-24T18:46:28.376490"
+          "modified": "2025-12-24T18:47:39.562777"
         },
         {
           "title": "✅ **1. Quantization-Aware Training (QAT)**",
           "path": "LLM/Quantization/QAT vs. MPT.md",
           "filename": "QAT vs. MPT.md",
           "subcategory": "Quantization",
-          "modified": "2025-12-24T18:46:28.376490"
+          "modified": "2025-12-24T18:47:39.562777"
+        },
+        {
+          "title": "Quantization from FP16 to INT8",
+          "path": "LLM/Quantization/Quantization from FP16 to INT8.md",
+          "filename": "Quantization from FP16 to INT8.md",
+          "subcategory": "Quantization",
+          "modified": "2025-12-24T18:47:39.562777"
         },
         {
           "title": "FP16 vs BF16, Which one to use?",
           "path": "LLM/Quantization/FP16 vs BF16, Which one to use?.md",
           "filename": "FP16 vs BF16, Which one to use?.md",
           "subcategory": "Quantization",
-          "modified": "2025-12-24T18:46:28.376490"
+          "modified": "2025-12-24T18:47:39.562777"
         },
         {
           "title": "Intializing matrix weights in LORA",
           "path": "LLM/Finetuning/Intializing matrix weights in LORA.md",
           "filename": "Intializing matrix weights in LORA.md",
           "subcategory": "Finetuning",
-          "modified": "2025-12-24T18:46:28.375490"
+          "modified": "2025-12-24T18:47:39.561777"
         },
         {
           "title": "SFT vs GRPO for complex legal reasoning model",
           "path": "LLM/Finetuning/SFT vs GRPO for complex legal reasoning model.md",
           "filename": "SFT vs GRPO for complex legal reasoning model.md",
           "subcategory": "Finetuning",
-          "modified": "2025-12-24T18:46:28.375490"
+          "modified": "2025-12-24T18:47:39.561777"
         },
         {
           "title": "LORA",
           "path": "LLM/Finetuning/LORA.md",
           "filename": "LORA.md",
           "subcategory": "Finetuning",
-          "modified": "2025-12-24T18:46:28.375490"
+          "modified": "2025-12-24T18:47:39.561777"
         },
         {
           "title": "Finetuning linear head on a pre trained Transformer",
           "path": "LLM/Finetuning/Finetuning linear head on a pre-trained Transformer.md",
           "filename": "Finetuning linear head on a pre-trained Transformer.md",
           "subcategory": "Finetuning",
-          "modified": "2025-12-24T18:46:28.375490"
+          "modified": "2025-12-24T18:47:39.561777"
         },
         {
           "title": "Finetune model directly on user prompts",
           "path": "LLM/Finetuning/Finetune model directly on user prompts.md",
           "filename": "Finetune model directly on user prompts.md",
           "subcategory": "Finetuning",
-          "modified": "2025-12-24T18:46:28.375490"
-        },
-        {
-          "title": "Analyzing which model is better based on perplexity score",
-          "path": "LLM/Evals/Analyzing which model is better based on perplexity score.md",
-          "filename": "Analyzing which model is better based on perplexity score.md",
-          "subcategory": "Evals",
-          "modified": "2025-12-24T18:46:28.375490"
+          "modified": "2025-12-24T18:47:39.561777"
         },
         {
           "title": "How evals are done",
           "path": "LLM/Evals/How evals are done.md",
           "filename": "How evals are done.md",
           "subcategory": "Evals",
-          "modified": "2025-12-24T18:46:28.375490"
+          "modified": "2025-12-24T18:47:39.561777"
+        },
+        {
+          "title": "Implementing GRPO and reward hacking trap",
+          "path": "LLM/Inference/Implementing GRPO and reward hacking trap.md",
+          "filename": "Implementing GRPO and reward hacking trap.md",
+          "subcategory": "Inference",
+          "modified": "2025-12-24T18:47:39.561777"
+        },
+        {
+          "title": "How increasing batch size affects costs, latency and throughput?",
+          "path": "LLM/Inference/How increasing batch size affects costs, latency and throughput?.md",
+          "filename": "How increasing batch size affects costs, latency and throughput?.md",
+          "subcategory": "Inference",
+          "modified": "2025-12-24T18:47:39.561777"
+        },
+        {
+          "title": "Inference speed of MHA vs. GQA",
+          "path": "LLM/Inference/Inference speed of MHA vs. GQA.md",
+          "filename": "Inference speed of MHA vs. GQA.md",
+          "subcategory": "Inference",
+          "modified": "2025-12-24T18:47:39.561777"
+        },
+        {
+          "title": "Fusion of Thinking and Non thinking Model",
+          "path": "LLM/Inference/Fusion of Thinking and Non-thinking Model.md",
+          "filename": "Fusion of Thinking and Non-thinking Model.md",
+          "subcategory": "Inference",
+          "modified": "2025-12-24T18:47:39.561777"
+        },
+        {
+          "title": "LLM Serving Frameworks",
+          "path": "LLM/Inference/LLM Serving Frameworks.md",
+          "filename": "LLM Serving Frameworks.md",
+          "subcategory": "Inference",
+          "modified": "2025-12-24T18:47:39.561777"
+        },
+        {
+          "title": "Paged Attention1",
+          "path": "LLM/Inference/Paged Attention/Paged Attention1.md",
+          "filename": "Paged Attention1.md",
+          "subcategory": "Paged Attention",
+          "modified": "2025-12-24T18:47:39.561777"
+        },
+        {
+          "title": "Should we use Speculative Decoding to optimize inference for 128 batch size?",
+          "path": "LLM/Inference/Speculative Decoding/Should we use Speculative Decoding to optimize inference for 128 batch size?.md",
+          "filename": "Should we use Speculative Decoding to optimize inference for 128 batch size?.md",
+          "subcategory": "Speculative Decoding",
+          "modified": "2025-12-24T18:47:39.561777"
+        },
+        {
+          "title": "Optimization of cuda kernel",
+          "path": "LLM/GPU Utilization/Optimization of cuda kernel.md",
+          "filename": "Optimization of cuda kernel.md",
+          "subcategory": "GPU Utilization",
+          "modified": "2025-12-24T18:47:39.561777"
+        },
+        {
+          "title": "Tradeoff between TTFT and batch summarization in Chatbot",
+          "path": "LLM/GPU Utilization/Tradeoff between TTFT and batch summarization in Chatbot.md",
+          "filename": "Tradeoff between TTFT and batch summarization in Chatbot.md",
+          "subcategory": "GPU Utilization",
+          "modified": "2025-12-24T18:47:39.561777"
+        },
+        {
+          "title": "Choice between 4x A100 40GB or 1x H100 80GB to deploy 70B LLM",
+          "path": "LLM/GPU Utilization/Choice between 4x A100 40GB or 1x H100 80GB to deploy 70B LLM.md",
+          "filename": "Choice between 4x A100 40GB or 1x H100 80GB to deploy 70B LLM.md",
+          "subcategory": "GPU Utilization",
+          "modified": "2025-12-24T18:47:39.561777"
+        },
+        {
+          "title": "Analyzing which model is better based on perplexity score",
+          "path": "LLM/Evals/Analyzing which model is better based on perplexity score.md",
+          "filename": "Analyzing which model is better based on perplexity score.md",
+          "subcategory": "Evals",
+          "modified": "2025-12-24T18:47:39.560776"
         },
         {
           "title": "How do you prove your word embeddings aren't biased?",
           "path": "LLM/Embeddings/How do you prove your word embeddings aren't biased?.md",
           "filename": "How do you prove your word embeddings aren't biased?.md",
           "subcategory": "Embeddings",
-          "modified": "2025-12-24T18:46:28.375490"
+          "modified": "2025-12-24T18:47:39.560776"
         },
         {
           "title": "Data for LLM training",
           "path": "LLM/Data/Data for LLM-training.md",
           "filename": "Data for LLM-training.md",
           "subcategory": "Data",
-          "modified": "2025-12-24T18:46:28.375490"
+          "modified": "2025-12-24T18:47:39.560776"
         },
         {
           "title": "How do we use the Attention mechanism's weights to measure the model's uncertainty?",
           "path": "LLM/Attention/How do we use the Attention mechanism's weights to measure the model's uncertainty?.md",
           "filename": "How do we use the Attention mechanism's weights to measure the model's uncertainty?.md",
           "subcategory": "Attention",
-          "modified": "2025-12-24T18:46:28.375490"
+          "modified": "2025-12-24T18:47:39.560776"
         },
         {
           "title": "Attention Mechanism choice for serving 70B LLM",
           "path": "LLM/Attention/Attention Mechanism choice for serving 70B LLM.md",
           "filename": "Attention Mechanism choice for serving 70B LLM.md",
           "subcategory": "Attention",
-          "modified": "2025-12-24T18:46:28.375490"
+          "modified": "2025-12-24T18:47:39.560776"
         },
         {
           "title": "🔵 **1. Standard / Quadratic Attention (Baseline)**",
           "path": "LLM/Attention/Linear vs. Sparse Attention.md",
           "filename": "Linear vs. Sparse Attention.md",
           "subcategory": "Attention",
-          "modified": "2025-12-24T18:46:28.375490"
+          "modified": "2025-12-24T18:47:39.560776"
         },
         {
           "title": "✅ **Why do we divide by √dₖ instead of √d?**",
           "path": "LLM/Attention/Why do we divide by √dₖ instead of √d? .md",
           "filename": "Why do we divide by √dₖ instead of √d? .md",
           "subcategory": "Attention",
-          "modified": "2025-12-24T18:46:28.375490"
+          "modified": "2025-12-24T18:47:39.560776"
         },
         {
           "title": "✅ Short Answer",
           "path": "LLM/Attention/d_model in positional embeddings vs. d_k in attention.md",
           "filename": "d_model in positional embeddings vs. d_k in attention.md",
           "subcategory": "Attention",
-          "modified": "2025-12-24T18:46:28.375490"
+          "modified": "2025-12-24T18:47:39.560776"
         },
         {
           "title": "Context Window issue",
           "path": "LLM/Context_Window/Context_Window_issue.md",
           "filename": "Context_Window_issue.md",
           "subcategory": "Context_Window",
-          "modified": "2025-12-24T18:46:28.375490"
+          "modified": "2025-12-24T18:47:39.560776"
         }
       ]
     },
@@ -413,42 +413,49 @@
           "path": "Neural Network/Weight intialization techniques in NN.md",
           "filename": "Weight intialization techniques in NN.md",
           "subcategory": null,
-          "modified": "2025-12-24T18:46:28.377490"
-        },
-        {
-          "title": "How Adam performs better over SGD",
-          "path": "Neural Network/How Adam performs better over SGD.md",
-          "filename": "How Adam performs better over SGD.md",
-          "subcategory": null,
-          "modified": "2025-12-24T18:46:28.377490"
-        },
-        {
-          "title": "Training run budget of Neural Network",
-          "path": "Neural Network/Training run budget of Neural Network.md",
-          "filename": "Training run budget of Neural Network.md",
-          "subcategory": null,
-          "modified": "2025-12-24T18:46:28.377490"
-        },
-        {
-          "title": "DL Layer Summary",
-          "path": "Neural Network/DL Layer Summary.md",
-          "filename": "DL Layer Summary.md",
-          "subcategory": null,
-          "modified": "2025-12-24T18:46:28.377490"
-        },
-        {
-          "title": "training",
-          "path": "Neural Network/How to use Droput layer during inference?.md",
-          "filename": "How to use Droput layer during inference?.md",
-          "subcategory": null,
-          "modified": "2025-12-24T18:46:28.377490"
+          "modified": "2025-12-24T18:47:39.564777"
         },
         {
           "title": "Why tranformers win over RNN and LSTM for sequence modlling?",
           "path": "Neural Network/Why tranformers win over RNN and LSTM for sequence modlling?.md",
           "filename": "Why tranformers win over RNN and LSTM for sequence modlling?.md",
           "subcategory": null,
-          "modified": "2025-12-24T18:46:28.377490"
+          "modified": "2025-12-24T18:47:39.564777"
+        },
+        {
+          "title": "How Adam performs better over SGD",
+          "path": "Neural Network/How Adam performs better over SGD.md",
+          "filename": "How Adam performs better over SGD.md",
+          "subcategory": null,
+          "modified": "2025-12-24T18:47:39.563776"
+        },
+        {
+          "title": "Training run budget of Neural Network",
+          "path": "Neural Network/Training run budget of Neural Network.md",
+          "filename": "Training run budget of Neural Network.md",
+          "subcategory": null,
+          "modified": "2025-12-24T18:47:39.563776"
+        },
+        {
+          "title": "DL Layer Summary",
+          "path": "Neural Network/DL Layer Summary.md",
+          "filename": "DL Layer Summary.md",
+          "subcategory": null,
+          "modified": "2025-12-24T18:47:39.563776"
+        },
+        {
+          "title": "Implementation of softmax regression",
+          "path": "Neural Network/Implementation of softmax regression.md",
+          "filename": "Implementation of softmax regression.md",
+          "subcategory": null,
+          "modified": "2025-12-24T18:47:39.563776"
+        },
+        {
+          "title": "training",
+          "path": "Neural Network/How to use Droput layer during inference?.md",
+          "filename": "How to use Droput layer during inference?.md",
+          "subcategory": null,
+          "modified": "2025-12-24T18:47:39.563776"
         }
       ]
     },
@@ -460,42 +467,42 @@
           "path": "Agents/Memory in Agents.md",
           "filename": "Memory in Agents.md",
           "subcategory": null,
-          "modified": "2025-12-24T18:46:28.375490"
+          "modified": "2025-12-24T18:47:39.560776"
         },
         {
           "title": "Long term vs. Short term memory in agentic trading assistant",
           "path": "Agents/Long-term vs. Short-term memory in agentic trading assistant.md",
           "filename": "Long-term vs. Short-term memory in agentic trading assistant.md",
           "subcategory": null,
-          "modified": "2025-12-24T18:46:28.375490"
+          "modified": "2025-12-24T18:47:39.560776"
         },
         {
           "title": "Short term vs long term memory preferences",
           "path": "Agents/Short-term vs long-term memory preferences.md",
           "filename": "Short-term vs long-term memory preferences.md",
           "subcategory": null,
-          "modified": "2025-12-24T18:46:28.375490"
+          "modified": "2025-12-24T18:47:39.560776"
         },
         {
           "title": "How Agnets are different from chatbot?",
           "path": "Agents/How Agnets are different from chatbot?.md",
           "filename": "How Agnets are different from chatbot?.md",
           "subcategory": null,
-          "modified": "2025-12-24T18:46:28.375490"
+          "modified": "2025-12-24T18:47:39.560776"
         },
         {
           "title": "Why do tool using agents often hallucinate function calls even when APIs are available?",
           "path": "Agents/Why do tool-using agents often hallucinate function calls even when APIs are available?.md",
           "filename": "Why do tool-using agents often hallucinate function calls even when APIs are available?.md",
           "subcategory": null,
-          "modified": "2025-12-24T18:46:28.375490"
+          "modified": "2025-12-24T18:47:39.560776"
         },
         {
           "title": "Termination Problem in Agents",
           "path": "Agents/Termination Problem in Agents.md",
           "filename": "Termination Problem in Agents.md",
           "subcategory": null,
-          "modified": "2025-12-24T18:46:28.375490"
+          "modified": "2025-12-24T18:47:39.560776"
         }
       ]
     },
@@ -507,21 +514,21 @@
           "path": "RAG/How to decide what fails when RAG Hallucinates: retriever or generator?.md",
           "filename": "How to decide what fails when RAG Hallucinates: retriever or generator?.md",
           "subcategory": null,
-          "modified": "2025-12-24T18:46:28.377490"
+          "modified": "2025-12-24T18:47:39.564777"
         },
         {
           "title": "RAG vs CAG",
           "path": "RAG/RAG vs CAG.md",
           "filename": "RAG vs CAG.md",
           "subcategory": null,
-          "modified": "2025-12-24T18:46:28.377490"
+          "modified": "2025-12-24T18:47:39.564777"
         },
         {
           "title": "Vector DB for RAG",
           "path": "RAG/Vector DB for RAG.md",
           "filename": "Vector DB for RAG.md",
           "subcategory": null,
-          "modified": "2025-12-24T18:46:28.377490"
+          "modified": "2025-12-24T18:47:39.564777"
         }
       ]
     },
@@ -533,21 +540,21 @@
           "path": "Computer Vision/Tracking across frames of video.md",
           "filename": "Tracking across frames of video.md",
           "subcategory": null,
-          "modified": "2025-12-24T18:46:28.375490"
+          "modified": "2025-12-24T18:47:39.560776"
         },
         {
           "title": "Diffusion steps with low resolution images",
           "path": "Computer Vision/Diffusion steps with low-resolution images.md",
           "filename": "Diffusion steps with low-resolution images.md",
           "subcategory": null,
-          "modified": "2025-12-24T18:46:28.375490"
+          "modified": "2025-12-24T18:47:39.560776"
         },
         {
           "title": "How to use tranformation in case of data sparsity",
           "path": "Computer Vision/How to use tranformation in case of data sparsity.md",
           "filename": "How to use tranformation in case of data sparsity.md",
           "subcategory": null,
-          "modified": "2025-12-24T18:46:28.375490"
+          "modified": "2025-12-24T18:47:39.560776"
         }
       ]
     },
@@ -555,81 +562,81 @@
       "name": "Traditional ML",
       "articles": [
         {
-          "title": "Reservoir Samping when value of sample is large",
-          "path": "Traditional ML/Reservoir Samping when value of sample is large.md",
-          "filename": "Reservoir Samping when value of sample is large.md",
-          "subcategory": null,
-          "modified": "2025-12-24T18:46:28.379490"
-        },
-        {
-          "title": "Metric for fraud detection model",
-          "path": "Traditional ML/Metric for fraud detection model.md",
-          "filename": "Metric for fraud detection model.md",
-          "subcategory": null,
-          "modified": "2025-12-24T18:46:28.379490"
-        },
-        {
           "title": "What to use in bagging and boosting for production credit risk model",
           "path": "Traditional ML/What to use in bagging and boosting for production credit risk model.md",
           "filename": "What to use in bagging and boosting for production credit risk model.md",
           "subcategory": null,
-          "modified": "2025-12-24T18:46:28.379490"
-        },
-        {
-          "title": "Problems with hinge loss for training binary text classifier in production",
-          "path": "Traditional ML/Problems with hinge loss for training binary text classifier in production.md",
-          "filename": "Problems with hinge loss for training binary text classifier in production.md",
-          "subcategory": null,
-          "modified": "2025-12-24T18:46:28.379490"
-        },
-        {
-          "title": "Sigmoid and Logit",
-          "path": "Traditional ML/Sigmoid and Logit.md",
-          "filename": "Sigmoid and Logit.md",
-          "subcategory": null,
-          "modified": "2025-12-24T18:46:28.379490"
-        },
-        {
-          "title": "Interpreting Coefficients in Logistic Regression",
-          "path": "Traditional ML/Interpreting Coefficients in Logistic Regression.md",
-          "filename": "Interpreting Coefficients in Logistic Regression.md",
-          "subcategory": null,
-          "modified": "2025-12-24T18:46:28.379490"
-        },
-        {
-          "title": "Handling Missing Values",
-          "path": "Traditional ML/Handling Missing Values.md",
-          "filename": "Handling Missing Values.md",
-          "subcategory": null,
-          "modified": "2025-12-24T18:46:28.379490"
+          "modified": "2025-12-24T18:47:39.566777"
         },
         {
           "title": "Train a model to predict next month's purchases",
           "path": "Traditional ML/Train a model to predict next month's purchases.md",
           "filename": "Train a model to predict next month's purchases.md",
           "subcategory": null,
-          "modified": "2025-12-24T18:46:28.379490"
+          "modified": "2025-12-24T18:47:39.566777"
+        },
+        {
+          "title": "Reservoir Samping when value of sample is large",
+          "path": "Traditional ML/Reservoir Samping when value of sample is large.md",
+          "filename": "Reservoir Samping when value of sample is large.md",
+          "subcategory": null,
+          "modified": "2025-12-24T18:47:39.565777"
+        },
+        {
+          "title": "Metric for fraud detection model",
+          "path": "Traditional ML/Metric for fraud detection model.md",
+          "filename": "Metric for fraud detection model.md",
+          "subcategory": null,
+          "modified": "2025-12-24T18:47:39.565777"
+        },
+        {
+          "title": "Problems with hinge loss for training binary text classifier in production",
+          "path": "Traditional ML/Problems with hinge loss for training binary text classifier in production.md",
+          "filename": "Problems with hinge loss for training binary text classifier in production.md",
+          "subcategory": null,
+          "modified": "2025-12-24T18:47:39.565777"
+        },
+        {
+          "title": "Sigmoid and Logit",
+          "path": "Traditional ML/Sigmoid and Logit.md",
+          "filename": "Sigmoid and Logit.md",
+          "subcategory": null,
+          "modified": "2025-12-24T18:47:39.565777"
+        },
+        {
+          "title": "Interpreting Coefficients in Logistic Regression",
+          "path": "Traditional ML/Interpreting Coefficients in Logistic Regression.md",
+          "filename": "Interpreting Coefficients in Logistic Regression.md",
+          "subcategory": null,
+          "modified": "2025-12-24T18:47:39.565777"
+        },
+        {
+          "title": "Handling Missing Values",
+          "path": "Traditional ML/Handling Missing Values.md",
+          "filename": "Handling Missing Values.md",
+          "subcategory": null,
+          "modified": "2025-12-24T18:47:39.565777"
         },
         {
           "title": "Class Imbalance for fraud detection",
           "path": "Traditional ML/Class Imbalance for fraud detection.md",
           "filename": "Class Imbalance for fraud detection.md",
           "subcategory": null,
-          "modified": "2025-12-24T18:46:28.379490"
+          "modified": "2025-12-24T18:47:39.565777"
         },
         {
           "title": "Convex vs Non Convex Loss Function",
           "path": "Traditional ML/Convex vs Non-Convex Loss Function.md",
           "filename": "Convex vs Non-Convex Loss Function.md",
           "subcategory": null,
-          "modified": "2025-12-24T18:46:28.379490"
+          "modified": "2025-12-24T18:47:39.565777"
         },
         {
           "title": "Balancing conflicting optimization",
           "path": "Traditional ML/Balancing conflicting optimization.md",
           "filename": "Balancing conflicting optimization.md",
           "subcategory": null,
-          "modified": "2025-12-24T18:46:28.379490"
+          "modified": "2025-12-24T18:47:39.565777"
         }
       ]
     },
@@ -641,7 +648,7 @@
           "path": "Statistics/Hypothesis Testing/How to decide which tests to use when?.md",
           "filename": "How to decide which tests to use when?.md",
           "subcategory": "Hypothesis Testing",
-          "modified": "2025-12-24T18:46:28.377490"
+          "modified": "2025-12-24T18:47:39.564777"
         }
       ]
     },
@@ -653,7 +660,7 @@
           "path": "System Design/How often should we retrain recommendation model?.md",
           "filename": "How often should we retrain recommendation model?.md",
           "subcategory": null,
-          "modified": "2025-12-24T18:46:28.377490"
+          "modified": "2025-12-24T18:47:39.564777"
         }
       ]
     }
