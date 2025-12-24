@@ -1,0 +1,84 @@
+You’re in an ML Engineer interview at Perplexity, and the interviewer asks:
+
+“Your LLM generates millions of responses daily. How do you evaluate quality without manual review?”
+
+Here’s how you answer:
+
+
+LLM evaluation at scale is fundamentally broken.
+Traditional metrics like BLEU and ROUGE were built for translation tasks—not open-ended generation.
+Meanwhile, human evaluation costs $50+ per review and takes days to complete what should happen in real time.
+
+Production systems need instant feedback on response quality.
+You can’t wait 48 hours for human reviewers to catch hallucinations or bias issues.
+The solution: "LLM as a Judge"
+
+Use one LLM to evaluate another’s outputs.
+GPT-4-class judges align with human reviewers ~85% of the time.
+That’s better than humans agree with each other (~81%).
+
+How automated judging works:
+
+→ Single-output scoring
+Judge rates one response on criteria like relevance, accuracy, and helpfulness.
+
+→ Reference-based evaluation
+Compare outputs against known correct answers.
+
+→ Pairwise comparison
+Pick the better response between two options.
+
+Each method serves different production needs.
+
+---
+
+Quick aside:
+If you want bites like this daily, subscribe to my newsletter:
+https://lnkd.in/gCPD6fUz 
+Now, back to the thread.
+
+---
+
+Modern judge systems use Chain-of-Thought prompting:
+
+1. Judge explains reasoning step-by-step
+2. Applies explicit evaluation criteria
+3. Outputs a numerical score with justification
+4. Handles edge cases via few-shot examples
+
+This reduces arbitrary scoring and improves consistency.
+
+Success depends on human-alignment rate - how often the judge agrees with expert reviewers.
+
+State-of-the-art systems achieve:
+- 85% alignment on factual correctness
+- 78% on creative writing quality
+- 92% on format compliance
+
+These metrics should be tracked religiously in production.
+
+For real-world usage, I’d implement:
+
+- G-Eval for custom criteria
+- Pairwise judges for A/B testing
+- DAG-based decision trees for complex evaluations
+- Position swapping to eliminate bias
+- Multi-judge consensus for critical decisions
+
+Judges aren’t perfect. Common failure modes include:
+
+- Position bias (preferring the first option)
+- Verbosity bias (favoring longer answers)
+- Self-preference (rating their own model higher)
+- Temperature sensitivity
+
+These can be mitigated with better prompting and validation checks.
+
+A follow-up question that makes you stand out:
+“How do you handle non-deterministic scoring?”
+
+Wrong:
+“Set temperature = 0.”
+
+Right:
+“Use consensus mechanisms, track score distributions, apply probability weighting for continuous scores, and validate against human baselines.”
