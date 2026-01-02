@@ -15,8 +15,50 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  check-changes:
+    runs-on: ubuntu-latest
+    outputs:
+      catalog-changed: ${{ steps.filter.outputs.catalog }}
+      content-changed: ${{ steps.filter.outputs.content }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2  # Need previous commit for comparison
+      
+      - name: Check for changes
+        id: filter
+        run: |
+          if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
+            # Manual trigger - always regenerate
+            echo "catalog=true" >> $GITHUB_OUTPUT
+            echo "content=true" >> $GITHUB_OUTPUT
+          else
+            # Check what files changed
+            CHANGED_FILES=$(git diff --name-only HEAD~1 HEAD)
+            echo "Changed files:"
+            echo "$CHANGED_FILES"
+            
+            # Check if catalog script or any .md files changed
+            if echo "$CHANGED_FILES" | grep -qE "(\.md$|scripts/generate_catalog\.py)"; then
+              echo "catalog=true" >> $GITHUB_OUTPUT
+              echo "📝 Content or catalog script changed - will regenerate catalog"
+            else
+              echo "catalog=false" >> $GITHUB_OUTPUT
+              echo "✅ No content changes - skipping catalog regeneration"
+            fi
+            
+            # Check if website files changed
+            if echo "$CHANGED_FILES" | grep -qE "^website/"; then
+              echo "content=true" >> $GITHUB_OUTPUT
+            else
+              echo "content=true" >> $GITHUB_OUTPUT  # Always deploy
+            fi
+          fi
+
   build:
     runs-on: ubuntu-latest
+    needs: check-changes
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -27,10 +69,23 @@ jobs:
           python-version: '3.11'
 
       - name: Generate catalog
+        if: needs.check-changes.outputs.catalog-changed == 'true'
         run: python scripts/generate_catalog.py
 
       - name: Copy catalog to website folder
+        if: needs.check-changes.outputs.catalog-changed == 'true'
         run: cp catalog.json website/
+
+      - name: Ensure catalog exists (fallback)
+        if: needs.check-changes.outputs.catalog-changed == 'false'
+        run: |
+          if [ ! -f "website/catalog.json" ]; then
+            echo "⚠️  No existing catalog found - regenerating..."
+            python scripts/generate_catalog.py
+            cp catalog.json website/
+          else
+            echo "✅ Using existing catalog.json (no changes detected)"
+          fi
 
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
