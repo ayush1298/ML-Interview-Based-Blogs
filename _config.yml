@@ -1,13 +1,31 @@
 title: ML Interview Blogs
-description: AI / ML / LLM Interview Questions
+description: AI / ML / LLM Interview Questions - Comprehensive collection of real-world interview questions
 url: "https://ayush1298.github.io"
 baseurl: "/ML-Interview-Based-Blogs"
 
+# Build settings
 markdown: kramdown
-theme: jekyll-theme-minimal
+kramdown:
+  input: GFM
+  hard_wrap: false
 
+# No remote theme - using custom layout
+
+# Exclude from processing
 exclude:
   - scripts
   - node_modules
   - Gemfile
   - Gemfile.lock
+  - README.md
+  - repo_structure.md
+  - .gitignore
+  - .github
+  - vendor
+  - "*.py"
+  - LICENSE
+  - CNAME
+
+# Include catalog.json in the build
+include:
+  - catalog.json
