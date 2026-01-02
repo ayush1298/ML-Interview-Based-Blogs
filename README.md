@@ -23,36 +23,42 @@ A curated collection of **127+ real-world AI/ML interview questions** with detai
 
 ## 🚀 Features
 
-- 📖 **Clean reading experience** with optimized typography
-- 🔍 **Search & filter** by category
-- 📑 **Auto-generated table of contents** for long articles
-- ⏱️ **Reading time estimates**
-- 🔗 **Share/copy link** functionality
-- 📱 **Mobile responsive** design
-- 🖼️ **Image support** with click-to-zoom
-- 💻 **Syntax highlighted** code blocks with copy button
-- ➕ **LaTeX/Math** rendering support
+- 📖 Clean reading experience with optimized typography
+- 🔍 Search & filter by category
+- 📑 Auto-generated table of contents
+- ⏱️ Reading time estimates
+- 🔗 Share/copy link functionality
+- 📱 Mobile responsive design
+- 💻 Syntax highlighted code blocks
 
 ---
 
 ## 📁 Repository Structure
 
 ```
-├── 📂 LLM/                    # LLM interview questions
-├── 📂 Neural Network/         # NN fundamentals
-├── 📂 Computer Vision/        # CV topics
-├── 📂 RAG/                    # Retrieval-Augmented Generation
-├── 📂 Agents/                 # AI Agents
-├── 📂 Traditional ML/         # Classical ML
-├── 📂 System Design/          # ML System Design
-├── 📂 [Other Categories]/     # More topics...
+ML-Interview-Based-Blogs/
 │
-├── 📄 index.md                # Homepage
-├── 📄 view.html               # Article viewer
-├── 📂 assets/                 # CSS & JavaScript
-├── 📂 _layouts/               # Jekyll layouts
-├── 📂 scripts/                # Catalog generator
-└── 📄 catalog.json            # Auto-generated article index
+├── 📂 Articles (Content)
+│   ├── LLM/                    # 78 articles on Large Language Models
+│   ├── Neural Network/         # Deep learning fundamentals
+│   ├── Computer Vision/        # CV interview questions
+│   ├── RAG/                    # Retrieval-Augmented Generation
+│   ├── Agents/                 # AI Agents & tool use
+│   ├── Traditional ML/         # Classical ML algorithms
+│   ├── System Design/          # ML system design
+│   └── ...                     # More categories
+│
+├── 📂 website/                 # Frontend files (Jekyll site)
+│   ├── _config.yml             # Jekyll configuration
+│   ├── _layouts/               # HTML layouts
+│   ├── assets/                 # CSS & JavaScript
+│   ├── index.md                # Homepage
+│   └── view.html               # Article viewer
+│
+├── 📂 scripts/                 # Utilities
+│   └── generate_catalog.py     # Auto-generates article index
+│
+└── 📄 README.md                # This file
 ```
 
 ---
@@ -61,81 +67,48 @@ A curated collection of **127+ real-world AI/ML interview questions** with detai
 
 1. Create a `.md` file in the appropriate category folder:
    ```bash
-   echo "# Your Question Title\n\nYour content here..." > "LLM/Training/Your-Topic.md"
+   echo "# Your Question Title\n\nYour answer..." > "LLM/Training/Your-Topic.md"
    ```
 
 2. Push to GitHub — the catalog updates automatically!
 
-3. For **new categories**, just create a new folder with `.md` files.
+3. For new categories, just create a new folder with `.md` files.
 
 ---
 
 ## 🛠️ Local Development
 
 ```bash
-# Install dependencies
+cd website
 bundle install
-
-# Generate catalog
-python scripts/generate_catalog.py
-
-# Run locally
+python ../scripts/generate_catalog.py
 bundle exec jekyll serve
 ```
-
-Open `http://localhost:4000/ML-Interview-Based-Blogs/`
 
 ---
 
 ## 📝 Article Format
-
-Articles are plain Markdown files:
 
 ```markdown
 # Question Title
 
 Brief introduction or context.
 
-## Key Concept 1
+## Key Concept
 
 Explanation with examples...
 
-## Key Concept 2
-
-More details...
-
 ### Code Example
-
 \`\`\`python
 def example():
     return "Hello ML!"
 \`\`\`
 ```
 
-**Supported features:**
-- Headers (H1-H4)
-- Code blocks with syntax highlighting
-- Images (relative paths supported)
-- Tables, lists, blockquotes
-- LaTeX math: `$inline$` and `$$block$$`
-
 ---
 
-## 🤝 Contributing
-
-Contributions welcome! Add new questions, fix errors, or improve explanations.
-
-1. Fork the repository
-2. Add/edit `.md` files
-3. Submit a pull request
-
----
-
-feel free to use for learning and interview prep!
-
----
+Feel free to use for learning and interview prep!
 
 <p align="center">
   <b>⭐ Star this repo if it helps with your ML interviews!</b>
 </p>
-

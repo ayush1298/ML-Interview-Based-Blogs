@@ -27,7 +27,8 @@ from datetime import datetime
 IGNORE_DIRS = {
     '.git', '.github', '.specstory', '.cursor', 
     'node_modules', '_includes', '_layouts', '_saas', '_site',
-    'assets', 'scripts', 'terminals', '__pycache__', '.vscode'
+    'assets', 'scripts', 'terminals', '__pycache__', '.vscode',
+    'website'  # Website files folder
 }
 
 # Files to ignore
