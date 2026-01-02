@@ -18,7 +18,6 @@ A curated collection of **127+ real-world AI/ML interview questions** with detai
 | **Traditional ML** | 13 | Feature Engineering, Class Imbalance, Loss Functions |
 | **System Design** | 3 | Scaling, Retraining, Recommendation Systems |
 | **VLMs** | 4 | CLIP, Vision Tokens, Multimodal Training |
-| + 4 more... | | Diffusion, RL, Statistics, CUDA/GPU |
 
 ---
 
@@ -132,9 +131,7 @@ Contributions welcome! Add new questions, fix errors, or improve explanations.
 
 ---
 
-## 📄 License
-
-MIT License — feel free to use for learning and interview prep!
+feel free to use for learning and interview prep!
 
 ---
 
