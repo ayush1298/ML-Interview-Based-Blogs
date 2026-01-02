@@ -1,4 +1,4 @@
-title: ML Interview Blogs
+title: ML Interview Hub
 description: AI / ML / LLM Interview Questions - Comprehensive collection of real-world interview questions
 url: "https://ayush1298.github.io"
 baseurl: "/ML-Interview-Based-Blogs"
@@ -9,8 +9,6 @@ kramdown:
   input: GFM
   hard_wrap: false
 
-# No remote theme - using custom layout
-
 # Exclude from processing
 exclude:
   - scripts
@@ -18,7 +16,6 @@ exclude:
   - Gemfile
   - Gemfile.lock
   - README.md
-  - repo_structure.md
   - .gitignore
   - .github
   - vendor
