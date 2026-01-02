@@ -438,10 +438,28 @@ body {
   font-size: var(--text-sm);
 }
 
+.section-header kbd {
+  display: inline-block;
+  padding: 2px 6px;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  color: var(--text-secondary);
+}
+
 .filter-chips {
   display: flex;
   flex-wrap: wrap;
   gap: var(--space-sm);
+}
+
+.filter-hint {
+  width: 100%;
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+  margin-bottom: var(--space-sm);
 }
 
 .chip {
@@ -455,6 +473,7 @@ body {
   cursor: pointer;
   transition: all var(--transition-fast);
   font-family: var(--font-sans);
+  user-select: none;
 }
 
 .chip:hover {
@@ -467,6 +486,12 @@ body {
   background: var(--accent-primary);
   border-color: var(--accent-primary);
   color: var(--text-inverse);
+}
+
+/* Multi-select indicator */
+.chip.active::before {
+  content: '✓ ';
+  font-size: 0.8em;
 }
 
 /* ========================================

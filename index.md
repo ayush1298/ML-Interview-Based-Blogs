@@ -64,7 +64,7 @@ title: AI / ML Interview Questions
     <div class="section-header">
       <div>
         <h2>Filter by Category</h2>
-        <p>Browse articles by topic</p>
+        <p>Browse articles by topic · Hold <kbd>Ctrl</kbd>/<kbd>⌘</kbd> to select multiple</p>
       </div>
     </div>
     

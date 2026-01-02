@@ -5,7 +5,7 @@
 
 let allArticles = [];
 let allCategories = [];
-let currentFilter = 'all';
+let selectedFilters = new Set(); // Track multiple selected categories
 
 document.addEventListener('DOMContentLoaded', async () => {
   const grid = document.getElementById('categoryGrid');
@@ -81,13 +81,19 @@ document.addEventListener('DOMContentLoaded', async () => {
     
     statArticles.textContent = allArticles.length;
 
-    // Create filter chips
+    // Setup "All Topics" chip click handler
+    const allChip = filterChips.querySelector('[data-category="all"]');
+    if (allChip) {
+      allChip.onclick = () => toggleAllTopics();
+    }
+
+    // Create filter chips for each category
     allCategories.forEach(cat => {
       const chip = document.createElement('button');
       chip.className = 'chip';
       chip.dataset.category = cat.name;
       chip.textContent = `${cat.name} (${cat.articles?.length || 0})`;
-      chip.onclick = () => filterByCategory(cat.name);
+      chip.onclick = (e) => toggleCategory(cat.name, e);
       filterChips.appendChild(chip);
     });
 
@@ -102,13 +108,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         searchTimeout = setTimeout(() => {
           const query = e.target.value.toLowerCase().trim();
           if (query.length === 0) {
-            // Reset to current filter
-            if (currentFilter === 'all') {
-              renderCategories(allCategories);
-            } else {
-              const filtered = allCategories.filter(cat => cat.name === currentFilter);
-              renderCategories(filtered);
-            }
+            applyFilters();
           } else {
             searchArticles(query);
           }
@@ -137,29 +137,112 @@ document.addEventListener('DOMContentLoaded', async () => {
 });
 
 /**
- * Filter articles by category
+ * Toggle "All Topics" - clears all filters and shows everything
  */
-function filterByCategory(category) {
-  currentFilter = category;
+function toggleAllTopics() {
+  // Clear all selected filters
+  selectedFilters.clear();
   
-  // Update active chip
+  // Update chip states
   document.querySelectorAll('.chip').forEach(chip => {
     chip.classList.remove('active');
-    if (chip.dataset.category === category) {
-      chip.classList.add('active');
-    }
   });
-
+  
+  // Mark "All Topics" as active
+  const allChip = document.querySelector('.chip[data-category="all"]');
+  if (allChip) {
+    allChip.classList.add('active');
+  }
+  
   // Clear search
   const searchInput = document.getElementById('searchInput');
   if (searchInput) searchInput.value = '';
+  
+  // Show all categories
+  renderCategories(allCategories);
+}
 
-  // Render filtered categories
-  if (category === 'all') {
+/**
+ * Toggle a category filter (multi-select enabled)
+ */
+function toggleCategory(category, event) {
+  // Check if Ctrl/Cmd key is held for multi-select, or just toggle
+  const isMultiSelect = event && (event.ctrlKey || event.metaKey || event.shiftKey);
+  
+  if (!isMultiSelect) {
+    // Single select mode - clear others and select this one
+    if (selectedFilters.size === 1 && selectedFilters.has(category)) {
+      // If clicking the only selected category, show all
+      toggleAllTopics();
+      return;
+    }
+    selectedFilters.clear();
+    selectedFilters.add(category);
+  } else {
+    // Multi-select mode - toggle this category
+    if (selectedFilters.has(category)) {
+      selectedFilters.delete(category);
+    } else {
+      selectedFilters.add(category);
+    }
+  }
+  
+  // If no filters selected, show all
+  if (selectedFilters.size === 0) {
+    toggleAllTopics();
+    return;
+  }
+  
+  // Update chip states
+  updateChipStates();
+  
+  // Clear search
+  const searchInput = document.getElementById('searchInput');
+  if (searchInput) searchInput.value = '';
+  
+  // Apply filters
+  applyFilters();
+}
+
+/**
+ * Update visual state of filter chips
+ */
+function updateChipStates() {
+  document.querySelectorAll('.chip').forEach(chip => {
+    const category = chip.dataset.category;
+    
+    if (category === 'all') {
+      // "All Topics" is active only when no specific filters are selected
+      chip.classList.toggle('active', selectedFilters.size === 0);
+    } else {
+      chip.classList.toggle('active', selectedFilters.has(category));
+    }
+  });
+}
+
+/**
+ * Apply current filters and render
+ */
+function applyFilters() {
+  if (selectedFilters.size === 0) {
     renderCategories(allCategories);
   } else {
-    const filtered = allCategories.filter(cat => cat.name === category);
+    const filtered = allCategories.filter(cat => selectedFilters.has(cat.name));
     renderCategories(filtered);
+  }
+}
+
+/**
+ * Legacy function for backward compatibility
+ */
+function filterByCategory(category) {
+  if (category === 'all') {
+    toggleAllTopics();
+  } else {
+    selectedFilters.clear();
+    selectedFilters.add(category);
+    updateChipStates();
+    applyFilters();
   }
 }
 
@@ -249,10 +332,15 @@ function cleanTitle(title) {
 }
 
 /**
- * Search articles across all categories
+ * Search articles across all categories (respects current filters)
  */
 function searchArticles(query) {
-  const filtered = allCategories.map(cat => ({
+  // Start with either filtered categories or all categories
+  const baseCategories = selectedFilters.size > 0 
+    ? allCategories.filter(cat => selectedFilters.has(cat.name))
+    : allCategories;
+  
+  const filtered = baseCategories.map(cat => ({
     ...cat,
     articles: (cat.articles || []).filter(article => {
       const titleMatch = article.title?.toLowerCase().includes(query);
@@ -309,5 +397,7 @@ function handleSearch() {
 
 // Make functions globally available
 window.filterByCategory = filterByCategory;
+window.toggleCategory = toggleCategory;
+window.toggleAllTopics = toggleAllTopics;
 window.expandCategory = expandCategory;
 window.handleSearch = handleSearch;
