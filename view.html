@@ -554,6 +554,190 @@ layout: null
       border-color: var(--accent-primary);
     }
 
+    /* Article meta extras */
+    .article-extras {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-md);
+      align-items: center;
+      margin-top: var(--space-md);
+      padding-top: var(--space-md);
+      border-top: 1px solid var(--border-primary);
+    }
+
+    .reading-time {
+      display: flex;
+      align-items: center;
+      gap: var(--space-xs);
+      color: var(--text-muted);
+      font-size: 0.875rem;
+    }
+
+    .reading-time svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    .share-btn {
+      display: flex;
+      align-items: center;
+      gap: var(--space-xs);
+      padding: var(--space-xs) var(--space-md);
+      background: var(--bg-tertiary);
+      border: 1px solid var(--border-primary);
+      border-radius: var(--radius-full);
+      color: var(--text-secondary);
+      font-size: 0.875rem;
+      cursor: pointer;
+      transition: all var(--transition-fast);
+      font-family: var(--font-sans);
+    }
+
+    .share-btn:hover {
+      background: var(--accent-primary);
+      color: var(--text-inverse);
+      border-color: var(--accent-primary);
+    }
+
+    .share-btn svg {
+      width: 14px;
+      height: 14px;
+    }
+
+    /* Table of Contents */
+    .toc-container {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-primary);
+      border-radius: var(--radius-md);
+      padding: var(--space-lg);
+      margin-bottom: var(--space-xl);
+    }
+
+    .toc-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: var(--space-md);
+      cursor: pointer;
+    }
+
+    .toc-header h4 {
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin: 0;
+    }
+
+    .toc-toggle {
+      color: var(--text-muted);
+      transition: transform var(--transition-fast);
+    }
+
+    .toc-container.collapsed .toc-toggle {
+      transform: rotate(-90deg);
+    }
+
+    .toc-container.collapsed .toc-list {
+      display: none;
+    }
+
+    .toc-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .toc-list li {
+      margin-bottom: var(--space-xs);
+    }
+
+    .toc-list a {
+      display: block;
+      padding: var(--space-xs) 0;
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: all var(--transition-fast);
+      border-left: 2px solid transparent;
+      padding-left: var(--space-md);
+    }
+
+    .toc-list a:hover {
+      color: var(--accent-primary);
+      border-left-color: var(--accent-primary);
+    }
+
+    .toc-list a.toc-h3 {
+      padding-left: calc(var(--space-md) + var(--space-md));
+      font-size: 0.85rem;
+    }
+
+    .toc-list a.toc-h4 {
+      padding-left: calc(var(--space-md) + var(--space-xl));
+      font-size: 0.8rem;
+    }
+
+    /* Scroll to top button */
+    .scroll-top-btn {
+      position: fixed;
+      bottom: var(--space-xl);
+      right: var(--space-xl);
+      width: 44px;
+      height: 44px;
+      background: var(--accent-primary);
+      border: none;
+      border-radius: 50%;
+      color: var(--text-inverse);
+      cursor: pointer;
+      opacity: 0;
+      visibility: hidden;
+      transition: all var(--transition-fast);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      z-index: 100;
+    }
+
+    .scroll-top-btn.visible {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .scroll-top-btn:hover {
+      background: #0d9488;
+      transform: translateY(-2px);
+    }
+
+    .scroll-top-btn svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    /* Toast notification */
+    .toast {
+      position: fixed;
+      bottom: var(--space-xl);
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-primary);
+      padding: var(--space-md) var(--space-xl);
+      border-radius: var(--radius-md);
+      color: var(--text-primary);
+      font-size: 0.875rem;
+      opacity: 0;
+      transition: all 0.3s ease;
+      z-index: 1000;
+    }
+
+    .toast.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+
     /* Image modal for zoom */
     .image-modal {
       display: none;
@@ -679,6 +863,16 @@ layout: null
     <img id="modalImage" src="" alt="">
   </div>
 
+  <!-- Scroll to top button -->
+  <button class="scroll-top-btn" id="scrollTopBtn" onclick="scrollToTop()">
+    <svg viewBox="0 0 16 16" fill="currentColor">
+      <path fill-rule="evenodd" d="M8 12a.5.5 0 0 0 .5-.5V5.707l2.146 2.147a.5.5 0 0 0 .708-.708l-3-3a.5.5 0 0 0-.708 0l-3 3a.5.5 0 1 0 .708.708L7.5 5.707V11.5a.5.5 0 0 0 .5.5z"/>
+    </svg>
+  </button>
+
+  <!-- Toast notification -->
+  <div class="toast" id="toast"></div>
+
   <footer class="site-footer">
     <p class="footer-text">
       <a href="https://github.com/ayush1298/ML-Interview-Based-Blogs" target="_blank">ML Interview Hub</a> — 
@@ -713,6 +907,90 @@ layout: null
       if (e.key === 'Escape') closeImageModal();
     });
 
+    // Scroll to top functionality
+    function scrollToTop() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    window.addEventListener('scroll', () => {
+      const scrollBtn = document.getElementById('scrollTopBtn');
+      if (window.scrollY > 300) {
+        scrollBtn.classList.add('visible');
+      } else {
+        scrollBtn.classList.remove('visible');
+      }
+    });
+
+    // Toast notification
+    function showToast(message, duration = 2000) {
+      const toast = document.getElementById('toast');
+      toast.textContent = message;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), duration);
+    }
+
+    // Share/Copy link
+    async function shareArticle() {
+      const url = window.location.href;
+      try {
+        if (navigator.share) {
+          await navigator.share({ title: document.title, url });
+        } else {
+          await navigator.clipboard.writeText(url);
+          showToast('Link copied to clipboard!');
+        }
+      } catch (e) {
+        await navigator.clipboard.writeText(url);
+        showToast('Link copied to clipboard!');
+      }
+    }
+
+    // Calculate reading time
+    function calculateReadingTime(text) {
+      const wordsPerMinute = 200;
+      const words = text.trim().split(/\s+/).length;
+      const minutes = Math.ceil(words / wordsPerMinute);
+      return minutes;
+    }
+
+    // Generate Table of Contents
+    function generateTOC(contentElement) {
+      const headings = contentElement.querySelectorAll('h2, h3, h4');
+      if (headings.length < 3) return null; // Don't show TOC for short articles
+
+      const tocItems = [];
+      headings.forEach((heading, index) => {
+        const id = `heading-${index}`;
+        heading.id = id;
+        tocItems.push({
+          id,
+          text: heading.textContent,
+          level: heading.tagName.toLowerCase()
+        });
+      });
+
+      return `
+        <div class="toc-container" id="tocContainer">
+          <div class="toc-header" onclick="toggleTOC()">
+            <h4>Table of Contents</h4>
+            <svg class="toc-toggle" width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+              <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 0 1 0-.708z"/>
+            </svg>
+          </div>
+          <ul class="toc-list">
+            ${tocItems.map(item => `
+              <li><a href="#${item.id}" class="toc-${item.level}">${item.text}</a></li>
+            `).join('')}
+          </ul>
+        </div>
+      `;
+    }
+
+    function toggleTOC() {
+      const toc = document.getElementById('tocContainer');
+      toc.classList.toggle('collapsed');
+    }
+
     // Markdown rendering
     (async () => {
       const params = new URLSearchParams(window.location.search);
@@ -745,6 +1023,9 @@ layout: null
         if (!response.ok) throw new Error(`Failed to load: ${response.status} ${response.statusText}`);
         
         let markdown = await response.text();
+
+        // Calculate reading time from raw markdown
+        const readingTime = calculateReadingTime(markdown);
 
         // Fix relative image paths - handle various formats
         markdown = markdown.replace(
@@ -799,12 +1080,35 @@ layout: null
                 <span class="pill">${category}</span>
                 ${subcategory ? `<span class="pill">${subcategory}</span>` : ''}
               </div>
+              <div class="article-extras">
+                <span class="reading-time">
+                  <svg viewBox="0 0 16 16" fill="currentColor">
+                    <path d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z"/>
+                    <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0z"/>
+                  </svg>
+                  ${readingTime} min read
+                </span>
+                <button class="share-btn" onclick="shareArticle()">
+                  <svg viewBox="0 0 16 16" fill="currentColor">
+                    <path d="M11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.499 2.499 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5z"/>
+                  </svg>
+                  Share
+                </button>
+              </div>
             </header>
+            <div id="tocPlaceholder"></div>
             <div class="article-content">
               ${htmlContent}
             </div>
-          </article>
+  </article>
         `;
+
+        // Generate and insert Table of Contents
+        const articleContent = document.querySelector('.article-content');
+        const toc = generateTOC(articleContent);
+        if (toc) {
+          document.getElementById('tocPlaceholder').innerHTML = toc;
+        }
 
         // Add click-to-zoom for images
         document.querySelectorAll('.article-content img').forEach(img => {
@@ -858,6 +1162,18 @@ layout: null
             });
           });
         }
+
+        // Smooth scroll for TOC links
+        document.querySelectorAll('.toc-list a').forEach(link => {
+          link.addEventListener('click', (e) => {
+            e.preventDefault();
+            const targetId = link.getAttribute('href').slice(1);
+            const target = document.getElementById(targetId);
+            if (target) {
+              target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+          });
+        });
 
       } catch (error) {
         content.innerHTML = `
