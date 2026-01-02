@@ -10,10 +10,10 @@ layout: null
   <title>Article | ML Interview Hub</title>
   <meta name="description" content="AI/ML Interview Question">
   
-  <!-- Fonts -->
+  <!-- Fonts - IBM Plex for optimal readability -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700&family=IBM+Plex+Serif:ital,wght@0,400;0,500;0,600;1,400&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
   
   <!-- Markdown Rendering -->
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
@@ -27,35 +27,53 @@ layout: null
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
   
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap');
-
     :root {
-      --bg-primary: #0a0e1a;
-      --bg-secondary: #0f1629;
-      --bg-tertiary: #151d35;
-      --bg-elevated: #1a2342;
-      --accent-primary: #00d9ff;
-      --accent-secondary: #ff6b35;
-      --accent-tertiary: #a855f7;
-      --text-primary: #f1f5f9;
-      --text-secondary: #94a3b8;
-      --text-muted: #64748b;
-      --text-inverse: #0a0e1a;
+      /* Core palette */
+      --bg-primary: #0c1222;
+      --bg-secondary: #111827;
+      --bg-tertiary: #1a2332;
+      --bg-elevated: #1f2937;
+      
+      /* Accent colors */
+      --accent-primary: #14b8a6;
+      --accent-secondary: #f97316;
+      --accent-tertiary: #8b5cf6;
+      
+      /* Text colors - optimized for reading */
+      --text-primary: #f8fafc;
+      --text-secondary: #cbd5e1;
+      --text-body: #e2e8f0;
+      --text-muted: #94a3b8;
+      --text-inverse: #0c1222;
+      
+      /* Borders */
       --border-primary: #1e293b;
-      --border-accent: #00d9ff33;
-      --gradient-hero: linear-gradient(135deg, #00d9ff 0%, #a855f7 50%, #ff6b35 100%);
-      --font-sans: 'Outfit', system-ui, -apple-system, sans-serif;
-      --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+      --border-subtle: #334155;
+      --border-accent: rgba(20, 184, 166, 0.3);
+      
+      /* Gradients */
+      --gradient-hero: linear-gradient(135deg, #14b8a6 0%, #8b5cf6 50%, #f97316 100%);
+      
+      /* Typography */
+      --font-sans: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      --font-serif: 'IBM Plex Serif', Georgia, 'Times New Roman', serif;
+      --font-mono: 'Fira Code', 'SF Mono', 'Monaco', 'Consolas', monospace;
+      
+      /* Spacing */
       --space-xs: 0.25rem;
       --space-sm: 0.5rem;
       --space-md: 1rem;
       --space-lg: 1.5rem;
       --space-xl: 2rem;
       --space-2xl: 3rem;
+      
+      /* Border radius */
       --radius-sm: 6px;
       --radius-md: 10px;
       --radius-lg: 16px;
       --radius-full: 9999px;
+      
+      /* Transitions */
       --transition-fast: 150ms ease;
     }
 
@@ -68,13 +86,21 @@ layout: null
     html {
       scroll-behavior: smooth;
       -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      text-rendering: optimizeLegibility;
+      font-size: 16px;
+    }
+
+    @media (min-width: 1200px) {
+      html { font-size: 17px; }
     }
 
     body {
       font-family: var(--font-sans);
+      font-weight: 400;
       background: var(--bg-primary);
-      color: var(--text-primary);
-      line-height: 1.6;
+      color: var(--text-body);
+      line-height: 1.75;
       min-height: 100vh;
     }
 
@@ -83,14 +109,14 @@ layout: null
       position: sticky;
       top: 0;
       z-index: 100;
-      background: rgba(10, 14, 26, 0.9);
+      background: rgba(12, 18, 34, 0.9);
       backdrop-filter: blur(20px);
       border-bottom: 1px solid var(--border-primary);
       padding: var(--space-lg) var(--space-xl);
     }
 
     .nav {
-      max-width: 1200px;
+      max-width: 900px;
       margin: 0 auto;
       display: flex;
       justify-content: space-between;
@@ -105,24 +131,26 @@ layout: null
     }
 
     .nav-logo__icon {
-      width: 38px;
-      height: 38px;
+      width: 40px;
+      height: 40px;
       background: var(--gradient-hero);
       border-radius: var(--radius-sm);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-weight: 800;
+      font-weight: 700;
       font-size: 1rem;
       color: var(--text-inverse);
+      font-family: var(--font-sans);
     }
 
     .nav-logo__text {
-      font-weight: 700;
-      font-size: 1.2rem;
+      font-weight: 600;
+      font-size: 1.15rem;
       background: var(--gradient-hero);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
+      letter-spacing: -0.02em;
     }
 
     .btn-back {
@@ -134,10 +162,10 @@ layout: null
       color: var(--text-secondary);
       text-decoration: none;
       font-weight: 500;
+      font-size: 0.875rem;
       border-radius: var(--radius-md);
       border: 1px solid var(--border-primary);
       transition: all var(--transition-fast);
-      font-size: 0.9rem;
     }
 
     .btn-back:hover {
@@ -148,7 +176,7 @@ layout: null
 
     /* Article Container */
     .article-container {
-      max-width: 900px;
+      max-width: 760px;
       margin: 0 auto;
       padding: var(--space-2xl) var(--space-xl);
     }
@@ -164,7 +192,7 @@ layout: null
       align-items: center;
       gap: var(--space-sm);
       margin-bottom: var(--space-lg);
-      font-size: 0.9rem;
+      font-size: 0.875rem;
       flex-wrap: wrap;
     }
 
@@ -183,11 +211,12 @@ layout: null
     }
 
     .article-title {
-      font-size: clamp(1.8rem, 4vw, 2.5rem);
-      font-weight: 800;
-      line-height: 1.2;
+      font-size: clamp(1.75rem, 4vw, 2.25rem);
+      font-weight: 700;
+      line-height: 1.3;
       margin-bottom: var(--space-md);
       color: var(--text-primary);
+      letter-spacing: -0.02em;
     }
 
     .article-meta {
@@ -195,7 +224,7 @@ layout: null
       flex-wrap: wrap;
       gap: var(--space-md);
       color: var(--text-muted);
-      font-size: 0.9rem;
+      font-size: 0.875rem;
     }
 
     .article-meta .pill {
@@ -206,13 +235,17 @@ layout: null
       font-weight: 500;
     }
 
-    /* Article Content */
+    /* ========================================
+       Article Content - Optimized for Reading
+       ======================================== */
     .article-content {
-      font-size: 1.1rem;
-      line-height: 1.8;
-      color: var(--text-secondary);
+      font-size: 1.125rem;
+      line-height: 1.85;
+      color: var(--text-body);
+      font-weight: 400;
     }
 
+    /* Headings */
     .article-content h1,
     .article-content h2,
     .article-content h3,
@@ -220,71 +253,101 @@ layout: null
     .article-content h5,
     .article-content h6 {
       color: var(--text-primary);
+      font-weight: 600;
+      line-height: 1.35;
+      margin: 2.5rem 0 1rem;
+      letter-spacing: -0.02em;
+    }
+
+    .article-content h1 { 
+      font-size: 1.875rem;
       font-weight: 700;
-      line-height: 1.3;
-      margin: var(--space-2xl) 0 var(--space-md);
     }
 
-    .article-content h1 { font-size: 2rem; }
     .article-content h2 { 
-      font-size: 1.6rem; 
+      font-size: 1.5rem;
       border-bottom: 1px solid var(--border-primary); 
-      padding-bottom: var(--space-sm); 
+      padding-bottom: 0.5rem; 
     }
-    .article-content h3 { font-size: 1.3rem; }
-    .article-content h4 { font-size: 1.15rem; }
 
+    .article-content h3 { 
+      font-size: 1.25rem; 
+    }
+
+    .article-content h4 { 
+      font-size: 1.125rem; 
+    }
+
+    /* Paragraphs */
     .article-content p {
-      margin-bottom: var(--space-lg);
+      margin-bottom: 1.5rem;
     }
 
+    /* Links */
     .article-content a {
       color: var(--accent-primary);
       text-decoration: underline;
+      text-decoration-thickness: 1px;
       text-underline-offset: 3px;
+      transition: all var(--transition-fast);
     }
 
     .article-content a:hover {
-      color: #00c4e6;
+      color: #0d9488;
+      text-decoration-thickness: 2px;
     }
 
+    /* Emphasis */
     .article-content strong {
       color: var(--text-primary);
       font-weight: 600;
     }
 
+    .article-content em {
+      font-style: italic;
+    }
+
     /* Lists */
     .article-content ul,
     .article-content ol {
-      margin-bottom: var(--space-lg);
-      padding-left: var(--space-xl);
+      margin-bottom: 1.5rem;
+      padding-left: 1.75rem;
     }
 
     .article-content li {
-      margin-bottom: var(--space-sm);
+      margin-bottom: 0.5rem;
+      line-height: 1.7;
     }
 
     .article-content li::marker {
       color: var(--accent-primary);
     }
 
-    /* Code */
+    .article-content li > ul,
+    .article-content li > ol {
+      margin-top: 0.5rem;
+      margin-bottom: 0;
+    }
+
+    /* Code - Inline */
     .article-content code {
       font-family: var(--font-mono);
       font-size: 0.9em;
       background: var(--bg-tertiary);
-      padding: 2px 6px;
+      padding: 3px 8px;
       border-radius: var(--radius-sm);
       color: var(--accent-secondary);
+      font-weight: 500;
     }
 
+    /* Code - Blocks */
     .article-content pre {
       background: var(--bg-secondary);
       border: 1px solid var(--border-primary);
       border-radius: var(--radius-md);
       padding: var(--space-lg);
       overflow-x: auto;
-      margin: var(--space-lg) 0;
+      margin: 1.75rem 0;
       position: relative;
     }
 
@@ -292,14 +355,15 @@ layout: null
       background: none;
       padding: 0;
       color: var(--text-secondary);
-      font-size: 0.9rem;
-      line-height: 1.6;
+      font-size: 0.875rem;
+      line-height: 1.65;
+      font-weight: 400;
     }
 
     /* Blockquotes */
     .article-content blockquote {
-      margin: var(--space-lg) 0;
-      padding: var(--space-md) var(--space-xl);
+      margin: 1.75rem 0;
+      padding: 1rem 1.5rem;
       background: var(--bg-tertiary);
       border-left: 4px solid var(--accent-primary);
       border-radius: 0 var(--radius-md) var(--radius-md) 0;
@@ -315,7 +379,7 @@ layout: null
     .article-content table {
       width: 100%;
       border-collapse: collapse;
-      margin: var(--space-lg) 0;
+      margin: 1.75rem 0;
       font-size: 0.95rem;
       overflow-x: auto;
       display: block;
@@ -323,9 +387,10 @@ layout: null
 
     .article-content th,
     .article-content td {
-      padding: var(--space-md);
+      padding: 0.875rem 1rem;
       text-align: left;
       border: 1px solid var(--border-primary);
+      line-height: 1.5;
     }
 
     .article-content th {
@@ -335,36 +400,34 @@ layout: null
     }
 
     .article-content tr:nth-child(even) {
-      background: var(--bg-secondary);
+      background: rgba(30, 41, 59, 0.5);
     }
 
-    /* Images - Enhanced handling */
+    /* Images */
     .article-content img {
       max-width: 100%;
       height: auto;
       border-radius: var(--radius-md);
-      margin: var(--space-xl) auto;
+      margin: 2rem auto;
       border: 1px solid var(--border-primary);
       display: block;
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
     }
 
-    /* Image with caption */
     .article-content figure {
-      margin: var(--space-xl) 0;
+      margin: 2rem 0;
       text-align: center;
     }
 
     .article-content figcaption {
       color: var(--text-muted);
-      font-size: 0.9rem;
+      font-size: 0.875rem;
       margin-top: var(--space-sm);
       font-style: italic;
     }
 
-    /* Image zoom on hover */
     .article-content img:hover {
-      transform: scale(1.02);
+      transform: scale(1.01);
       transition: transform 0.3s ease;
       cursor: zoom-in;
     }
@@ -374,14 +437,14 @@ layout: null
       border: none;
       height: 1px;
       background: var(--border-primary);
-      margin: var(--space-2xl) 0;
+      margin: 2.5rem 0;
     }
 
     /* Math */
     .article-content .katex-display {
-      margin: var(--space-lg) 0;
+      margin: 1.5rem 0;
       overflow-x: auto;
-      padding: var(--space-md);
+      padding: 1rem;
       background: var(--bg-secondary);
       border-radius: var(--radius-md);
     }
@@ -421,6 +484,7 @@ layout: null
     .error-state h2 {
       color: var(--accent-secondary);
       margin-bottom: var(--space-md);
+      font-size: 1.5rem;
     }
 
     .error-state pre {
@@ -428,7 +492,7 @@ layout: null
       padding: var(--space-md);
       border-radius: var(--radius-md);
       color: var(--text-muted);
-      font-size: 0.9rem;
+      font-size: 0.875rem;
       text-align: left;
       overflow-x: auto;
     }
@@ -437,14 +501,14 @@ layout: null
     .site-footer {
       background: var(--bg-secondary);
       border-top: 1px solid var(--border-primary);
-      padding: var(--space-xl) var(--space-xl);
+      padding: var(--space-xl);
       text-align: center;
       margin-top: var(--space-2xl);
     }
 
     .footer-text {
       color: var(--text-muted);
-      font-size: 0.85rem;
+      font-size: 0.875rem;
     }
 
     .footer-text a {
@@ -514,8 +578,8 @@ layout: null
       position: absolute;
       top: var(--space-lg);
       right: var(--space-lg);
-      width: 40px;
-      height: 40px;
+      width: 44px;
+      height: 44px;
       background: var(--bg-tertiary);
       border: 1px solid var(--border-primary);
       border-radius: 50%;
@@ -535,12 +599,14 @@ layout: null
 
     /* Responsive */
     @media (max-width: 768px) {
+      html { font-size: 15px; }
+      
       .article-container {
         padding: var(--space-lg) var(--space-md);
       }
 
       .article-title {
-        font-size: 1.6rem;
+        font-size: 1.5rem;
       }
 
       .article-content {
@@ -681,7 +747,6 @@ layout: null
         markdown = markdown.replace(
           /!\[(.*?)\]\((?!https?:\/\/|\/\/|data:)(.*?)\)/g,
           (match, alt, src) => {
-            // Handle paths that start with ./ or are just filenames
             const cleanSrc = src.replace(/^\.\//, '');
             return `![${alt}](${mdDir}/${cleanSrc})`;
           }
@@ -743,7 +808,6 @@ layout: null
           img.style.cursor = 'zoom-in';
           img.addEventListener('click', () => openImageModal(img.src));
           
-          // Add error handling for images
           img.onerror = function() {
             this.style.display = 'none';
             console.warn('Failed to load image:', this.src);
