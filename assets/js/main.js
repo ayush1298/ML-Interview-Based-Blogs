@@ -1,4 +1,10 @@
+/**
+ * ML Interview Hub - Main JavaScript
+ * Handles catalog loading, filtering, and search
+ */
+
 let allArticles = [];
+let allCategories = [];
 let currentFilter = 'all';
 
 document.addEventListener('DOMContentLoaded', async () => {
@@ -9,10 +15,9 @@ document.addEventListener('DOMContentLoaded', async () => {
   const resultCount = document.getElementById('resultCount');
   const searchInput = document.getElementById('searchInput');
 
-  // Use the injected baseurl
   const baseurl = window.SITE_BASEURL || '';
   
-  // Try multiple possible paths
+  // Try multiple possible paths for catalog
   const possiblePaths = [
     `${baseurl}/catalog.json`,
     '/ML-Interview-Based-Blogs/catalog.json',
@@ -20,45 +25,30 @@ document.addEventListener('DOMContentLoaded', async () => {
   ];
 
   let catalog = null;
-  let lastError = null;
 
   for (const catalogUrl of possiblePaths) {
     try {
-      console.log('Trying to fetch catalog from:', catalogUrl);
       const res = await fetch(catalogUrl, { 
         cache: 'no-cache',
-        headers: {
-          'Accept': 'application/json'
-        }
+        headers: { 'Accept': 'application/json' }
       });
       
       if (res.ok) {
         catalog = await res.json();
-        console.log('Successfully loaded catalog from:', catalogUrl);
         break;
-      } else {
-        console.warn(`Failed to load from ${catalogUrl}: ${res.status}`);
-        lastError = new Error(`HTTP ${res.status}: ${res.statusText}`);
       }
     } catch (err) {
-      console.warn(`Error loading from ${catalogUrl}:`, err);
-      lastError = err;
+      console.warn(`Could not load from ${catalogUrl}`);
     }
   }
 
   if (!catalog) {
-    console.error('Failed to load catalog from all paths. Last error:', lastError);
     grid.innerHTML = `
       <div class="empty-state">
-        <h3>Could not load catalog</h3>
+        <h3>Catalog not found</h3>
         <p>The catalog.json file hasn't been generated yet.</p>
-        <p style="color: var(--muted); font-size: 0.9rem; margin-top: 1rem;">
-          Error: ${lastError?.message || 'Unknown error'}<br><br>
-          This happens when:<br>
-          • The GitHub Actions workflow hasn't run yet<br>
-          • You're viewing the site locally without running the catalog generation script<br><br>
-          <strong>To fix:</strong> Run <code>python scripts/generate_catalog.py</code> locally,<br>
-          or push to GitHub to trigger the workflow.
+        <p style="margin-top: 1rem; color: var(--text-muted); font-size: 0.9rem;">
+          Run <code>python scripts/generate_catalog.py</code> to generate the catalog.
         </p>
       </div>
     `;
@@ -66,33 +56,33 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 
   try {
-    const categories = Object.values(catalog.categories || {});
+    allCategories = Object.values(catalog.categories || {});
     
-    if (categories.length === 0) {
+    if (allCategories.length === 0) {
       grid.innerHTML = `
         <div class="empty-state">
           <h3>No categories found</h3>
-          <p>The catalog is empty. Please check your content structure.</p>
+          <p>Add markdown files to category folders to get started.</p>
         </div>
       `;
       return;
     }
 
-    statCategories.textContent = categories.length || '0';
+    // Update stats
+    statCategories.textContent = allCategories.length;
 
     // Flatten all articles with category info
-    allArticles = categories.flatMap(cat => 
+    allArticles = allCategories.flatMap(cat => 
       (cat.articles || []).map(article => ({
         ...article,
         category: cat.name
       }))
     );
     
-    statArticles.textContent = allArticles.length || '0';
+    statArticles.textContent = allArticles.length;
 
     // Create filter chips
-    const allChip = filterChips.querySelector('[data-category="all"]');
-    categories.forEach(cat => {
+    allCategories.forEach(cat => {
       const chip = document.createElement('button');
       chip.className = 'chip';
       chip.dataset.category = cat.name;
@@ -102,16 +92,34 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
 
     // Render initial view
-    renderCategories(categories);
+    renderCategories(allCategories);
 
-    // Search functionality
+    // Search functionality with debounce
+    let searchTimeout;
     if (searchInput) {
       searchInput.addEventListener('input', (e) => {
-        const query = e.target.value.toLowerCase();
-        if (query.length === 0) {
-          renderCategories(categories);
-        } else {
-          searchArticles(query, categories);
+        clearTimeout(searchTimeout);
+        searchTimeout = setTimeout(() => {
+          const query = e.target.value.toLowerCase().trim();
+          if (query.length === 0) {
+            // Reset to current filter
+            if (currentFilter === 'all') {
+              renderCategories(allCategories);
+            } else {
+              const filtered = allCategories.filter(cat => cat.name === currentFilter);
+              renderCategories(filtered);
+            }
+          } else {
+            searchArticles(query);
+          }
+        }, 200);
+      });
+
+      // Enter key triggers search
+      searchInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          handleSearch();
         }
       });
     }
@@ -120,19 +128,19 @@ document.addEventListener('DOMContentLoaded', async () => {
     console.error('Error processing catalog:', err);
     grid.innerHTML = `
       <div class="empty-state">
-        <h3>Error processing catalog</h3>
+        <h3>Error loading catalog</h3>
         <p>There was an error parsing the catalog data.</p>
-        <p style="color: var(--muted); font-size: 0.9rem; margin-top: 1rem;">Error: ${err.message}</p>
+        <p style="margin-top: 1rem; color: var(--text-muted);">${err.message}</p>
       </div>
     `;
   }
 });
 
-// Rest of the functions remain the same...
+/**
+ * Filter articles by category
+ */
 function filterByCategory(category) {
   currentFilter = category;
-  
-  const baseurl = window.SITE_BASEURL || '';
   
   // Update active chip
   document.querySelectorAll('.chip').forEach(chip => {
@@ -142,73 +150,80 @@ function filterByCategory(category) {
     }
   });
 
-  // Re-render based on filter
-  fetch(`${baseurl}/catalog.json`)
-    .then(r => r.json())
-    .then(catalog => {
-      const categories = Object.values(catalog.categories || {});
-      
-      if (category === 'all') {
-        renderCategories(categories);
-      } else {
-        const filtered = categories.filter(cat => cat.name === category);
-        renderCategories(filtered);
-      }
-    });
+  // Clear search
+  const searchInput = document.getElementById('searchInput');
+  if (searchInput) searchInput.value = '';
+
+  // Render filtered categories
+  if (category === 'all') {
+    renderCategories(allCategories);
+  } else {
+    const filtered = allCategories.filter(cat => cat.name === category);
+    renderCategories(filtered);
+  }
 }
 
+/**
+ * Render category blocks
+ */
 function renderCategories(categories) {
   const grid = document.getElementById('categoryGrid');
   const resultCount = document.getElementById('resultCount');
   const baseurl = window.SITE_BASEURL || '';
   
   if (!categories || categories.length === 0) {
-    grid.innerHTML = '<div class="empty-state"><h3>No articles found</h3><p>Try adjusting your filter.</p></div>';
-    resultCount.textContent = '0 articles found';
+    grid.innerHTML = `
+      <div class="empty-state">
+        <h3>No articles found</h3>
+        <p>Try adjusting your search or filter.</p>
+      </div>
+    `;
+    resultCount.textContent = '0 articles';
     return;
   }
 
   const totalArticles = categories.reduce((sum, cat) => sum + (cat.articles?.length || 0), 0);
-  resultCount.textContent = `${totalArticles} article${totalArticles === 1 ? '' : 's'} found`;
+  resultCount.textContent = `${totalArticles} article${totalArticles === 1 ? '' : 's'}`;
 
   grid.innerHTML = categories.map(cat => {
     const articles = cat.articles || [];
     const articleCount = articles.length;
+    const maxDisplay = 6;
 
-    const articlesList = articles.slice(0, 5).map(article => `
-      <div class="article-item">
-        <a href="${baseurl}/view.html?file=${encodeURIComponent(article.path)}">
-          ${article.title}
-        </a>
-        <div class="article-item__meta">
-          <span class="date">
-            <svg width="14" height="14" fill="currentColor" viewBox="0 0 16 16">
-              <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
-            </svg>
-            ${article.modified?.slice(0, 10) || '—'}
-          </span>
-          ${article.subcategory ? `<span class="subcategory">${article.subcategory}</span>` : ''}
+    const articlesList = articles.slice(0, maxDisplay).map(article => {
+      const encodedPath = encodeURIComponent(article.path);
+      const displayTitle = cleanTitle(article.title);
+      
+      return `
+        <div class="article-item">
+          <a href="${baseurl}/view.html?file=${encodedPath}">
+            ${displayTitle}
+          </a>
+          <div class="article-item__meta">
+            ${article.subcategory ? `<span class="subcategory">${article.subcategory}</span>` : ''}
+          </div>
         </div>
-      </div>
-    `).join('');
+      `;
+    }).join('');
 
-    const showMoreLink = articleCount > 5 ? 
-      `<div class="article-item" style="text-align: center; border: none; padding-top: 1rem;">
-        <a href="#" onclick="expandCategory('${cat.name}'); return false;" style="color: var(--primary); font-weight: 600;">
-          + Show ${articleCount - 5} more articles
+    const showMoreLink = articleCount > maxDisplay ? `
+      <div class="show-more-link">
+        <a href="#" onclick="expandCategory('${cat.name}'); return false;">
+          + Show ${articleCount - maxDisplay} more
         </a>
-      </div>` : '';
+      </div>
+    ` : '';
 
     return `
       <div class="category-block" data-category="${cat.name}">
         <div class="category-block__header">
           <h3>${cat.name}</h3>
-          <div class="category-block__count">
-            <svg class="icon" fill="currentColor" viewBox="0 0 16 16">
+          <span class="category-block__count">
+            <svg width="14" height="14" fill="currentColor" viewBox="0 0 16 16">
               <path d="M2.5 3.5a.5.5 0 0 1 0-1h11a.5.5 0 0 1 0 1h-11zm0 3a.5.5 0 0 1 0-1h11a.5.5 0 0 1 0 1h-11zm0 3a.5.5 0 0 1 0-1h11a.5.5 0 0 1 0 1h-11zm0 3a.5.5 0 0 1 0-1h11a.5.5 0 0 1 0 1h-11z"/>
             </svg>
-            ${articleCount} article${articleCount === 1 ? '' : 's'}
-          </div>
+            ${articleCount}
+          </span>
         </div>
         <div class="category-block__articles">
           ${articlesList}
@@ -219,26 +234,80 @@ function renderCategories(categories) {
   }).join('');
 }
 
-function searchArticles(query, categories) {
-  const filtered = categories.map(cat => ({
+/**
+ * Clean title - remove markdown artifacts
+ */
+function cleanTitle(title) {
+  if (!title) return 'Untitled';
+  return title
+    .replace(/^#+\s*/, '')  // Remove leading #
+    .replace(/^\*+\s*/, '') // Remove leading *
+    .replace(/^✅\s*/, '')  // Remove checkmarks
+    .replace(/^\d+\.\s*/, '') // Remove numbering
+    .replace(/\*\*/g, '')   // Remove bold markers
+    .trim();
+}
+
+/**
+ * Search articles across all categories
+ */
+function searchArticles(query) {
+  const filtered = allCategories.map(cat => ({
     ...cat,
-    articles: (cat.articles || []).filter(article => 
-      article.title.toLowerCase().includes(query) ||
-      article.path.toLowerCase().includes(query) ||
-      (article.subcategory && article.subcategory.toLowerCase().includes(query))
-    )
+    articles: (cat.articles || []).filter(article => {
+      const titleMatch = article.title?.toLowerCase().includes(query);
+      const pathMatch = article.path?.toLowerCase().includes(query);
+      const subcatMatch = article.subcategory?.toLowerCase().includes(query);
+      return titleMatch || pathMatch || subcatMatch;
+    })
   })).filter(cat => cat.articles.length > 0);
 
   renderCategories(filtered);
 }
 
+/**
+ * Expand category to show all articles
+ */
 function expandCategory(categoryName) {
-  alert(`Feature coming soon: View all articles in ${categoryName}`);
+  const baseurl = window.SITE_BASEURL || '';
+  const category = allCategories.find(cat => cat.name === categoryName);
+  
+  if (!category) return;
+
+  const block = document.querySelector(`.category-block[data-category="${categoryName}"]`);
+  if (!block) return;
+
+  const articlesContainer = block.querySelector('.category-block__articles');
+  const articles = category.articles || [];
+
+  articlesContainer.innerHTML = articles.map(article => {
+    const encodedPath = encodeURIComponent(article.path);
+    const displayTitle = cleanTitle(article.title);
+    
+    return `
+      <div class="article-item">
+        <a href="${baseurl}/view.html?file=${encodedPath}">
+          ${displayTitle}
+        </a>
+        <div class="article-item__meta">
+          ${article.subcategory ? `<span class="subcategory">${article.subcategory}</span>` : ''}
+        </div>
+      </div>
+    `;
+  }).join('');
 }
 
+/**
+ * Handle search button click
+ */
 function handleSearch() {
-  const query = document.getElementById('searchInput').value;
-  if (query) {
-    document.getElementById('searchInput').dispatchEvent(new Event('input'));
+  const searchInput = document.getElementById('searchInput');
+  if (searchInput && searchInput.value.trim()) {
+    searchArticles(searchInput.value.toLowerCase().trim());
   }
 }
+
+// Make functions globally available
+window.filterByCategory = filterByCategory;
+window.expandCategory = expandCategory;
+window.handleSearch = handleSearch;

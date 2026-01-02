@@ -6,6 +6,10 @@ on:
     paths:
       - '**.md'
       - '!README.md'
+      - '!repo_structure.md'
+  
+  # Allow manual trigger
+  workflow_dispatch:
 
 permissions:
   contents: write 
@@ -16,22 +20,30 @@ jobs:
     
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
       
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
-          python-version: '3.10'
+          python-version: '3.11'
       
       - name: Generate catalog
         run: python scripts/generate_catalog.py
       
       - name: Commit catalog changes
         run: |
-          git config --local user.email "catalog-generator-bot@github.com"
-          git config --local user.name "Catalog Generator Bot"
+          git config --local user.email "catalog-bot@github.com"
+          git config --local user.name "Catalog Bot"
           git add catalog.json
-          git diff --quiet && git diff --staged --quiet || git commit -m "📚 Auto-update article catalog [skip ci]"
-          git push
+          
+          # Only commit if there are changes
+          if git diff --staged --quiet; then
+            echo "No changes to catalog.json"
+          else
+            git commit -m "📚 Auto-update article catalog [skip ci]"
+            git push
+            echo "✅ Catalog updated and pushed"
+          fi
