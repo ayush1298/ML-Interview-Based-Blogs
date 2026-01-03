@@ -79,8 +79,8 @@ jobs:
       - name: Ensure catalog exists (fallback)
         if: needs.check-changes.outputs.catalog-changed == 'false'
         run: |
-          if [ ! -f "website/catalog.json" ]; then
-            echo "⚠️  No existing catalog found - regenerating..."
+          if [ ! -f "website/catalog.json" ] || [ ! -s "website/catalog.json" ]; then
+            echo "⚠️  No existing catalog found or empty - regenerating..."
             python scripts/generate_catalog.py
             cp catalog.json website/
           else
@@ -111,6 +111,21 @@ jobs:
               echo "Copied $dir"
             fi
           done
+
+      - name: Verify build output
+        run: |
+          echo "📋 Verifying build output in website/_site/..."
+          echo "Files in _site:"
+          ls -la website/_site/ | head -20
+          if [ ! -f "website/_site/index.html" ]; then
+            echo "❌ ERROR: index.html not found in build output!"
+            exit 1
+          fi
+          if [ ! -f "website/_site/catalog.json" ]; then
+            echo "❌ ERROR: catalog.json not found in build output!"
+            exit 1
+          fi
+          echo "✅ Build output verified - index.html and catalog.json found"
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
