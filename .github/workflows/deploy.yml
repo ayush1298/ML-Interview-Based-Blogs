@@ -72,17 +72,12 @@ jobs:
         if: needs.check-changes.outputs.catalog-changed == 'true'
         run: python scripts/generate_catalog.py
 
-      - name: Copy catalog to website folder
-        if: needs.check-changes.outputs.catalog-changed == 'true'
-        run: cp catalog.json website/
-
       - name: Ensure catalog exists (fallback)
         if: needs.check-changes.outputs.catalog-changed == 'false'
         run: |
           if [ ! -f "website/catalog.json" ] || [ ! -s "website/catalog.json" ]; then
             echo "⚠️  No existing catalog found or empty - regenerating..."
             python scripts/generate_catalog.py
-            cp catalog.json website/
           else
             echo "✅ Using existing catalog.json (no changes detected)"
           fi

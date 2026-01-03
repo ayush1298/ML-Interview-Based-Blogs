@@ -37,11 +37,11 @@ jobs:
         run: |
           git config --local user.email "catalog-bot@github.com"
           git config --local user.name "Catalog Bot"
-          git add catalog.json
+          git add website/catalog.json
           
           # Only commit if there are changes
           if git diff --staged --quiet; then
-            echo "No changes to catalog.json"
+            echo "No changes to website/catalog.json"
           else
             git commit -m "📚 Auto-update article catalog [skip ci]"
             git push
