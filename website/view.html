@@ -1008,8 +1008,12 @@ layout: null
       }
 
       // Construct the URL for the markdown file
+      // Properly encode each path segment to handle Unicode characters
       const baseUrl = window.location.origin + (BASE_URL || '');
-      const mdUrl = `${baseUrl}/${decodeURIComponent(file)}`;
+      const decodedFile = decodeURIComponent(file);
+      // Encode each path segment separately to handle special characters
+      const pathSegments = decodedFile.split('/').map(segment => encodeURIComponent(segment));
+      const mdUrl = `${baseUrl}/${pathSegments.join('/')}`;
       const mdDir = mdUrl.substring(0, mdUrl.lastIndexOf("/"));
 
       // Extract metadata from path
@@ -1019,8 +1023,13 @@ layout: null
       const filename = pathParts[pathParts.length - 1].replace('.md', '');
 
       try {
+        // Log the URL being fetched for debugging
+        console.log('Fetching markdown from:', mdUrl);
         const response = await fetch(mdUrl);
-        if (!response.ok) throw new Error(`Failed to load: ${response.status} ${response.statusText}`);
+        if (!response.ok) {
+          console.error('Fetch failed:', response.status, response.statusText, 'URL:', mdUrl);
+          throw new Error(`Failed to load: ${response.status} ${response.statusText}. URL: ${mdUrl}`);
+        }
         
         let markdown = await response.text();
 

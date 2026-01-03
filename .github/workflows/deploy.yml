@@ -102,8 +102,15 @@ jobs:
         run: |
           for dir in "LLM" "Agents" "RAG" "Neural Network" "Computer Vision" "Traditional ML" "Statistics" "System Design" "Cuda and GPU" "Diffusion" "Reinforcement Learning(RL)" "Vision Language Models(VLMs)"; do
             if [ -d "$dir" ]; then
-              cp -r "$dir" "website/_site/"
+              # Use cp with proper handling of special characters
+              cp -r "$dir" "website/_site/" || {
+                echo "⚠️  Warning: Failed to copy $dir, trying with find..."
+                find "$dir" -type f -exec cp --parents {} "website/_site/" \;
+              }
               echo "Copied $dir"
+              # Verify some files were copied
+              file_count=$(find "website/_site/$dir" -type f 2>/dev/null | wc -l)
+              echo "  → $file_count files copied from $dir"
             fi
           done
 
