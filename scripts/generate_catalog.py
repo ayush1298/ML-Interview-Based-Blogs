@@ -211,7 +211,7 @@ def main():
     catalog, total_articles = generate_catalog('.')
     
     # Write catalog to JSON file
-    output_file = 'catalog.json'
+    output_file = 'website/catalog.json'
     with open(output_file, 'w', encoding='utf-8') as f:
         json.dump(catalog, f, indent=2, ensure_ascii=False)
     
