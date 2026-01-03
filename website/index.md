@@ -89,6 +89,19 @@ title: AI / ML Interview Questions
     <div class="filter-chips" id="filterChips">
       <button class="chip active" data-category="all">All Topics</button>
     </div>
+    
+    <!-- Subcategory Filter (hidden by default) -->
+    <div class="subcategory-filter-section" id="subcategoryFilterSection" style="display: none;">
+      <div class="section-header">
+        <div>
+          <h3>Filter by Subcategory</h3>
+          <p id="subcategoryFilterHint">Select a category first</p>
+        </div>
+      </div>
+      <div class="filter-chips" id="subcategoryFilterChips">
+        <button class="chip active" data-subcategory="all">All Subcategories</button>
+      </div>
+    </div>
   </div>
 </section>
 

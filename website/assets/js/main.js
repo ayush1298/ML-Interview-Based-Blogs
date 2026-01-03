@@ -6,6 +6,8 @@
 let allArticles = [];
 let allCategories = [];
 let selectedFilters = new Set(); // Track multiple selected categories
+let selectedSubcategoryFilters = new Set(); // Track selected subcategories
+let currentCategoryForSubcategory = null; // Track which category's subcategories we're filtering
 
 // Theme Management
 (function initTheme() {
@@ -160,6 +162,14 @@ document.addEventListener('DOMContentLoaded', async () => {
 function toggleAllTopics() {
   // Clear all selected filters
   selectedFilters.clear();
+  selectedSubcategoryFilters.clear();
+  currentCategoryForSubcategory = null;
+  
+  // Hide subcategory filter
+  const subcategorySection = document.getElementById('subcategoryFilterSection');
+  if (subcategorySection) {
+    subcategorySection.style.display = 'none';
+  }
   
   // Update chip states
   document.querySelectorAll('.chip').forEach(chip => {
@@ -239,13 +249,139 @@ function updateChipStates() {
 }
 
 /**
+ * Get subcategories for a category
+ */
+function getSubcategoriesForCategory(categoryName) {
+  const category = allCategories.find(cat => cat.name === categoryName);
+  if (!category) return [];
+  
+  const subcategories = new Set();
+  const articles = category.articles || [];
+  
+  articles.forEach(article => {
+    if (article.subcategory) {
+      subcategories.add(article.subcategory);
+    }
+  });
+  
+  return Array.from(subcategories).sort();
+}
+
+/**
+ * Render subcategory filter chips
+ */
+function renderSubcategoryFilters(categoryName) {
+  const subcategorySection = document.getElementById('subcategoryFilterSection');
+  const subcategoryChips = document.getElementById('subcategoryFilterChips');
+  const subcategoryHint = document.getElementById('subcategoryFilterHint');
+  
+  if (!subcategorySection || !subcategoryChips) return;
+  
+  if (selectedFilters.size !== 1 || !selectedFilters.has(categoryName)) {
+    // Hide if multiple categories selected or not this category
+    subcategorySection.style.display = 'none';
+    selectedSubcategoryFilters.clear();
+    currentCategoryForSubcategory = null;
+    return;
+  }
+  
+  // Show subcategory filter
+  currentCategoryForSubcategory = categoryName;
+  subcategorySection.style.display = 'block';
+  
+  const subcategories = getSubcategoriesForCategory(categoryName);
+  const category = allCategories.find(cat => cat.name === categoryName);
+  const hasUncategorized = category && (category.articles || []).some(a => !a.subcategory);
+  
+  if (subcategoryHint) {
+    subcategoryHint.textContent = `Filter ${categoryName} articles by subcategory`;
+  }
+  
+  let chipsHTML = '<button class="chip active" data-subcategory="all">All Subcategories</button>';
+  
+  subcategories.forEach(subcat => {
+    const isActive = selectedSubcategoryFilters.has(subcat);
+    chipsHTML += `<button class="chip ${isActive ? 'active' : ''}" data-subcategory="${subcat}">${subcat}</button>`;
+  });
+  
+  if (hasUncategorized) {
+    const isActive = selectedSubcategoryFilters.has('General');
+    chipsHTML += `<button class="chip ${isActive ? 'active' : ''}" data-subcategory="General">General</button>`;
+  }
+  
+  subcategoryChips.innerHTML = chipsHTML;
+  
+  // Add click handlers
+  subcategoryChips.querySelectorAll('.chip').forEach(chip => {
+    chip.addEventListener('click', (e) => {
+      e.preventDefault();
+      const subcategory = chip.dataset.subcategory;
+      toggleSubcategory(subcategory);
+    });
+  });
+}
+
+/**
+ * Toggle subcategory filter
+ */
+function toggleSubcategory(subcategory) {
+  if (subcategory === 'all') {
+    selectedSubcategoryFilters.clear();
+    document.querySelectorAll('#subcategoryFilterChips .chip').forEach(chip => {
+      chip.classList.remove('active');
+    });
+    document.querySelector('#subcategoryFilterChips .chip[data-subcategory="all"]')?.classList.add('active');
+  } else {
+    if (selectedSubcategoryFilters.has(subcategory)) {
+      selectedSubcategoryFilters.delete(subcategory);
+    } else {
+      selectedSubcategoryFilters.add(subcategory);
+    }
+    
+    // Update chip states
+    document.querySelectorAll('#subcategoryFilterChips .chip').forEach(chip => {
+      const chipSubcat = chip.dataset.subcategory;
+      if (chipSubcat === 'all') {
+        chip.classList.toggle('active', selectedSubcategoryFilters.size === 0);
+      } else {
+        chip.classList.toggle('active', selectedSubcategoryFilters.has(chipSubcat));
+      }
+    });
+  }
+  
+  applyFilters();
+}
+
+/**
  * Apply current filters and render
  */
 function applyFilters() {
   if (selectedFilters.size === 0) {
     renderCategories(allCategories);
+    return;
+  }
+  
+  // If single category selected, show subcategory filter
+  if (selectedFilters.size === 1) {
+    const categoryName = Array.from(selectedFilters)[0];
+    renderSubcategoryFilters(categoryName);
   } else {
-    const filtered = allCategories.filter(cat => selectedFilters.has(cat.name));
+    // Multiple categories - hide subcategory filter
+    const subcategorySection = document.getElementById('subcategoryFilterSection');
+    if (subcategorySection) {
+      subcategorySection.style.display = 'none';
+    }
+    selectedSubcategoryFilters.clear();
+    currentCategoryForSubcategory = null;
+  }
+  
+  const filtered = allCategories.filter(cat => selectedFilters.has(cat.name));
+  
+  // If single category selected, show subcategories as separate blocks
+  // (either when "All Subcategories" is selected or specific ones are selected)
+  if (selectedFilters.size === 1 && currentCategoryForSubcategory) {
+    renderCategoriesWithSubcategories(filtered);
+  } else {
     renderCategories(filtered);
   }
 }
@@ -265,7 +401,132 @@ function filterByCategory(category) {
 }
 
 /**
- * Render category blocks with subcategory grouping
+ * Render categories with subcategories as separate blocks
+ */
+function renderCategoriesWithSubcategories(categories) {
+  const grid = document.getElementById('categoryGrid');
+  const resultCount = document.getElementById('resultCount');
+  const baseurl = window.SITE_BASEURL || '';
+  
+  if (!categories || categories.length === 0) {
+    grid.innerHTML = `
+      <div class="empty-state">
+        <h3>No articles found</h3>
+        <p>Try adjusting your search or filter.</p>
+      </div>
+    `;
+    resultCount.textContent = '0 articles';
+    return;
+  }
+  
+  let allRenderedCategories = [];
+  let totalArticles = 0;
+  
+  categories.forEach(cat => {
+    const articles = cat.articles || [];
+    
+    // Group articles by subcategory
+    const groupedBySubcategory = {};
+    const articlesWithoutSubcategory = [];
+    
+    articles.forEach(article => {
+      if (article.subcategory) {
+        if (!groupedBySubcategory[article.subcategory]) {
+          groupedBySubcategory[article.subcategory] = [];
+        }
+        groupedBySubcategory[article.subcategory].push(article);
+      } else {
+        articlesWithoutSubcategory.push(article);
+      }
+    });
+    
+    // Filter subcategories based on selected filters
+    const subcategoryKeys = Object.keys(groupedBySubcategory).sort();
+    // If no subcategory filters selected (showing "All"), show all subcategories
+    // If specific subcategories selected, show only those
+    const filteredSubcategories = selectedSubcategoryFilters.size > 0
+      ? subcategoryKeys.filter(subcat => selectedSubcategoryFilters.has(subcat))
+      : subcategoryKeys; // Show all when "All Subcategories" is selected
+    
+    // Render each subcategory as a separate category block
+    filteredSubcategories.forEach(subcategory => {
+      const subArticles = groupedBySubcategory[subcategory];
+      totalArticles += subArticles.length;
+      
+      allRenderedCategories.push({
+        name: `${cat.name} / ${subcategory}`,
+        displayName: subcategory,
+        parentCategory: cat.name,
+        articles: subArticles
+      });
+    });
+    
+    // Add "General" category for uncategorized articles if "General" is selected or all are selected
+    if (articlesWithoutSubcategory.length > 0) {
+      const shouldShowGeneral = selectedSubcategoryFilters.size === 0 || selectedSubcategoryFilters.has('General');
+      if (shouldShowGeneral) {
+        totalArticles += articlesWithoutSubcategory.length;
+        allRenderedCategories.push({
+          name: `${cat.name} / General`,
+          displayName: 'General',
+          parentCategory: cat.name,
+          articles: articlesWithoutSubcategory
+        });
+      }
+    }
+  });
+  
+  resultCount.textContent = `${totalArticles} article${totalArticles === 1 ? '' : 's'}`;
+  
+  // Render as category blocks
+  grid.innerHTML = allRenderedCategories.map(cat => {
+    const articles = cat.articles || [];
+    const articleCount = articles.length;
+    const maxDisplay = 6;
+    
+    const articlesList = articles.slice(0, maxDisplay).map(article => {
+      const encodedPath = encodeURIComponent(article.path);
+      const displayTitle = cleanTitle(article.title);
+      
+      return `
+        <div class="article-item">
+          <a href="${baseurl}/view.html?file=${encodedPath}">
+            ${displayTitle}
+          </a>
+        </div>
+      `;
+    }).join('');
+    
+    const showMoreLink = articleCount > maxDisplay ? `
+      <div class="show-more-link">
+        <a href="#" onclick="expandCategory('${cat.name}'); return false;">
+          + Show ${articleCount - maxDisplay} more
+        </a>
+      </div>
+    ` : '';
+    
+    return `
+      <div class="category-block" data-category="${cat.name}">
+        <div class="category-block__header">
+          <h3>${cat.displayName}</h3>
+          <span class="category-block__count">
+            <svg width="14" height="14" fill="currentColor" viewBox="0 0 16 16">
+              <path d="M2.5 3.5a.5.5 0 0 1 0-1h11a.5.5 0 0 1 0 1h-11zm0 3a.5.5 0 0 1 0-1h11a.5.5 0 0 1 0 1h-11zm0 3a.5.5 0 0 1 0-1h11a.5.5 0 0 1 0 1h-11zm0 3a.5.5 0 0 1 0-1h11a.5.5 0 0 1 0 1h-11z"/>
+            </svg>
+            ${articleCount}
+          </span>
+        </div>
+        <div class="category-block__articles">
+          ${articlesList}
+          ${showMoreLink}
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+/**
+ * Render category blocks (standard view - no subcategory separation)
  */
 function renderCategories(categories) {
   const grid = document.getElementById('categoryGrid');
@@ -289,94 +550,25 @@ function renderCategories(categories) {
   grid.innerHTML = categories.map(cat => {
     const articles = cat.articles || [];
     const articleCount = articles.length;
-    
-    // Group articles by subcategory
-    const groupedBySubcategory = {};
-    const articlesWithoutSubcategory = [];
-    
-    articles.forEach(article => {
-      if (article.subcategory) {
-        if (!groupedBySubcategory[article.subcategory]) {
-          groupedBySubcategory[article.subcategory] = [];
-        }
-        groupedBySubcategory[article.subcategory].push(article);
-      } else {
-        articlesWithoutSubcategory.push(article);
-      }
-    });
-    
-    // Sort subcategories alphabetically
-    const subcategoryKeys = Object.keys(groupedBySubcategory).sort();
-    
-    // Build the articles list with subcategory grouping
-    let articlesList = '';
-    const maxDisplayPerSubcategory = 4;
-    const maxDisplayTotal = 6;
-    let displayedCount = 0;
-    
-    // Render articles with subcategories
-    subcategoryKeys.forEach(subcategory => {
-      const subArticles = groupedBySubcategory[subcategory];
-      const displayCount = Math.min(subArticles.length, maxDisplayPerSubcategory);
+    const maxDisplay = 6;
+
+    const articlesList = articles.slice(0, maxDisplay).map(article => {
+      const encodedPath = encodeURIComponent(article.path);
+      const displayTitle = cleanTitle(article.title);
       
-      if (displayedCount < maxDisplayTotal) {
-        articlesList += `
-          <div class="subcategory-group">
-            <h4 class="subcategory-header">${subcategory}</h4>
-            <div class="subcategory-articles">
-              ${subArticles.slice(0, displayCount).map(article => {
-                const encodedPath = encodeURIComponent(article.path);
-                const displayTitle = cleanTitle(article.title);
-                displayedCount++;
-                return `
-                  <div class="article-item">
-                    <a href="${baseurl}/view.html?file=${encodedPath}">
-                      ${displayTitle}
-                    </a>
-                  </div>
-                `;
-              }).join('')}
-              ${subArticles.length > displayCount ? `
-                <div class="subcategory-more">
-                  <a href="#" onclick="expandSubcategory('${cat.name}', '${subcategory}'); return false;">
-                    + ${subArticles.length - displayCount} more in ${subcategory}
-                  </a>
-                </div>
-              ` : ''}
-            </div>
-          </div>
-        `;
-      }
-    });
-    
-    // Render articles without subcategory
-    if (articlesWithoutSubcategory.length > 0 && displayedCount < maxDisplayTotal) {
-      const remaining = maxDisplayTotal - displayedCount;
-      const displayCount = Math.min(articlesWithoutSubcategory.length, remaining);
-      
-      articlesList += `
-        <div class="subcategory-group">
-          <div class="subcategory-articles">
-            ${articlesWithoutSubcategory.slice(0, displayCount).map(article => {
-              const encodedPath = encodeURIComponent(article.path);
-              const displayTitle = cleanTitle(article.title);
-              return `
-                <div class="article-item">
-                  <a href="${baseurl}/view.html?file=${encodedPath}">
-                    ${displayTitle}
-                  </a>
-                </div>
-              `;
-            }).join('')}
-          </div>
+      return `
+        <div class="article-item">
+          <a href="${baseurl}/view.html?file=${encodedPath}">
+            ${displayTitle}
+          </a>
         </div>
       `;
-    }
+    }).join('');
 
-    const showMoreLink = articleCount > maxDisplayTotal ? `
+    const showMoreLink = articleCount > maxDisplay ? `
       <div class="show-more-link">
         <a href="#" onclick="expandCategory('${cat.name}'); return false;">
-          + Show ${articleCount - maxDisplayTotal} more
+          + Show ${articleCount - maxDisplay} more
         </a>
       </div>
     ` : '';
@@ -434,126 +626,64 @@ function searchArticles(query) {
     })
   })).filter(cat => cat.articles.length > 0);
 
-  renderCategories(filtered);
+  // If single category selected and subcategory filter is active, use subcategory rendering
+  if (selectedFilters.size === 1 && currentCategoryForSubcategory) {
+    if (selectedSubcategoryFilters.size > 0) {
+      renderCategoriesWithSubcategories(filtered);
+    } else {
+      renderCategoriesWithSubcategories(filtered); // Show all subcategories when searching
+    }
+  } else {
+    renderCategories(filtered);
+  }
 }
 
 /**
- * Expand category to show all articles with subcategory grouping
+ * Expand category to show all articles
  */
 function expandCategory(categoryName) {
   const baseurl = window.SITE_BASEURL || '';
-  const category = allCategories.find(cat => cat.name === categoryName);
+  // Handle both regular category names and subcategory names (format: "Category / Subcategory")
+  const categoryParts = categoryName.split(' / ');
+  let category, articles;
   
-  if (!category) return;
+  if (categoryParts.length === 2) {
+    // This is a subcategory block
+    const [parentCategory, subcategory] = categoryParts;
+    category = allCategories.find(cat => cat.name === parentCategory);
+    if (category) {
+      if (subcategory === 'General') {
+        articles = (category.articles || []).filter(a => !a.subcategory);
+      } else {
+        articles = (category.articles || []).filter(a => a.subcategory === subcategory);
+      }
+    }
+  } else {
+    // Regular category
+    category = allCategories.find(cat => cat.name === categoryName);
+    articles = category?.articles || [];
+  }
+  
+  if (!category || !articles) return;
 
   const block = document.querySelector(`.category-block[data-category="${categoryName}"]`);
   if (!block) return;
 
   const articlesContainer = block.querySelector('.category-block__articles');
-  const articles = category.articles || [];
   
-  // Group articles by subcategory
-  const groupedBySubcategory = {};
-  const articlesWithoutSubcategory = [];
-  
-  articles.forEach(article => {
-    if (article.subcategory) {
-      if (!groupedBySubcategory[article.subcategory]) {
-        groupedBySubcategory[article.subcategory] = [];
-      }
-      groupedBySubcategory[article.subcategory].push(article);
-    } else {
-      articlesWithoutSubcategory.push(article);
-    }
-  });
-  
-  const subcategoryKeys = Object.keys(groupedBySubcategory).sort();
-  
-  let articlesList = '';
-  
-  // Render all articles with subcategories
-  subcategoryKeys.forEach(subcategory => {
-    const subArticles = groupedBySubcategory[subcategory];
-    articlesList += `
-      <div class="subcategory-group">
-        <h4 class="subcategory-header">${subcategory}</h4>
-        <div class="subcategory-articles">
-          ${subArticles.map(article => {
-            const encodedPath = encodeURIComponent(article.path);
-            const displayTitle = cleanTitle(article.title);
-            return `
-              <div class="article-item">
-                <a href="${baseurl}/view.html?file=${encodedPath}">
-                  ${displayTitle}
-                </a>
-              </div>
-            `;
-          }).join('')}
-        </div>
+  const articlesList = articles.map(article => {
+    const encodedPath = encodeURIComponent(article.path);
+    const displayTitle = cleanTitle(article.title);
+    return `
+      <div class="article-item">
+        <a href="${baseurl}/view.html?file=${encodedPath}">
+          ${displayTitle}
+        </a>
       </div>
     `;
-  });
-  
-  // Render articles without subcategory
-  if (articlesWithoutSubcategory.length > 0) {
-    articlesList += `
-      <div class="subcategory-group">
-        <div class="subcategory-articles">
-          ${articlesWithoutSubcategory.map(article => {
-            const encodedPath = encodeURIComponent(article.path);
-            const displayTitle = cleanTitle(article.title);
-            return `
-              <div class="article-item">
-                <a href="${baseurl}/view.html?file=${encodedPath}">
-                  ${displayTitle}
-                </a>
-              </div>
-            `;
-          }).join('')}
-        </div>
-      </div>
-    `;
-  }
+  }).join('');
 
   articlesContainer.innerHTML = articlesList;
-}
-
-/**
- * Expand subcategory to show all articles in that subcategory
- */
-function expandSubcategory(categoryName, subcategoryName) {
-  const baseurl = window.SITE_BASEURL || '';
-  const category = allCategories.find(cat => cat.name === categoryName);
-  
-  if (!category) return;
-
-  const block = document.querySelector(`.category-block[data-category="${categoryName}"]`);
-  if (!block) return;
-
-  // Find the subcategory group
-  const subcategoryGroups = block.querySelectorAll('.subcategory-group');
-  subcategoryGroups.forEach(group => {
-    const header = group.querySelector('.subcategory-header');
-    if (header && header.textContent.trim() === subcategoryName) {
-      const articles = category.articles.filter(a => a.subcategory === subcategoryName);
-      const articlesContainer = group.querySelector('.subcategory-articles');
-      const moreLink = group.querySelector('.subcategory-more');
-      
-      if (moreLink) moreLink.remove();
-      
-      articlesContainer.innerHTML = articles.map(article => {
-        const encodedPath = encodeURIComponent(article.path);
-        const displayTitle = cleanTitle(article.title);
-        return `
-          <div class="article-item">
-            <a href="${baseurl}/view.html?file=${encodedPath}">
-              ${displayTitle}
-            </a>
-          </div>
-        `;
-      }).join('');
-    }
-  });
 }
 
 /**
@@ -571,5 +701,5 @@ window.filterByCategory = filterByCategory;
 window.toggleCategory = toggleCategory;
 window.toggleAllTopics = toggleAllTopics;
 window.expandCategory = expandCategory;
-window.expandSubcategory = expandSubcategory;
+window.toggleSubcategory = toggleSubcategory;
 window.handleSearch = handleSearch;
