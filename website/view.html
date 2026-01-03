@@ -177,6 +177,101 @@ layout: null
       border-color: var(--accent-primary);
     }
 
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: var(--space-md);
+    }
+
+    .theme-toggle {
+      background: var(--bg-tertiary);
+      border: 1px solid var(--border-primary);
+      border-radius: var(--radius-sm);
+      padding: var(--space-sm);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-secondary);
+      transition: all var(--transition-fast);
+      width: 40px;
+      height: 40px;
+      position: relative;
+    }
+
+    .theme-toggle:hover {
+      background: var(--bg-elevated);
+      border-color: var(--accent-primary);
+      color: var(--text-primary);
+      transform: scale(1.05);
+    }
+
+    .theme-icon {
+      position: absolute;
+      transition: opacity var(--transition-base), transform var(--transition-base);
+      width: 20px;
+      height: 20px;
+    }
+
+    .theme-icon-sun {
+      opacity: 0;
+      transform: rotate(90deg);
+    }
+
+    .theme-icon-moon {
+      opacity: 1;
+      transform: rotate(0deg);
+    }
+
+    [data-theme="light"] .theme-icon-sun {
+      opacity: 1;
+      transform: rotate(0deg);
+    }
+
+    [data-theme="light"] .theme-icon-moon {
+      opacity: 0;
+      transform: rotate(-90deg);
+    }
+
+    [data-theme="light"] {
+      --bg-primary: #ffffff;
+      --bg-secondary: #f8fafc;
+      --bg-tertiary: #f1f5f9;
+      --bg-elevated: #e2e8f0;
+      
+      --text-primary: #0f172a;
+      --text-secondary: #334155;
+      --text-body: #1e293b;
+      --text-muted: #64748b;
+      --text-inverse: #ffffff;
+      
+      --border-primary: #e2e8f0;
+      --border-subtle: #cbd5e1;
+      --border-accent: rgba(20, 184, 166, 0.2);
+      
+      --shadow-sm: 0 2px 8px rgba(0,0,0,0.08);
+      --shadow-md: 0 4px 16px rgba(0,0,0,0.12);
+      --shadow-lg: 0 8px 32px rgba(0,0,0,0.16);
+    }
+
+    [data-theme="light"] .site-header {
+      background: rgba(255, 255, 255, 0.9);
+    }
+
+    [data-theme="light"] .article-content tr:nth-child(even) {
+      background: rgba(241, 245, 249, 0.8);
+    }
+
+    [data-theme="light"] .article-content code {
+      background: var(--bg-tertiary);
+      color: var(--text-primary);
+    }
+
+    [data-theme="light"] .article-content pre {
+      background: var(--bg-secondary);
+      border-color: var(--border-primary);
+    }
+
     /* Article Container */
     .article-container {
       max-width: 760px;
@@ -839,12 +934,30 @@ layout: null
         <div class="nav-logo__icon">ML</div>
         <span class="nav-logo__text">ML Interview Hub</span>
       </a>
-      <a href="{{ '/' | relative_url }}" class="btn-back">
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
-          <path fill-rule="evenodd" d="M7.78 12.53a.75.75 0 0 1-1.06 0L2.47 8.28a.75.75 0 0 1 0-1.06l4.25-4.25a.75.75 0 0 1 1.06 1.06L4.81 7h7.44a.75.75 0 0 1 0 1.5H4.81l2.97 2.97a.75.75 0 0 1 0 1.06Z"/>
-        </svg>
-        Back to Articles
-      </a>
+      <div class="nav-actions">
+        <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode" title="Toggle theme">
+          <svg class="theme-icon theme-icon-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="5"></circle>
+            <line x1="12" y1="1" x2="12" y2="3"></line>
+            <line x1="12" y1="21" x2="12" y2="23"></line>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+            <line x1="1" y1="12" x2="3" y2="12"></line>
+            <line x1="21" y1="12" x2="23" y2="12"></line>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+          </svg>
+          <svg class="theme-icon theme-icon-moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+          </svg>
+        </button>
+        <a href="{{ '/' | relative_url }}" class="btn-back">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+            <path fill-rule="evenodd" d="M7.78 12.53a.75.75 0 0 1-1.06 0L2.47 8.28a.75.75 0 0 1 0-1.06l4.25-4.25a.75.75 0 0 1 1.06 1.06L4.81 7h7.44a.75.75 0 0 1 0 1.5H4.81l2.97 2.97a.75.75 0 0 1 0 1.06Z"/>
+          </svg>
+          Back to Articles
+        </a>
+      </div>
     </nav>
   </header>
 
@@ -990,6 +1103,24 @@ layout: null
       const toc = document.getElementById('tocContainer');
       toc.classList.toggle('collapsed');
     }
+
+    // Theme Management
+    (function initTheme() {
+      const themeToggle = document.getElementById('themeToggle');
+      const savedTheme = localStorage.getItem('theme') || 'dark';
+      
+      // Set initial theme
+      document.documentElement.setAttribute('data-theme', savedTheme);
+      
+      if (themeToggle) {
+        themeToggle.addEventListener('click', () => {
+          const currentTheme = document.documentElement.getAttribute('data-theme');
+          const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+          document.documentElement.setAttribute('data-theme', newTheme);
+          localStorage.setItem('theme', newTheme);
+        });
+      }
+    })();
 
     // Markdown rendering
     (async () => {

@@ -7,6 +7,24 @@ let allArticles = [];
 let allCategories = [];
 let selectedFilters = new Set(); // Track multiple selected categories
 
+// Theme Management
+(function initTheme() {
+  const themeToggle = document.getElementById('themeToggle');
+  const savedTheme = localStorage.getItem('theme') || 'dark';
+  
+  // Set initial theme
+  document.documentElement.setAttribute('data-theme', savedTheme);
+  
+  if (themeToggle) {
+    themeToggle.addEventListener('click', () => {
+      const currentTheme = document.documentElement.getAttribute('data-theme');
+      const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', newTheme);
+      localStorage.setItem('theme', newTheme);
+    });
+  }
+})();
+
 document.addEventListener('DOMContentLoaded', async () => {
   const grid = document.getElementById('categoryGrid');
   const filterChips = document.getElementById('filterChips');
@@ -247,7 +265,7 @@ function filterByCategory(category) {
 }
 
 /**
- * Render category blocks
+ * Render category blocks with subcategory grouping
  */
 function renderCategories(categories) {
   const grid = document.getElementById('categoryGrid');
@@ -271,28 +289,94 @@ function renderCategories(categories) {
   grid.innerHTML = categories.map(cat => {
     const articles = cat.articles || [];
     const articleCount = articles.length;
-    const maxDisplay = 6;
-
-    const articlesList = articles.slice(0, maxDisplay).map(article => {
-      const encodedPath = encodeURIComponent(article.path);
-      const displayTitle = cleanTitle(article.title);
+    
+    // Group articles by subcategory
+    const groupedBySubcategory = {};
+    const articlesWithoutSubcategory = [];
+    
+    articles.forEach(article => {
+      if (article.subcategory) {
+        if (!groupedBySubcategory[article.subcategory]) {
+          groupedBySubcategory[article.subcategory] = [];
+        }
+        groupedBySubcategory[article.subcategory].push(article);
+      } else {
+        articlesWithoutSubcategory.push(article);
+      }
+    });
+    
+    // Sort subcategories alphabetically
+    const subcategoryKeys = Object.keys(groupedBySubcategory).sort();
+    
+    // Build the articles list with subcategory grouping
+    let articlesList = '';
+    const maxDisplayPerSubcategory = 4;
+    const maxDisplayTotal = 6;
+    let displayedCount = 0;
+    
+    // Render articles with subcategories
+    subcategoryKeys.forEach(subcategory => {
+      const subArticles = groupedBySubcategory[subcategory];
+      const displayCount = Math.min(subArticles.length, maxDisplayPerSubcategory);
       
-      return `
-        <div class="article-item">
-          <a href="${baseurl}/view.html?file=${encodedPath}">
-            ${displayTitle}
-          </a>
-          <div class="article-item__meta">
-            ${article.subcategory ? `<span class="subcategory">${article.subcategory}</span>` : ''}
+      if (displayedCount < maxDisplayTotal) {
+        articlesList += `
+          <div class="subcategory-group">
+            <h4 class="subcategory-header">${subcategory}</h4>
+            <div class="subcategory-articles">
+              ${subArticles.slice(0, displayCount).map(article => {
+                const encodedPath = encodeURIComponent(article.path);
+                const displayTitle = cleanTitle(article.title);
+                displayedCount++;
+                return `
+                  <div class="article-item">
+                    <a href="${baseurl}/view.html?file=${encodedPath}">
+                      ${displayTitle}
+                    </a>
+                  </div>
+                `;
+              }).join('')}
+              ${subArticles.length > displayCount ? `
+                <div class="subcategory-more">
+                  <a href="#" onclick="expandSubcategory('${cat.name}', '${subcategory}'); return false;">
+                    + ${subArticles.length - displayCount} more in ${subcategory}
+                  </a>
+                </div>
+              ` : ''}
+            </div>
+          </div>
+        `;
+      }
+    });
+    
+    // Render articles without subcategory
+    if (articlesWithoutSubcategory.length > 0 && displayedCount < maxDisplayTotal) {
+      const remaining = maxDisplayTotal - displayedCount;
+      const displayCount = Math.min(articlesWithoutSubcategory.length, remaining);
+      
+      articlesList += `
+        <div class="subcategory-group">
+          <div class="subcategory-articles">
+            ${articlesWithoutSubcategory.slice(0, displayCount).map(article => {
+              const encodedPath = encodeURIComponent(article.path);
+              const displayTitle = cleanTitle(article.title);
+              return `
+                <div class="article-item">
+                  <a href="${baseurl}/view.html?file=${encodedPath}">
+                    ${displayTitle}
+                  </a>
+                </div>
+              `;
+            }).join('')}
           </div>
         </div>
       `;
-    }).join('');
+    }
 
-    const showMoreLink = articleCount > maxDisplay ? `
+    const showMoreLink = articleCount > maxDisplayTotal ? `
       <div class="show-more-link">
         <a href="#" onclick="expandCategory('${cat.name}'); return false;">
-          + Show ${articleCount - maxDisplay} more
+          + Show ${articleCount - maxDisplayTotal} more
         </a>
       </div>
     ` : '';
@@ -354,7 +438,7 @@ function searchArticles(query) {
 }
 
 /**
- * Expand category to show all articles
+ * Expand category to show all articles with subcategory grouping
  */
 function expandCategory(categoryName) {
   const baseurl = window.SITE_BASEURL || '';
@@ -367,22 +451,109 @@ function expandCategory(categoryName) {
 
   const articlesContainer = block.querySelector('.category-block__articles');
   const articles = category.articles || [];
-
-  articlesContainer.innerHTML = articles.map(article => {
-    const encodedPath = encodeURIComponent(article.path);
-    const displayTitle = cleanTitle(article.title);
-    
-    return `
-      <div class="article-item">
-        <a href="${baseurl}/view.html?file=${encodedPath}">
-          ${displayTitle}
-        </a>
-        <div class="article-item__meta">
-          ${article.subcategory ? `<span class="subcategory">${article.subcategory}</span>` : ''}
+  
+  // Group articles by subcategory
+  const groupedBySubcategory = {};
+  const articlesWithoutSubcategory = [];
+  
+  articles.forEach(article => {
+    if (article.subcategory) {
+      if (!groupedBySubcategory[article.subcategory]) {
+        groupedBySubcategory[article.subcategory] = [];
+      }
+      groupedBySubcategory[article.subcategory].push(article);
+    } else {
+      articlesWithoutSubcategory.push(article);
+    }
+  });
+  
+  const subcategoryKeys = Object.keys(groupedBySubcategory).sort();
+  
+  let articlesList = '';
+  
+  // Render all articles with subcategories
+  subcategoryKeys.forEach(subcategory => {
+    const subArticles = groupedBySubcategory[subcategory];
+    articlesList += `
+      <div class="subcategory-group">
+        <h4 class="subcategory-header">${subcategory}</h4>
+        <div class="subcategory-articles">
+          ${subArticles.map(article => {
+            const encodedPath = encodeURIComponent(article.path);
+            const displayTitle = cleanTitle(article.title);
+            return `
+              <div class="article-item">
+                <a href="${baseurl}/view.html?file=${encodedPath}">
+                  ${displayTitle}
+                </a>
+              </div>
+            `;
+          }).join('')}
         </div>
       </div>
     `;
-  }).join('');
+  });
+  
+  // Render articles without subcategory
+  if (articlesWithoutSubcategory.length > 0) {
+    articlesList += `
+      <div class="subcategory-group">
+        <div class="subcategory-articles">
+          ${articlesWithoutSubcategory.map(article => {
+            const encodedPath = encodeURIComponent(article.path);
+            const displayTitle = cleanTitle(article.title);
+            return `
+              <div class="article-item">
+                <a href="${baseurl}/view.html?file=${encodedPath}">
+                  ${displayTitle}
+                </a>
+              </div>
+            `;
+          }).join('')}
+        </div>
+      </div>
+    `;
+  }
+
+  articlesContainer.innerHTML = articlesList;
+}
+
+/**
+ * Expand subcategory to show all articles in that subcategory
+ */
+function expandSubcategory(categoryName, subcategoryName) {
+  const baseurl = window.SITE_BASEURL || '';
+  const category = allCategories.find(cat => cat.name === categoryName);
+  
+  if (!category) return;
+
+  const block = document.querySelector(`.category-block[data-category="${categoryName}"]`);
+  if (!block) return;
+
+  // Find the subcategory group
+  const subcategoryGroups = block.querySelectorAll('.subcategory-group');
+  subcategoryGroups.forEach(group => {
+    const header = group.querySelector('.subcategory-header');
+    if (header && header.textContent.trim() === subcategoryName) {
+      const articles = category.articles.filter(a => a.subcategory === subcategoryName);
+      const articlesContainer = group.querySelector('.subcategory-articles');
+      const moreLink = group.querySelector('.subcategory-more');
+      
+      if (moreLink) moreLink.remove();
+      
+      articlesContainer.innerHTML = articles.map(article => {
+        const encodedPath = encodeURIComponent(article.path);
+        const displayTitle = cleanTitle(article.title);
+        return `
+          <div class="article-item">
+            <a href="${baseurl}/view.html?file=${encodedPath}">
+              ${displayTitle}
+            </a>
+          </div>
+        `;
+      }).join('');
+    }
+  });
 }
 
 /**
@@ -400,4 +571,5 @@ window.filterByCategory = filterByCategory;
 window.toggleCategory = toggleCategory;
 window.toggleAllTopics = toggleAllTopics;
 window.expandCategory = expandCategory;
+window.expandSubcategory = expandSubcategory;
 window.handleSearch = handleSearch;
