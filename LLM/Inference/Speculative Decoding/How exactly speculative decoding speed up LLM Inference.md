@@ -21,6 +21,8 @@ You: Sure -
  - Latency drops ~400 ms -> ~180 ms (~2.2x speedup)
  - 20% mismatch adds ~50 ms -> net gain remains significant
 
+So, the draft model predicts multiple tokens ahead. If 80% of them are accepted, then over a batch of 64 sequences generating ~64 tokens each, about 3,200 tokens don’t require full target-model computation.
+
 Interviewer: "Memory implications?"
 
 You:
