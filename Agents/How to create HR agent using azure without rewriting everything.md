@@ -40,4 +40,5 @@ The Win: You get centralized observability without moving a single line of code.
 
 The best architects don't just build agents; they build the ecosystem that allows agents to survive production.
 
+<img width="1907" height="966" alt="image" src="https://github.com/user-attachments/assets/a5f02192-983f-4427-a8c4-079709bd966c" />
 
