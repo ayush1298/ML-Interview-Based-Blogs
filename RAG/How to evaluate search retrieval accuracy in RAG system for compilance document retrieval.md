@@ -62,3 +62,5 @@ Contextual Relevancy: How relevant is context to input?
 ✅ Production deployment 
 ✅ No ground truth available
 
+<img width="800" height="436" alt="image" src="https://github.com/user-attachments/assets/d80e9a8a-8eaf-4f02-8363-e01cde98579b" />
+
