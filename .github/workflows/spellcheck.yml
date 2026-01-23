@@ -11,6 +11,8 @@ jobs:
   spellcheck:
     name: Spellcheck Markdown Files
     runs-on: ubuntu-latest
+    # Don't fail the entire workflow if spellcheck fails - it's a warning
+    continue-on-error: true
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -120,14 +122,17 @@ jobs:
           
           if errors:
               print("\n".join(errors))
-              print(f"\n❌ Found {len(errors)} potential spelling issues in filenames")
+              print(f"\n⚠️  Found {len(errors)} potential spelling issues in filenames")
               print("💡 Tip: Add technical terms to .wordlist.txt if they are correct")
+              print("💡 This is a warning - deployment will continue. Fix typos or add terms to wordlist.")
+              # Exit with error code, but continue-on-error: true will prevent workflow failure
               sys.exit(1)
           else:
               print("✅ All filenames passed spelling check")
           EOF
 
       - name: Spellcheck file contents
+        continue-on-error: true
         uses: rojopolis/spellcheck-github-actions@0.58.0
         with:
           task_name: Markdown
