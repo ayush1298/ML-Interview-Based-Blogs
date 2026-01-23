@@ -22,6 +22,10 @@ jobs:
         with:
           python-version: '3.11'
 
+      - name: Install spellchecker library
+        run: |
+          pip install pyspellchecker
+
       - name: Check filenames for spelling
         id: check_filenames
         run: |
@@ -30,23 +34,31 @@ jobs:
           import os
           import re
           import sys
+          from spellchecker import SpellChecker
           
-          # Load wordlist
-          wordlist = set()
+          # Initialize spell checker with English dictionary (includes ~100k words)
+          spell = SpellChecker(language='en')
+          
+          # Load custom wordlist for technical terms (add to dictionary)
+          technical_terms = set()
           if os.path.exists('.wordlist.txt'):
               with open('.wordlist.txt', 'r', encoding='utf-8') as f:
                   for line in f:
                       word = line.strip().lower()
                       if word and not word.startswith('#'):
-                          wordlist.add(word)
+                          technical_terms.add(word)
+                          # Add to spell checker's known words
+                          spell.word_frequency.load_words([word])
           
-          # Common technical terms that might be in filenames
-          technical_terms = {
+          # Add common technical acronyms (case-insensitive)
+          common_acronyms = {
               'llm', 'cnn', 'rnn', 'lstm', 'bert', 'gpt', 'rag', 'vlm', 
               'fsd', 'nms', 'cuda', 'oom', 'ttft', 'moe', 'lora', 'ppo', 'dpo',
-              'api', 'url', 'html', 'css', 'json', 'yaml'
+              'api', 'url', 'html', 'css', 'json', 'yaml', 'vllm',
+              'rpn', 'mae', 'clip', 'vit', 'simclr', 'rlf', 'recsys', 'cag'
           }
-          wordlist.update(technical_terms)
+          for term in common_acronyms:
+              spell.word_frequency.load_words([term])
           
           errors = []
           # Find all .md files
@@ -63,14 +75,19 @@ jobs:
                       words = re.findall(r'[a-zA-Z]+', filename_no_ext.lower())
                       
                       for word in words:
-                          # Skip very short words
+                          # Skip very short words (likely abbreviations or connectors)
                           if len(word) < 3:
                               continue
-                          # Check if word is in wordlist or is a number
-                          if word not in wordlist and not word.isdigit():
-                              # Check if it's a common word (basic check)
-                              if word not in ['the', 'and', 'for', 'are', 'but', 'not', 'you', 'all', 'can', 'her', 'was', 'one', 'our', 'out', 'day', 'get', 'has', 'him', 'his', 'how', 'its', 'may', 'new', 'now', 'old', 'see', 'two', 'way', 'who', 'boy', 'did', 'use', 'she', 'use', 'man', 'say', 'she', 'use', 'her', 'many', 'than', 'call', 'first', 'water', 'been', 'find', 'more', 'very', 'what', 'know', 'just', 'name', 'good', 'make', 'time', 'year', 'work', 'take', 'come', 'think', 'look', 'want', 'give', 'need', 'long', 'show', 'move', 'play', 'turn', 'start', 'might', 'learn', 'being', 'leave', 'seem', 'help', 'talk', 'turn', 'start', 'right', 'move', 'play', 'turn', 'start', 'might', 'learn', 'being', 'leave', 'seem', 'help', 'talk', 'turn', 'start', 'right', 'move', 'play', 'turn', 'start', 'might', 'learn', 'being', 'leave', 'seem', 'help', 'talk', 'turn', 'start', 'right', 'move', 'play', 'turn', 'start', 'might', 'learn', 'being', 'leave', 'seem', 'help', 'talk', 'turn', 'start', 'right']:
-                                  errors.append(f"⚠️  Potential spelling issue in filename: {filepath} (word: '{word}')")
+                          # Skip if it's a number
+                          if word.isdigit():
+                              continue
+                          # Check if word is in technical terms or acronyms (case-insensitive)
+                          if word in technical_terms or word in common_acronyms:
+                              continue
+                          # Use spell checker to verify if it's a valid English word
+                          # spell.unknown() returns words that are misspelled
+                          if word in spell.unknown([word]):
+                              errors.append(f"⚠️  Potential spelling issue in filename: {filepath} (word: '{word}')")
           
           if errors:
               print("\n".join(errors))
