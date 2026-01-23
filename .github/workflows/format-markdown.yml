@@ -3,8 +3,6 @@ name: Format Markdown Files
 on:
   pull_request:
     branches: [main]
-  push:
-    branches: [main]
   workflow_dispatch:
 
 permissions:
@@ -46,7 +44,7 @@ jobs:
               echo "$CHANGED_FILES" | tee changed_files.txt
             fi
           else
-            # For pushes, format all markdown files
+            # For manual trigger, format all markdown files
             echo "changed=true" >> $GITHUB_OUTPUT
             find . -name "*.md" -not -path "./.git/*" -not -path "./node_modules/*" -not -path "./website/_site/*" -not -path "./.github/*" > changed_files.txt || true
           fi
@@ -71,7 +69,13 @@ jobs:
         run: |
           if [ -n "$(git status --porcelain)" ]; then
             echo "changed=true" >> $GITHUB_OUTPUT
+            echo "📊 Summary of formatting changes:"
             git diff --stat
+            echo ""
+            echo "📝 Files that were formatted:"
+            git diff --name-only
+            echo ""
+            echo "💡 To see detailed changes, check the commit diff on GitHub"
           else
             echo "changed=false" >> $GITHUB_OUTPUT
             echo "No formatting changes needed"

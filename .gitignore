@@ -26,5 +26,8 @@ __pycache__/
 # Logs
 *.log
 
+# Temporary workflow files
+changed_files.txt
+
 .specstory/
 .cursorindexingignore/
