@@ -1,0 +1,44 @@
+matrix:
+  - name: Markdown
+    aspell:
+      lang: en
+      mode: markdown
+    dictionary:
+      wordlists:
+        - .wordlist.txt
+      encoding: utf-8
+    pipeline:
+      - pyspelling.filters.markdown:
+          markdown_extensions:
+            - pymdownx.superfences:
+                custom_fences:
+                  - name: mermaid
+                    class: mermaid
+                    format: !!python/name:pyspelling.filters.markdown.fence_code_format
+            - pymdownx.inlinehilite
+            - pymdownx.snippets
+            - pymdownx.tasklist:
+                custom_checkbox: true
+            - codehilite:
+                guess_lang: false
+            - pymdownx.arithmatex
+            - pymdownx.betterem:
+                smart_enable: all
+      - pyspelling.filters.context:
+          delimiters:
+            # Ignore code blocks
+            - open: '```'
+              close: '```'
+            # Ignore inline code
+            - open: '`'
+              close: '`'
+            # Ignore math blocks
+            - open: '$$'
+              close: '$$'
+            - open: '\('
+              close: '\)'
+            - open: '\['
+              close: '\]'
+    sources:
+      - '**/*.md'
+    default_language: en

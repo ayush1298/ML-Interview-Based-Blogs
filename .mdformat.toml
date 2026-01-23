@@ -1,0 +1,15 @@
+[tool.mdformat]
+# Wrap lines at 80 characters (set to 0 to disable wrapping)
+wrap = 0
+# Line ending style: "lf" for Unix, "crlf" for Windows
+end_of_line = "lf"
+# Number ordered lists
+number = true
+
+[tool.mdformat.plugins]
+# Enable GitHub Flavored Markdown features
+enabled = ["gfm", "frontmatter", "tables", "toc"]
+
+[tool.mdformat.gfm]
+# GitHub Flavored Markdown options
+break_on_newline = true
