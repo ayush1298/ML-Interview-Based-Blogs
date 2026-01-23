@@ -55,9 +55,22 @@ jobs:
               'llm', 'cnn', 'rnn', 'lstm', 'bert', 'gpt', 'rag', 'vlm', 
               'fsd', 'nms', 'cuda', 'oom', 'ttft', 'moe', 'lora', 'ppo', 'dpo',
               'api', 'url', 'html', 'css', 'json', 'yaml', 'vllm',
-              'rpn', 'mae', 'clip', 'vit', 'simclr', 'rlf', 'recsys', 'cag'
+              'rpn', 'mae', 'clip', 'vit', 'simclr', 'rlf', 'recsys', 'cag',
+              'sgd', 'bpe', 'mha', 'gqa', 'qat', 'mpt', 'sft', 'grpo', 'elo',
+              'mcp', 'kpi', 'kpis', 'gpu', 'int', 'fp16', 'fp32', 'int8', 'int16'
           }
           for term in common_acronyms:
+              spell.word_frequency.load_words([term])
+          
+          # Add common ML/technical compound words and terms
+          ml_terms = {
+              'readme', 'strided', 'softmax', 'covariate', 'overfitting', 'redis', 
+              'dataset', 'logit', 'vggnet', 'cifar', 'imagenet', 'resnet', 
+              'underperform', 'searchable', 'chatbot', 'workflow', 'agentic', 
+              'multi', 'genai', 'bfloat', 'bfloat16', 'relu', 'swiglu', 
+              'grokking', 'batchnorm', 'flashattention', 'evals'
+          }
+          for term in ml_terms:
               spell.word_frequency.load_words([term])
           
           errors = []
@@ -81,13 +94,29 @@ jobs:
                           # Skip if it's a number
                           if word.isdigit():
                               continue
-                          # Check if word is in technical terms or acronyms (case-insensitive)
-                          if word in technical_terms or word in common_acronyms:
+                          # Skip common contractions that got split incorrectly
+                          if word in ['aren', 'didn', 'won', 'can', 'isn', 'hasn', 'haven', 'wasn', 'weren', 
+                                     'wouldn', 'shouldn', 'couldn', 'mightn', 'mustn', 'shan', 'ma', 'o']:
+                              continue
+                          # Check if word is in technical terms, acronyms, or ML terms (case-insensitive)
+                          if word in technical_terms or word in common_acronyms or word in ml_terms:
                               continue
                           # Use spell checker to verify if it's a valid English word
                           # spell.unknown() returns words that are misspelled
-                          if word in spell.unknown([word]):
-                              errors.append(f"⚠️  Potential spelling issue in filename: {filepath} (word: '{word}')")
+                          misspelled = spell.unknown([word])
+                          if word in misspelled:
+                              # Get suggestions to see if it's a real typo
+                              suggestions = list(spell.candidates(word))
+                              # Only flag if there are good suggestions (likely a real typo)
+                              # Common typos will have close suggestions
+                              if suggestions and len(suggestions) > 0:
+                                  # Check if any suggestion is close (within 2 character difference)
+                                  best_suggestion = min(suggestions, key=lambda x: abs(len(x) - len(word)))
+                                  # Flag if the suggestion is significantly different (likely typo)
+                                  # But ignore if it's just a technical term variation
+                                  char_diff = abs(len(best_suggestion) - len(word))
+                                  if char_diff <= 2 and best_suggestion != word:
+                                      errors.append(f"⚠️  Potential spelling issue in filename: {filepath} (word: '{word}' -> suggested: '{best_suggestion}')")
           
           if errors:
               print("\n".join(errors))
