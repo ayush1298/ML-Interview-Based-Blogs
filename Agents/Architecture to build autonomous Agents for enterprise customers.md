@@ -65,3 +65,5 @@ GUI control (Playwright, Selenium)
 ❌ Silent failures
 ❌ Assuming tools always work
 
+<img width="800" height="409" alt="image" src="https://github.com/user-attachments/assets/f8a0acc5-28ec-4749-b5b7-eb285a0984d3" />
+
