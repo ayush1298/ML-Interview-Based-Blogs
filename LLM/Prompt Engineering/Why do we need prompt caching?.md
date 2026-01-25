@@ -14,8 +14,6 @@ Your system sends the same 100k token context (docs, examples, system prompt) wi
 
 Computation ≠ Communication.
 
-get this in your inbox, for free, subscribe - https://lnkd.in/g8ZJGsWj 
-
 The caching economics are brutal:
 
 Without caching: 100k context + 1k query = 101k tokens processed per request
@@ -73,3 +71,6 @@ Cache your static context (system + examples)
 Cache your retrieved docs per session
 Use semantic cache for similar queries
 Implement cache warming for high-traffic patterns
+
+<img width="800" height="436" alt="image" src="https://github.com/user-attachments/assets/3e6eeb89-08d0-4ac2-9e7f-52be4c444098" />
+
