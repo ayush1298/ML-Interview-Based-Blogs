@@ -71,3 +71,6 @@ From MATH:
 
 All with simpler code, less memory, and no critic model headaches.
 
+<img width="800" height="436" alt="image" src="https://github.com/user-attachments/assets/81aa3b5c-2c0c-45a8-890e-429a53aaeb97" />
+
+
