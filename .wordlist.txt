@@ -29,6 +29,8 @@ VLM
 RL
 PPO
 DPO
+RLHF
+rlhf
 MOE
 LORA
 LoRA
