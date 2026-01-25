@@ -63,3 +63,6 @@ Common mistakes that kill your hit rate:
 ✓ Monitor cache hit rates in production
 
 A 95% hit rate vs 50% hit rate is 2x cost difference.
+
+<img width="800" height="436" alt="image" src="https://github.com/user-attachments/assets/5261695a-4a5f-4718-b17c-5b600173965d" />
+
