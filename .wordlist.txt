@@ -172,6 +172,7 @@ readme
 strided
 GPU
 gpu
+tpu
 softmax
 covariate
 overfitting
@@ -253,6 +254,7 @@ uncategorized
 # Common contractions and compound words
 aren
 didn
+doesn
 won
 can
 isn
