@@ -21,11 +21,6 @@ Your KV cache sits idle in expensive GPU memory between user interactions.
 User types a message, pauses for 30 seconds, types again.
 Meanwhile, their 2GB cache is blocking new requests from being served.
 
-btw subscribe to my newsletter to get my posts in your inbox daily -
-
-https://lnkd.in/gsHvQW7m
-now back to post-
-
 Here's the diagnostic framework every senior ML engineer knows:
 
 High GPU utilization + low throughput = KV cache memory bottleneck
