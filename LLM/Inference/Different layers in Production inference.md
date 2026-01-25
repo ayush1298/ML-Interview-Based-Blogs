@@ -60,7 +60,11 @@ The break-even is usually around $5-10K/month in API spend.
 Production inference platforms have four layers:
 
 > Request handling (load balancer, rate limiter, queue). 
+
 > Orchestration (model router, dynamic batcher, priority scheduler). 
-> Inference engine (vLLM/TRT-LLM, KV cache manager, multi-GPU coordinator). > Observability (per-component latency, GPU utilization, cost per token).
+
+> Inference engine (vLLM/TRT-LLM, KV cache manager, multi-GPU coordinator). 
+
+> Observability (per-component latency, GPU utilization, cost per token).
 
 Most engineers build layer 1 and 3, then wonder why production break
