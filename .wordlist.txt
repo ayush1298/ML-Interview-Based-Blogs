@@ -75,6 +75,7 @@ subcategories
 uncategorized
 catalog
 catalogs
+serverless
 
 # File paths and technical names
 Jekyll
