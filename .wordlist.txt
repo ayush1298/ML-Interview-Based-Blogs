@@ -41,6 +41,7 @@ vLLM
 CUDA
 OOM
 RRF
+CLS
 CAG
 
 # Technical Terms
