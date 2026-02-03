@@ -35,5 +35,3 @@ But they’re only as good as the rubric and gold set behind them. Left alone, t
 𝐓𝐡𝐞 𝐚𝐧𝐬𝐰𝐞𝐫 𝐭𝐡𝐚𝐭 𝐠𝐞𝐭𝐬 𝐲𝐨𝐮 𝐡𝐢𝐫𝐞𝐝:
 
 I’d treat eval as a layered system, not a single score. I’d start with manual deep dives on realistic queries with domain experts to define a simple rubric for what ‘good’ looks like (correct, grounded, safe, useful) and turn that into a small gold set. From there, I’d encode that rubric into automated evals — LLM-as-judge plus RAG- and product-level metrics — that run on every change and block serious regressions. I’d keep a steady trickle of human spot checks across high-, low-, and mid-scoring answers, and whenever human judgment and metrics disagree, we update the rubric and recalibrate the automated evals. Manual eval sets the standard; automation scales it across every build
-
-Brain stormed this interview question and ideal response with OpenAI ChatGPT GPT5.1 . Review and response validated by me. 
