@@ -39,3 +39,6 @@ Combining BM25 with vector search gives you semantic understanding AND precise k
 So before you throw GPUs at every search problem, consider that BM25 might already solve it, or at the very least, make your semantic search significantly better when the two are combined.
 
 This hybrid search stack I mentioned in the post is actually implemented in this open-source context retrieval layer for agents called Airweave.
+
+<img width="800" height="505" alt="image" src="https://github.com/user-attachments/assets/474afca8-3ed4-4e4e-9b33-8b98825e87c8" />
+
