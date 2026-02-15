@@ -170,6 +170,7 @@ ELO
 MCP
 KPIs
 KPI
+iid
 
 # ML/DL Technical Terms
 readme
