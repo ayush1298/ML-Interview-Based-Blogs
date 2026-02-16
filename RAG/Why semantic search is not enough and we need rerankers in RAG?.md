@@ -23,8 +23,6 @@ Here's why pure vector search fails:
 
 Semantic ≠ Relevant.
 
-NOTE - consider subscribing my free newsletter - https://lnkd.in/gCPD6fUz for such content daily, now back to post. 
-
 The retrieval-reranking gap is brutal:
 
 - Retrieval@100 with embeddings: ~85% recall
