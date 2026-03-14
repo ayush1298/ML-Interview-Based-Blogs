@@ -121,6 +121,7 @@ hallucinate
 hallucination
 rerank
 reranking
+Chunking
 multimodal
 unimodal
 hyperparameter
