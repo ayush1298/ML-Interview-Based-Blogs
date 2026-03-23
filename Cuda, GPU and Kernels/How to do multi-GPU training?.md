@@ -31,3 +31,6 @@ The graphic below depicts four common strategies for multi-GPU training:
 ↳ While the 2nd GPU passes the data through the layers, another micro-batch is loaded on the 1st GPU.
 ↳ And the process continues.
 - GPU utilization drastically improves this way. This is evident from the animation below where multi-GPUs are being utilized at the same timestamp (look at t=1, t=2, t=5, and t=6).
+
+<img width="563" height="566" alt="image" src="https://github.com/user-attachments/assets/02eaad43-76ec-45b7-9f0e-28f1fdb6f509" />
+
