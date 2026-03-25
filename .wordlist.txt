@@ -222,8 +222,10 @@ catastropic
 catstophic
 flashattention
 FlashAttention
+autograd
 
 # Common ML Terms
+pytorch
 tokenization
 tokenizer
 embeddings
@@ -257,6 +259,7 @@ unimodal
 hyperparameter
 subcategory
 uncategorized
+ensembling
 
 # Common contractions and compound words
 aren
