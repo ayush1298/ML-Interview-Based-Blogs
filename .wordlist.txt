@@ -2,6 +2,7 @@
 # Add technical terms, acronyms, and domain-specific words here
 
 # ML/DL Terms
+MLP
 LLM
 LLMs
 RNN
