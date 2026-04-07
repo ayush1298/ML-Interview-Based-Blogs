@@ -108,7 +108,8 @@ jobs:
                           misspelled = spell.unknown([word])
                           if word in misspelled:
                               # Get suggestions to see if it's a real typo
-                              suggestions = list(spell.candidates(word))
+                              cands = spell.candidates(word)
+                              suggestions = list(cands) if cands else []
                               # Only flag if there are good suggestions (likely a real typo)
                               # Common typos will have close suggestions
                               if suggestions and len(suggestions) > 0:
